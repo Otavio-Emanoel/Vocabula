@@ -1,0 +1,271 @@
+[
+  {
+    "id": "serendipity",
+    "word": "Serendipity",
+    "phonetic": "/ˌsɛr.ənˈdɪp.ə.ti/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The occurrence of events by chance in a happy or beneficial way.",
+    "detailedExplanation": "Coined by Horace Walpole in 1754, serendipity refers to making desirable discoveries unexpectedly while searching for something completely unrelated.",
+    "examples": [
+      {
+        "sentence": "Finding my mentor during a random flight delay was pure serendipity.",
+        "context": "Professional Career",
+        "translation": "Encontrar meu mentor durante um atraso aleatório de voo foi pura serendipidade."
+      },
+      {
+        "sentence": "The discovery of penicillin remains science's most famous act of serendipity.",
+        "context": "History of Science",
+        "translation": "A descoberta da penicilina continua sendo o ato de serendipidade mais famoso da ciência."
+      }
+    ],
+    "translations": {
+      "pt": "Serendipidade; dom de encontrar coisas boas por mero acaso.",
+      "es": "Serendipia; hallazgo afortunado e inesperado."
+    },
+    "etymology": "From the Persian fairy tale 'The Three Princes of Serendip' (historical name for Sri Lanka).",
+    "difficultyLevel": 3,
+    "tags": ["literary", "positive", "creativity"]
+  },
+  {
+    "id": "petrichor",
+    "word": "Petrichor",
+    "phonetic": "/ˈpɛt.rɪ.kɔːr/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A pleasant, distinctive earthy scent that accompanies the first rain after a long period of dry weather.",
+    "detailedExplanation": "First characterized by Australian researchers Isabel Joy Bear and Richard Thomas in 1964, petrichor arises from plant oils absorbed by clay soils, released into the atmosphere by falling raindrops.",
+    "examples": [
+      {
+        "sentence": "As the first storm rolled over the parched hills, the sweet petrichor filled the evening air.",
+        "context": "Nature & Weather",
+        "translation": "Quando a primeira tempestade passou pelas colinas secas, o doce petricor preencheu o ar da tarde."
+      }
+    ],
+    "translations": {
+      "pt": "Petricor; o aroma característico da chuva caindo sobre terra seca.",
+      "es": "Petricor; olor a tierra mojada tras la primera lluvia."
+    },
+    "etymology": "Greek 'petra' (stone) + 'ichor' (the ethereal fluid flowing in the veins of the gods).",
+    "difficultyLevel": 3,
+    "tags": ["nature", "sensory", "science"]
+  },
+  {
+    "id": "ephemeral",
+    "word": "Ephemeral",
+    "phonetic": "/ɪˈfɛm.ər.əl/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Lasting for a very short, fleeting period of time.",
+    "detailedExplanation": "Describes concepts, beauty, or states that exist only briefly, emphasizing transience and encouraging mindful appreciation of fleeting moments.",
+    "examples": [
+      {
+        "sentence": "The cherry blossoms possess an ephemeral beauty that disappears in just a fortnight.",
+        "context": "Art & Aesthetics",
+        "translation": "As flores de cerejeira possuem uma beleza efêmera que desaparece em apenas duas semanas."
+      }
+    ],
+    "translations": {
+      "pt": "Efêmero; transitório, passageiro, que dura pouco.",
+      "es": "Efímero; pasajero, de corta duración."
+    },
+    "etymology": "Greek 'ephemeros' (lasting only a day), from 'epi' (upon) + 'hemera' (day).",
+    "difficultyLevel": 2,
+    "tags": ["philosophy", "time", "poetry"]
+  },
+  {
+    "id": "sonder",
+    "word": "Sonder",
+    "phonetic": "/ˈsɒn.dər/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The profound realization that every passerby has a life as vivid and complex as your own.",
+    "detailedExplanation": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', sonder captures the sudden awakening that strangers possess their own ambitions, heartbreaks, routines, and inner worlds.",
+    "examples": [
+      {
+        "sentence": "Gazing at the crowded subway platform, she felt an overwhelming sense of sonder.",
+        "context": "Psychology & Empathy",
+        "translation": "Olhando para a plataforma lotada do metrô, ela sentiu uma profunda sensação de sonder."
+      }
+    ],
+    "translations": {
+      "pt": "Sonder; a percepção de que cada estranho vive uma vida tão vívida e complexa quanto a sua.",
+      "es": "Sonder; la comprensión de que cada extraño tiene una vida tan compleja como la tuya."
+    },
+    "etymology": "Coined in 2012 by John Koenig, adapted from German 'sonder-' (special) and French 'sonder' (to probe/fathom).",
+    "difficultyLevel": 2,
+    "tags": ["empathy", "modern", "existential"]
+  },
+  {
+    "id": "equanimity",
+    "word": "Equanimity",
+    "phonetic": "/ˌɛk.wəˈnɪm.ə.ti/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "Mental calmness, composure, and evenness of temper, especially in difficult situations.",
+    "detailedExplanation": "A cornerstone of Stoic philosophy and mindfulness, equanimity signifies psychological stability unaffected by external turmoil, panic, or unmeasured excitement.",
+    "examples": [
+      {
+        "sentence": "The seasoned captain confronted the engine failure with remarkable equanimity.",
+        "context": "Leadership & Crisis",
+        "translation": "O capitão experiente enfrentou a falha do motor com notável serenidade e equanimidade."
+      }
+    ],
+    "translations": {
+      "pt": "Equanimidade; estabilidade de humor, serenidade inabalável sob estresse.",
+      "es": "Ecuanimidad; serenidad y calma de ánimo ante las adversidades."
+    },
+    "etymology": "Latin 'aequanimitas', from 'aequus' (even, equal) + 'animus' (mind, spirit).",
+    "difficultyLevel": 3,
+    "tags": ["stoicism", "philosophy", "character"]
+  },
+  {
+    "id": "inchoate",
+    "word": "Inchoate",
+    "phonetic": "/ɪnˈkoʊ.ɪt/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Just begun and so not fully formed or developed; rudimentary.",
+    "detailedExplanation": "Used in intellectual, artistic, and legal discourses to describe concepts, plans, or emotions that have taken initial spark but lack structure, coherence, or realization.",
+    "examples": [
+      {
+        "sentence": "He possessed an inchoate awareness that the corporate strategy would inevitably fail.",
+        "context": "Intellectual Discourse",
+        "translation": "Ele possuía uma vaga percepção incoativa de que a estratégia corporativa inevitavelmente fracassaria."
+      }
+    ],
+    "translations": {
+      "pt": "Incoativo; incipiente, rudimentar, em estado embrionário.",
+      "es": "Incoativo; que se encuentra en un estado inicial o rudimentario."
+    },
+    "etymology": "Latin 'inchoatus', past participle of 'inchoare' (to start work on, to begin).",
+    "difficultyLevel": 4,
+    "tags": ["academic", "literary", "gre"]
+  },
+  {
+    "id": "mellifluous",
+    "word": "Mellifluous",
+    "phonetic": "/məˈlɪf.lu.əs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Pleasantly smooth and musical to hear; flowing like honey.",
+    "detailedExplanation": "Specifically applied to sounds, singing, or speaking voices that evoke sweetness, fluid melody, and soothing acoustic harmony.",
+    "examples": [
+      {
+        "sentence": "The narrator's mellifluous voice lulled listeners into peaceful contemplation.",
+        "context": "Acoustics & Voice",
+        "translation": "A voz melíflua do narrador embalou os ouvintes em uma contemplação pacífica."
+      }
+    ],
+    "translations": {
+      "pt": "Melífluo; doce como mel, suave e melodioso aos ouvidos.",
+      "es": "Melifluo; dulce, suave y delicado al oído."
+    },
+    "etymology": "Late Latin 'mellifluus', from 'mel' (honey) + 'fluere' (to flow).",
+    "difficultyLevel": 3,
+    "tags": ["sensory", "music", "literary"]
+  },
+  {
+    "id": "quixotic",
+    "word": "Quixotic",
+    "phonetic": "/kwɪkˈsɒt.ɪk/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Exceedingly idealistic; unrealistic, impractical, and romanticized.",
+    "detailedExplanation": "Derived from Cervantes' Don Quixote, this term characterizes grand, noble pursuits driven by lofty ideals that disregard practical feasibility.",
+    "examples": [
+      {
+        "sentence": "His quixotic ambition to eliminate paper bureaucracy overnight won admiration, but little progress.",
+        "context": "Politics & Endeavor",
+        "translation": "Sua ambição quixotesca de eliminar a burocracia de papel da noite para o dia ganhou admiração, mas pouco progresso."
+      }
+    ],
+    "translations": {
+      "pt": "Quixotesco; idealista ao extremo, imprudente ou impulsionado por ideais irreais.",
+      "es": "Quijotesco; idealista y desinteresado hasta lo imprudente."
+    },
+    "etymology": "From the character Don Quixote in the 1605 novel by Miguel de Cervantes.",
+    "difficultyLevel": 3,
+    "tags": ["literature", "personality", "gre"]
+  },
+  {
+    "id": "ubiquitous",
+    "word": "Ubiquitous",
+    "phonetic": "/juːˈbɪk.wɪ.təs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Present, appearing, or found everywhere simultaneously.",
+    "detailedExplanation": "Denotes an omnipresence or pervasive quality, frequently applied to modern technology, mobile phones, cultural memes, or universal phenomena.",
+    "examples": [
+      {
+        "sentence": "Smartphones have transitioned from executive luxury to ubiquitous everyday necessity.",
+        "context": "Modern Technology",
+        "translation": "Os smartphones passaram de luxo executivo para uma necessidade diária onipresente."
+      }
+    ],
+    "translations": {
+      "pt": "Ubíquo; onipresente, que está presente em todos os lugares.",
+      "es": "Ubicuo; omnipresente, que está en todas partes al mismo tiempo."
+    },
+    "etymology": "Latin 'ubique' (everywhere), from 'ubi' (where).",
+    "difficultyLevel": 2,
+    "tags": ["technology", "academic", "common"]
+  },
+  {
+    "id": "perspicacious",
+    "word": "Perspicacious",
+    "phonetic": "/ˌpɜːr.spɪˈkeɪ.ʃəs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Having a ready insight into and keen understanding of things; mentally acute.",
+    "detailedExplanation": "Refers to acute mental vision and discerning discernment, the ability to perceive subtle truths, motives, or patterns that elude ordinary observation.",
+    "examples": [
+      {
+        "sentence": "A perspicacious investor anticipated the market contraction months ahead of the consensus.",
+        "context": "Analysis & Intellect",
+        "translation": "Um investidor perspicaz antecipou a contração do mercado meses antes do consenso."
+      }
+    ],
+    "translations": {
+      "pt": "Perspicaz; dotado de inteligência aguçada, arguto, clarividente.",
+      "es": "Perspicaz; capaz de captar con rapidez cosas sutiles o difíciles de ver."
+    },
+    "etymology": "Latin 'perspicax' (sharp-sighted), from 'perspicere' (to look closely, see through).",
+    "difficultyLevel": 4,
+    "tags": ["intellect", "gre", "business"]
+  },
+  {
+    "id": "halcyon",
+    "word": "Halcyon",
+    "phonetic": "/ˈhæl.si.ən/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Denoting a period of time in the past that was idyllically happy, peaceful, and prosperous.",
+    "detailedExplanation": "Evokes nostalgic, golden memories of undisturbed tranquility and contentment, originating in Greek mythology regarding the mythical kingfisher bird calming the winter seas.",
+    "examples": [
+      {
+        "sentence": "He reminisced fondly about the halcyon summers of his childhood in the coastal village.",
+        "context": "Nostalgia & Memory",
+        "translation": "Ele relembrou com carinho os verões idílicos e calmos de sua infância no vilarejo costeiro."
+      }
+    ],
+    "translations": {
+      "pt": "Halcíone / Idílico; calmo, sereno, que evoca uma era dourada de felicidade.",
+      "es": "Halagüeño / Plácido; que evoca una época pasada de paz y felicidad."
+    },
+    "etymology": "Greek 'halkyon' (kingfisher), connected to mythical days of winter calm.",
+    "difficultyLevel": 3,
+    "tags": ["mythology", "memory", "literary"]
+  },
+  {
+    "id": "verisimilitude",
+    "word": "Verisimilitude",
+    "phonetic": "/ˌvɛr.ɪ.sɪˈmɪl.ɪ.tjuːd/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The appearance or semblance of being true, real, or authentic.",
+    "detailedExplanation": "A foundational concept in literature, cinema, and art, denoting the degree to which a work feels authentic, plausible, and internally truthful to the audience.",
+    "examples": [
+      {
+        "sentence": "The historical novel achieved rich verisimilitude through meticulous archival research.",
+        "context": "Literature & Cinema",
+        "translation": "O romance histórico alcançou rica verossimilhança por meio de meticulosa pesquisa em arquivos."
+      }
+    ],
+    "translations": {
+      "pt": "Verossimilhança; aparência de verdade, plausibilidade.",
+      "es": "Verosimilitud; apariencia de verdadero o con credibilidad."
+    },
+    "etymology": "Latin 'verisimilitudo', from 'verus' (true) + 'similis' (like, similar).",
+    "difficultyLevel": 4,
+    "tags": ["art", "literature", "academic"]
+  }
+]
