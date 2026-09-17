@@ -9,7 +9,9 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-  Pressable,
+  StyleSheet,
+  Platform,
+  ImageStyle,
 } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,7 +19,6 @@ import * as Speech from 'expo-speech';
 import Animated, {
   FadeInDown,
   FadeInUp,
-  FadeIn,
   SlideInUp,
 } from 'react-native-reanimated';
 
@@ -33,6 +34,7 @@ import {
 import { WordDefinition } from './types/dictionary';
 import { UserWordProgress, ReviewGrade } from './types/srs';
 import { calculateSM2 } from './services/srs/sm2';
+import { Colors } from './constants/theme';
 
 export default function App() {
   return (
@@ -52,7 +54,6 @@ function LexiPulseMain() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'today' | 'browse' | 'review'>('today');
-  const [selectedExampleIndex, setSelectedExampleIndex] = useState(0);
 
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -92,7 +93,6 @@ function LexiPulseMain() {
     const detail = await getWordById(word.id);
     setActiveWord(detail?.word || word);
     setActiveProgress(detail?.progress);
-    setSelectedExampleIndex(0);
     setSearchQuery('');
     setSearchResults([]);
   };
@@ -190,14 +190,13 @@ function LexiPulseMain() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-surface-void">
+      <View style={styles.loadingContainer}>
         <Image
           source={require('./assets/icon.png')}
-          style={{ width: 72, height: 72, borderRadius: 18 }}
-          className="mb-4"
+          style={styles.loadingLogo}
         />
         <ActivityIndicator size="large" color="#6366F1" />
-        <Text className="text-slate-400 mt-4 text-sm font-medium tracking-wide">
+        <Text style={styles.loadingText}>
           Hydrating LexiPulse Dictionary...
         </Text>
       </View>
@@ -205,18 +204,18 @@ function LexiPulseMain() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-surface-void" edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.rootContainer} edges={['top', 'left', 'right']}>
       <StatusBar style="light" />
 
       {/* Floating Notification Toast */}
       {toastMessage && (
         <Animated.View
           entering={SlideInUp.duration(300)}
-          className="absolute top-12 left-5 right-5 z-50 bg-slate-900/95 border border-brand-primary/50 py-3 px-4 rounded-2xl shadow-2xl flex-row items-center justify-between"
+          style={styles.toastBanner}
         >
-          <View className="flex-row items-center flex-1 mr-2">
+          <View style={styles.toastContent}>
             <Ionicons name="sparkles" size={18} color="#FBBF24" style={{ marginRight: 8 }} />
-            <Text className="text-white text-xs font-semibold">{toastMessage}</Text>
+            <Text style={styles.toastText}>{toastMessage}</Text>
           </View>
           <TouchableOpacity onPress={() => setToastMessage(null)}>
             <Ionicons name="close-circle" size={18} color="#94A3B8" />
@@ -224,45 +223,46 @@ function LexiPulseMain() {
         </Animated.View>
       )}
 
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 90 }}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         {/* Ambient Top Bar */}
-        <View className="px-5 pt-2 pb-3 flex-row items-center justify-between">
-          <View className="flex-row items-center">
+        <View style={styles.topBar}>
+          <View style={styles.brandGroup}>
             <Image
               source={require('./assets/icon.png')}
-              style={{ width: 38, height: 38, borderRadius: 12 }}
-              className="mr-3 border border-surface-border"
+              style={styles.appIcon}
             />
             <View>
-              <Text className="text-2xl font-black tracking-tight text-white">
-                Lexi<Text className="text-brand-glow">Pulse</Text>
+              <Text style={styles.brandTitle}>
+                Lexi<Text style={styles.brandAccent}>Pulse</Text>
               </Text>
-              <View className="flex-row items-center mt-0.5">
-                <View className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
-                <Text className="text-[10px] uppercase font-bold tracking-widest text-slate-400">
-                  100% Offline
-                </Text>
+              <View style={styles.statusRow}>
+                <View style={styles.statusDot} />
+                <Text style={styles.statusText}>100% Offline</Text>
               </View>
             </View>
           </View>
 
           {/* Streak Badge */}
-          <View className="flex-row items-center bg-brand-tint/60 border border-brand-primary/30 px-3 py-1.5 rounded-full">
+          <View style={styles.streakBadge}>
             <MaterialCommunityIcons name="fire" size={18} color="#FBBF24" />
-            <Text className="text-xs font-bold text-brand-spark ml-1">14 Days</Text>
+            <Text style={styles.streakText}>14 Days</Text>
           </View>
         </View>
 
         {/* Search Header Bar */}
-        <View className="px-5 my-2">
-          <View className="bg-surface-card border border-surface-border rounded-2xl flex-row items-center px-4 py-2.5 shadow-lg">
-            <Ionicons name="search" size={18} color="#818CF8" style={{ marginRight: 8 }} />
+        <View style={styles.searchWrapper}>
+          <View style={styles.searchContainer}>
+            <Ionicons name="search" size={18} color="#818CF8" style={{ marginRight: 10 }} />
             <TextInput
               placeholder="Search offline lexicon (FTS5)..."
               placeholderTextColor="#64748B"
               value={searchQuery}
               onChangeText={handleSearch}
-              className="flex-1 text-white text-sm py-1 font-medium"
+              style={styles.searchInput}
             />
             {searchQuery.length > 0 && (
               <TouchableOpacity onPress={() => handleSearch('')}>
@@ -275,24 +275,22 @@ function LexiPulseMain() {
           {searchQuery.trim().length > 0 && searchResults.length > 0 && (
             <Animated.View
               entering={FadeInDown.duration(200)}
-              className="bg-surface-elevated border border-surface-border rounded-2xl mt-2 p-2 shadow-2xl z-40"
+              style={styles.searchResultsBox}
             >
               {searchResults.map((item) => (
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => handleSelectWord(item)}
-                  className="py-2.5 px-3 border-b border-surface-border/40 flex-row justify-between items-center rounded-lg active:bg-brand-tint/40"
+                  style={styles.searchResultItem}
                 >
-                  <View className="flex-1 mr-2">
-                    <Text className="text-sm font-bold text-white">{item.word}</Text>
-                    <Text className="text-xs text-slate-400 font-mono" numberOfLines={1}>
+                  <View style={{ flex: 1, marginRight: 8 }}>
+                    <Text style={styles.searchResultWord}>{item.word}</Text>
+                    <Text style={styles.searchResultMeta} numberOfLines={1}>
                       {item.phonetic} • {item.shortDefinition}
                     </Text>
                   </View>
-                  <View className="bg-brand-tint px-2 py-0.5 rounded-md border border-brand-primary/20">
-                    <Text className="text-[10px] font-bold text-brand-glow uppercase">
-                      {item.partOfSpeech}
-                    </Text>
+                  <View style={styles.posBadge}>
+                    <Text style={styles.posBadgeText}>{item.partOfSpeech}</Text>
                   </View>
                 </TouchableOpacity>
               ))}
@@ -301,11 +299,11 @@ function LexiPulseMain() {
         </View>
 
         {/* Horizontal Lexicon Carousel Chips */}
-        <View className="py-2">
+        <View style={styles.carouselWrapper}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
+            contentContainerStyle={styles.carouselContent}
           >
             {wordList.map((item) => {
               const isSelected = activeWord?.id === item.id;
@@ -313,16 +311,16 @@ function LexiPulseMain() {
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => handleSelectWord(item)}
-                  className={`mr-2.5 px-3.5 py-2 rounded-xl flex-row items-center border ${
-                    isSelected
-                      ? 'bg-brand-primary border-brand-glow shadow-md shadow-brand-primary/40'
-                      : 'bg-surface-card border-surface-border'
-                  }`}
+                  style={[
+                    styles.chipButton,
+                    isSelected ? styles.chipButtonActive : styles.chipButtonInactive,
+                  ]}
                 >
                   <Text
-                    className={`text-xs font-semibold ${
-                      isSelected ? 'text-white' : 'text-slate-300'
-                    }`}
+                    style={[
+                      styles.chipText,
+                      isSelected ? styles.chipTextActive : styles.chipTextInactive,
+                    ]}
                   >
                     {item.word}
                   </Text>
@@ -336,31 +334,24 @@ function LexiPulseMain() {
         {activeWord && (
           <Animated.View
             key={activeWord.id}
-            entering={FadeInDown.duration(400)}
-            className="mx-5 mt-2 bg-surface-card border border-surface-border rounded-3xl p-6 shadow-2xl overflow-hidden"
+            entering={FadeInDown.duration(350)}
+            style={styles.heroCard}
           >
-            {/* Ambient Background Glow Effect */}
-            <View className="absolute -top-16 -right-16 w-36 h-36 bg-brand-primary/10 rounded-full blur-3xl pointer-events-none" />
-
             {/* Card Header: Badge & Star Bookmark */}
-            <View className="flex-row items-center justify-between mb-4">
-              <View className="flex-row items-center">
-                <View className="bg-brand-spark/10 border border-brand-spark/30 px-3 py-1 rounded-full flex-row items-center mr-2">
+            <View style={styles.cardHeader}>
+              <View style={styles.headerBadges}>
+                <View style={styles.wotdBadge}>
                   <Ionicons name="sparkles" size={12} color="#FBBF24" style={{ marginRight: 4 }} />
-                  <Text className="text-[11px] font-bold tracking-wider uppercase text-brand-spark">
-                    Word of the Day
-                  </Text>
+                  <Text style={styles.wotdText}>Word of the Day</Text>
                 </View>
-                <View className="bg-surface-elevated border border-surface-border px-2.5 py-1 rounded-full">
-                  <Text className="text-[10px] font-bold tracking-wider uppercase text-slate-400">
-                    Tier {activeWord.difficultyLevel}
-                  </Text>
+                <View style={styles.tierBadge}>
+                  <Text style={styles.tierText}>Tier {activeWord.difficultyLevel}</Text>
                 </View>
               </View>
 
               <TouchableOpacity
                 onPress={handleToggleStar}
-                className="w-10 h-10 rounded-full bg-surface-elevated border border-surface-border items-center justify-center active:scale-95"
+                style={styles.starButton}
               >
                 <Ionicons
                   name={activeProgress?.isStarred ? 'star' : 'star-outline'}
@@ -371,19 +362,13 @@ function LexiPulseMain() {
             </View>
 
             {/* Word Heading & Audio Pronunciation Button */}
-            <View className="flex-row items-start justify-between mb-2">
-              <View className="flex-1 mr-3">
-                <Text className="text-3xl font-black text-white tracking-tight">
-                  {activeWord.word}
-                </Text>
-                <View className="flex-row items-center mt-1.5 flex-wrap">
-                  <Text className="text-sm font-mono text-brand-glow mr-2.5">
-                    {activeWord.phonetic}
-                  </Text>
-                  <View className="bg-brand-tint/60 px-2 py-0.5 rounded border border-brand-primary/30">
-                    <Text className="text-[10px] font-bold uppercase tracking-wider text-brand-glow">
-                      {activeWord.partOfSpeech}
-                    </Text>
+            <View style={styles.wordTitleRow}>
+              <View style={{ flex: 1, marginRight: 12 }}>
+                <Text style={styles.headwordText}>{activeWord.word}</Text>
+                <View style={styles.phoneticRow}>
+                  <Text style={styles.phoneticText}>{activeWord.phonetic}</Text>
+                  <View style={styles.posPill}>
+                    <Text style={styles.posPillText}>{activeWord.partOfSpeech}</Text>
                   </View>
                 </View>
               </View>
@@ -391,11 +376,10 @@ function LexiPulseMain() {
               {/* Native Speech TTS Button */}
               <TouchableOpacity
                 onPress={() => handlePronounce(activeWord.word)}
-                className={`w-12 h-12 rounded-2xl items-center justify-center border shadow-lg ${
-                  isSpeaking
-                    ? 'bg-brand-primary border-brand-glow shadow-brand-primary/50 scale-105'
-                    : 'bg-brand-tint border-brand-primary/40'
-                }`}
+                style={[
+                  styles.speakerButton,
+                  isSpeaking ? styles.speakerButtonActive : styles.speakerButtonInactive,
+                ]}
               >
                 <Ionicons
                   name={isSpeaking ? 'volume-high' : 'volume-medium'}
@@ -406,54 +390,44 @@ function LexiPulseMain() {
             </View>
 
             {/* Short Definition Box */}
-            <View className="bg-surface-elevated/70 border border-surface-border/70 rounded-2xl p-4 my-3">
-              <Text className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                Definition
-              </Text>
-              <Text className="text-base text-slate-100 font-medium leading-relaxed">
-                {activeWord.shortDefinition}
-              </Text>
+            <View style={styles.definitionBox}>
+              <Text style={styles.sectionLabel}>Definition</Text>
+              <Text style={styles.definitionText}>{activeWord.shortDefinition}</Text>
             </View>
 
-            {/* Detailed Explanation */}
-            <View className="my-1">
-              <Text className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                Linguistic Nuance
-              </Text>
-              <Text className="text-xs text-slate-300 leading-relaxed">
-                {activeWord.detailedExplanation}
-              </Text>
+            {/* Detailed Linguistic Explanation */}
+            <View style={styles.nuanceBox}>
+              <Text style={styles.sectionLabel}>Linguistic Nuance</Text>
+              <Text style={styles.nuanceText}>{activeWord.detailedExplanation}</Text>
             </View>
 
             {/* Interactive Contextual Examples */}
             {activeWord.examples && activeWord.examples.length > 0 && (
-              <View className="mt-4 pt-3 border-t border-surface-border/60">
-                <View className="flex-row items-center justify-between mb-2">
-                  <Text className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    Contextual Example
-                  </Text>
+              <View style={styles.exampleSection}>
+                <View style={styles.exampleHeader}>
+                  <Text style={styles.sectionLabel}>Contextual Example</Text>
                   <TouchableOpacity
-                    onPress={() => handlePronounce(activeWord.examples[selectedExampleIndex].sentence)}
-                    className="flex-row items-center"
+                    onPress={() => handlePronounce(activeWord.examples[0].sentence)}
+                    style={styles.listenExampleBtn}
                   >
-                    <Ionicons name="play-circle-outline" size={14} color="#818CF8" />
-                    <Text className="text-[11px] font-semibold text-brand-glow ml-1">Listen</Text>
+                    <Ionicons name="play-circle-outline" size={15} color="#818CF8" />
+                    <Text style={styles.listenExampleText}>Listen</Text>
                   </TouchableOpacity>
                 </View>
 
-                <View className="bg-surface-subtle/80 border border-surface-border/50 rounded-xl p-3">
-                  <Text className="text-xs text-slate-200 italic leading-relaxed mb-1">
-                    "{activeWord.examples[selectedExampleIndex].sentence}"
+                <View style={styles.exampleCard}>
+                  <Text style={styles.exampleSentence}>
+                    "{activeWord.examples[0].sentence}"
                   </Text>
-                  {activeWord.examples[selectedExampleIndex].translation && (
-                    <Text className="text-[11px] text-slate-400 mt-1">
-                      {activeWord.examples[selectedExampleIndex].translation}
+                  {activeWord.examples[0].translation && (
+                    <Text style={styles.exampleTranslation}>
+                      {activeWord.examples[0].translation}
                     </Text>
                   )}
-                  {activeWord.examples[selectedExampleIndex].context && (
-                    <View className="self-start mt-2 bg-surface-card px-2 py-0.5 rounded border border-surface-border">
-                      <Text className="text-[9px] font-semibold text-brand-spark uppercase">
-                        {activeWord.examples[selectedExampleIndex].context}
+                  {activeWord.examples[0].context && (
+                    <View style={styles.exampleContextPill}>
+                      <Text style={styles.exampleContextText}>
+                        {activeWord.examples[0].context}
                       </Text>
                     </View>
                   )}
@@ -463,57 +437,55 @@ function LexiPulseMain() {
 
             {/* Etymology */}
             {activeWord.etymology && (
-              <View className="mt-3 pt-3 border-t border-surface-border/60 flex-row items-center">
+              <View style={styles.etymologyRow}>
                 <Feather name="book-open" size={13} color="#64748B" style={{ marginRight: 6 }} />
-                <Text className="text-[11px] text-slate-400 flex-1 leading-snug">
-                  <Text className="font-bold text-slate-300">Origin: </Text>
+                <Text style={styles.etymologyText}>
+                  <Text style={{ fontWeight: 'bold', color: '#CBD5E1' }}>Origin: </Text>
                   {activeWord.etymology}
                 </Text>
               </View>
             )}
 
             {/* Spaced Repetition (SM-2) Interactive Recall Rating */}
-            <View className="mt-5 pt-4 border-t border-surface-border/80">
-              <View className="flex-row items-center justify-between mb-2.5">
-                <Text className="text-xs font-bold text-white tracking-wide">
-                  Spaced Repetition Feedback
-                </Text>
-                <Text className="text-[10px] text-slate-400 font-mono">
-                  Repetitions: {activeProgress?.repetitionNumber ?? 0}
+            <View style={styles.srsSection}>
+              <View style={styles.srsHeader}>
+                <Text style={styles.srsTitle}>Spaced Repetition Feedback</Text>
+                <Text style={styles.srsRepetitions}>
+                  Interval: {activeProgress?.intervalDays ?? 0}d • Streak: {activeProgress?.repetitionNumber ?? 0}
                 </Text>
               </View>
 
-              <View className="flex-row justify-between gap-1.5">
+              <View style={styles.srsButtonsRow}>
                 <TouchableOpacity
                   onPress={() => handleGradeWord(1)}
-                  className="flex-1 py-2.5 rounded-xl items-center bg-rose-500/10 border border-rose-500/30 active:scale-95"
+                  style={[styles.srsButton, styles.srsForgotBtn]}
                 >
                   <Ionicons name="refresh" size={16} color="#F43F5E" />
-                  <Text className="text-[10px] font-bold text-rose-400 mt-0.5">Forgot</Text>
+                  <Text style={[styles.srsButtonText, { color: '#F43F5E' }]}>Forgot</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => handleGradeWord(2)}
-                  className="flex-1 py-2.5 rounded-xl items-center bg-orange-500/10 border border-orange-500/30 active:scale-95"
+                  style={[styles.srsButton, styles.srsHardBtn]}
                 >
                   <Ionicons name="alert-circle-outline" size={16} color="#F97316" />
-                  <Text className="text-[10px] font-bold text-orange-400 mt-0.5">Hard</Text>
+                  <Text style={[styles.srsButtonText, { color: '#F97316' }]}>Hard</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => handleGradeWord(4)}
-                  className="flex-1 py-2.5 rounded-xl items-center bg-indigo-500/10 border border-indigo-500/30 active:scale-95"
+                  style={[styles.srsButton, styles.srsGoodBtn]}
                 >
                   <Ionicons name="checkmark-circle-outline" size={16} color="#818CF8" />
-                  <Text className="text-[10px] font-bold text-brand-glow mt-0.5">Good</Text>
+                  <Text style={[styles.srsButtonText, { color: '#818CF8' }]}>Good</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => handleGradeWord(5)}
-                  className="flex-1 py-2.5 rounded-xl items-center bg-emerald-500/10 border border-emerald-500/30 active:scale-95"
+                  style={[styles.srsButton, styles.srsMasteredBtn]}
                 >
                   <Ionicons name="trophy-outline" size={16} color="#10B981" />
-                  <Text className="text-[10px] font-bold text-emerald-400 mt-0.5">Mastered</Text>
+                  <Text style={[styles.srsButtonText, { color: '#10B981' }]}>Mastered</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -522,10 +494,10 @@ function LexiPulseMain() {
       </ScrollView>
 
       {/* Modern Floating Bottom Navigation Bar */}
-      <View className="absolute bottom-4 left-5 right-5 bg-surface-card/90 border border-surface-border py-3 px-6 rounded-3xl shadow-2xl flex-row justify-around items-center backdrop-blur-xl">
+      <View style={styles.bottomDock}>
         <TouchableOpacity
           onPress={() => setActiveTab('today')}
-          className="items-center"
+          style={styles.dockTab}
         >
           <Ionicons
             name={activeTab === 'today' ? 'sparkles' : 'sparkles-outline'}
@@ -533,9 +505,10 @@ function LexiPulseMain() {
             color={activeTab === 'today' ? '#6366F1' : '#64748B'}
           />
           <Text
-            className={`text-[10px] font-bold mt-1 ${
-              activeTab === 'today' ? 'text-brand-glow' : 'text-slate-500'
-            }`}
+            style={[
+              styles.dockTabText,
+              activeTab === 'today' ? styles.dockTabTextActive : styles.dockTabTextInactive,
+            ]}
           >
             Today
           </Text>
@@ -544,9 +517,9 @@ function LexiPulseMain() {
         <TouchableOpacity
           onPress={() => {
             setActiveTab('browse');
-            showToast('Showing curated offline lexicon');
+            showToast('Browsing 100% offline lexicon');
           }}
-          className="items-center"
+          style={styles.dockTab}
         >
           <Ionicons
             name={activeTab === 'browse' ? 'book' : 'book-outline'}
@@ -554,9 +527,10 @@ function LexiPulseMain() {
             color={activeTab === 'browse' ? '#6366F1' : '#64748B'}
           />
           <Text
-            className={`text-[10px] font-bold mt-1 ${
-              activeTab === 'browse' ? 'text-brand-glow' : 'text-slate-500'
-            }`}
+            style={[
+              styles.dockTabText,
+              activeTab === 'browse' ? styles.dockTabTextActive : styles.dockTabTextInactive,
+            ]}
           >
             Lexicon
           </Text>
@@ -567,7 +541,7 @@ function LexiPulseMain() {
             setActiveTab('review');
             showToast('SRS Review Queue: 12 words ready');
           }}
-          className="items-center"
+          style={styles.dockTab}
         >
           <Ionicons
             name={activeTab === 'review' ? 'albums' : 'albums-outline'}
@@ -575,9 +549,10 @@ function LexiPulseMain() {
             color={activeTab === 'review' ? '#6366F1' : '#64748B'}
           />
           <Text
-            className={`text-[10px] font-bold mt-1 ${
-              activeTab === 'review' ? 'text-brand-glow' : 'text-slate-500'
-            }`}
+            style={[
+              styles.dockTabText,
+              activeTab === 'review' ? styles.dockTabTextActive : styles.dockTabTextInactive,
+            ]}
           >
             Review
           </Text>
@@ -586,3 +561,550 @@ function LexiPulseMain() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    backgroundColor: '#090D16',
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#090D16',
+  },
+  loadingLogo: {
+    width: 72,
+    height: 72,
+    borderRadius: 18,
+    marginBottom: 16,
+  } as ImageStyle,
+  loadingText: {
+    color: '#94A3B8',
+    marginTop: 16,
+    fontSize: 14,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 95,
+  },
+  topBar: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  brandGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  appIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    marginRight: 12,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+  } as ImageStyle,
+  brandTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    letterSpacing: -0.5,
+    color: '#FFFFFF',
+  },
+  brandAccent: {
+    color: '#818CF8',
+  },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 2,
+  },
+  statusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#10B981',
+    marginRight: 6,
+  },
+  statusText: {
+    fontSize: 10,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    color: '#64748B',
+  },
+  streakBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(30, 27, 75, 0.7)',
+    borderWidth: 1,
+    borderColor: 'rgba(99, 102, 241, 0.35)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+  },
+  streakText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FBBF24',
+    marginLeft: 4,
+  },
+  searchWrapper: {
+    paddingHorizontal: 20,
+    marginVertical: 6,
+    position: 'relative',
+    zIndex: 20,
+  },
+  searchContainer: {
+    backgroundColor: '#131B2E',
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    borderRadius: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  searchInput: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '500',
+    paddingVertical: 2,
+  },
+  searchResultsBox: {
+    backgroundColor: '#1E293B',
+    borderWidth: 1,
+    borderColor: '#334155',
+    borderRadius: 16,
+    marginTop: 8,
+    padding: 6,
+    shadowColor: '#000',
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  searchResultItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(51, 65, 85, 0.4)',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  searchResultWord: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  searchResultMeta: {
+    fontSize: 12,
+    color: '#94A3B8',
+    marginTop: 2,
+  },
+  posBadge: {
+    backgroundColor: 'rgba(99, 102, 241, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(99, 102, 241, 0.3)',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  posBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#818CF8',
+    textTransform: 'uppercase',
+  },
+  carouselWrapper: {
+    paddingVertical: 6,
+  },
+  carouselContent: {
+    paddingHorizontal: 20,
+  },
+  chipButton: {
+    marginRight: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  chipButtonActive: {
+    backgroundColor: '#6366F1',
+    borderColor: '#818CF8',
+    shadowColor: '#6366F1',
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  chipButtonInactive: {
+    backgroundColor: '#131B2E',
+    borderColor: '#1E293B',
+  },
+  chipText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  chipTextActive: {
+    color: '#FFFFFF',
+  },
+  chipTextInactive: {
+    color: '#94A3B8',
+  },
+  heroCard: {
+    marginHorizontal: 20,
+    marginTop: 8,
+    backgroundColor: '#131B2E',
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    borderRadius: 28,
+    padding: 22,
+    shadowColor: '#000',
+    shadowOpacity: 0.4,
+    shadowRadius: 18,
+    elevation: 8,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 14,
+  },
+  headerBadges: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  wotdBadge: {
+    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(251, 191, 36, 0.25)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 999,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  wotdText: {
+    fontSize: 11,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+    color: '#FBBF24',
+  },
+  tierBadge: {
+    backgroundColor: '#1E293B',
+    borderWidth: 1,
+    borderColor: '#334155',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 999,
+  },
+  tierText: {
+    fontSize: 10,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    color: '#94A3B8',
+  },
+  starButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#1E293B',
+    borderWidth: 1,
+    borderColor: '#334155',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  wordTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  headwordText: {
+    fontSize: 34,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    letterSpacing: -0.5,
+  },
+  phoneticRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 6,
+    flexWrap: 'wrap',
+  },
+  phoneticText: {
+    fontSize: 15,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+    color: '#818CF8',
+    marginRight: 10,
+  },
+  posPill: {
+    backgroundColor: 'rgba(99, 102, 241, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(99, 102, 241, 0.3)',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  posPillText: {
+    fontSize: 11,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    color: '#818CF8',
+  },
+  speakerButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    shadowColor: '#6366F1',
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  speakerButtonActive: {
+    backgroundColor: '#6366F1',
+    borderColor: '#818CF8',
+  },
+  speakerButtonInactive: {
+    backgroundColor: '#1E1B4B',
+    borderColor: 'rgba(99, 102, 241, 0.4)',
+  },
+  definitionBox: {
+    backgroundColor: 'rgba(30, 41, 59, 0.65)',
+    borderWidth: 1,
+    borderColor: 'rgba(51, 65, 85, 0.6)',
+    borderRadius: 18,
+    padding: 16,
+    marginVertical: 10,
+  },
+  sectionLabel: {
+    fontSize: 10,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    color: '#94A3B8',
+    marginBottom: 6,
+  },
+  definitionText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#F8FAFC',
+    lineHeight: 24,
+  },
+  nuanceBox: {
+    marginVertical: 6,
+  },
+  nuanceText: {
+    fontSize: 13,
+    color: '#CBD5E1',
+    lineHeight: 20,
+  },
+  exampleSection: {
+    marginTop: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(51, 65, 85, 0.5)',
+  },
+  exampleHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  listenExampleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listenExampleText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#818CF8',
+    marginLeft: 4,
+  },
+  exampleCard: {
+    backgroundColor: 'rgba(15, 23, 42, 0.7)',
+    borderWidth: 1,
+    borderColor: 'rgba(51, 65, 85, 0.4)',
+    borderRadius: 16,
+    padding: 14,
+  },
+  exampleSentence: {
+    fontSize: 13,
+    color: '#E2E8F0',
+    fontStyle: 'italic',
+    lineHeight: 20,
+    marginBottom: 4,
+  },
+  exampleTranslation: {
+    fontSize: 12,
+    color: '#94A3B8',
+    marginTop: 4,
+  },
+  exampleContextPill: {
+    alignSelf: 'flex-start',
+    marginTop: 8,
+    backgroundColor: '#131B2E',
+    borderWidth: 1,
+    borderColor: '#334155',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  exampleContextText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#FBBF24',
+    textTransform: 'uppercase',
+  },
+  etymologyRow: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(51, 65, 85, 0.5)',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  etymologyText: {
+    fontSize: 12,
+    color: '#94A3B8',
+    flex: 1,
+    lineHeight: 18,
+  },
+  srsSection: {
+    marginTop: 18,
+    paddingTop: 14,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(51, 65, 85, 0.7)',
+  },
+  srsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  srsTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#FFFFFF',
+  },
+  srsRepetitions: {
+    fontSize: 11,
+    color: '#94A3B8',
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+  },
+  srsButtonsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  srsButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 14,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  srsForgotBtn: {
+    backgroundColor: 'rgba(244, 63, 94, 0.1)',
+    borderColor: 'rgba(244, 63, 94, 0.3)',
+  },
+  srsHardBtn: {
+    backgroundColor: 'rgba(249, 115, 22, 0.1)',
+    borderColor: 'rgba(249, 115, 22, 0.3)',
+  },
+  srsGoodBtn: {
+    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+    borderColor: 'rgba(99, 102, 241, 0.3)',
+  },
+  srsMasteredBtn: {
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+    borderColor: 'rgba(16, 185, 129, 0.3)',
+  },
+  srsButtonText: {
+    fontSize: 11,
+    fontWeight: '800',
+    marginTop: 3,
+  },
+  bottomDock: {
+    position: 'absolute',
+    bottom: 16,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(19, 27, 46, 0.95)',
+    borderWidth: 1,
+    borderColor: 'rgba(51, 65, 85, 0.8)',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 32,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 18,
+    elevation: 10,
+  },
+  dockTab: {
+    alignItems: 'center',
+  },
+  dockTabText: {
+    fontSize: 10,
+    fontWeight: '700',
+    marginTop: 4,
+  },
+  dockTabTextActive: {
+    color: '#818CF8',
+  },
+  dockTabTextInactive: {
+    color: '#64748B',
+  },
+  toastBanner: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    right: 20,
+    zIndex: 50,
+    backgroundColor: 'rgba(15, 23, 42, 0.98)',
+    borderWidth: 1,
+    borderColor: 'rgba(99, 102, 241, 0.5)',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 18,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  toastContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 8,
+  },
+  toastText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+});
