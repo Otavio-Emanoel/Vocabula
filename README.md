@@ -1,4 +1,4 @@
-# LexiPulse 📖⚡
+# Vocabula 📖⚡
 
 > A completely offline, zero-server vocabulary companion that schedules curated words and deep explanations directly to your lock screen.
 
@@ -6,9 +6,9 @@
 
 ## 🌟 Overview
 
-**LexiPulse** is built for ambient, habitual vocabulary acquisition. Instead of demanding that you open an app every day to maintain a streak, LexiPulse **delivers curated words, phonetics, and high-impact explanations directly to your mobile lock screen** at the times you choose.
+**Vocabula** is built for ambient, habitual vocabulary acquisition. Instead of demanding that you open an app every day to maintain a streak, Vocabula **delivers curated words, phonetics, and high-impact explanations directly to your mobile lock screen** at the times you choose.
 
-Designed from the ground up as a **100% offline, zero-server mobile experience**, LexiPulse requires **no accounts, no cloud sync, no tracking, and zero internet connectivity**. All data persistence, full-text searches, text-to-speech audio, and spaced repetition computations execute locally on your device.
+Designed from the ground up as a **100% offline, zero-server mobile experience**, Vocabula requires **no accounts, no cloud sync, no tracking, and zero internet connectivity**. All data persistence, full-text searches, text-to-speech audio, and spaced repetition computations execute locally on your device.
 
 ```
        📱 Lock Screen Trigger (08:30 AM)
@@ -37,7 +37,7 @@ Designed from the ground up as a **100% offline, zero-server mobile experience**
 
 ## 🏗️ Architecture at a Glance
 
-LexiPulse pairs local persistence with operating system-level native scheduling:
+Vocabula pairs local persistence with operating system-level native scheduling:
 
 ```mermaid
 graph LR
@@ -55,23 +55,23 @@ graph LR
     UI --> TTS
 ```
 
-For the complete architectural blueprint, see **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/ARCHITECTURE.md)**.
+For the complete architectural blueprint, see **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/ARCHITECTURE.md)**.
 
 ---
 
 ## 📚 Documentation Suite
 
-Comprehensive technical specifications and implementation guides are available in the [`/docs`](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs) directory:
+Comprehensive technical specifications and implementation guides are available in the [`/docs`](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs) directory:
 
 | Document | Focus Area | Description |
 | :--- | :--- | :--- |
-| **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/ARCHITECTURE.md)** | **System Architecture** | Structural layers, data flow sequence diagrams, and offline design decisions. |
-| **[docs/README.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/README.md)** | **How It Works** | End-to-end user lifecycle, ambient lock screen delivery, and documentation hub. |
-| **[docs/DATA_SCHEMA.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DATA_SCHEMA.md)** | **Data & Storage** | Dictionary JSON seed, SQLite relational schema, FTS5 virtual tables, and TypeScript types. |
-| **[docs/NOTIFICATION_ENGINE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/NOTIFICATION_ENGINE.md)** | **Notification Engine** | Rolling window scheduling algorithm, OS limits (iOS 64 limit), lock-screen action buttons, and deep links. |
-| **[docs/SPACED_REPETITION.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/SPACED_REPETITION.md)** | **Spaced Repetition** | SuperMemo-2 (SM-2) math formulas, Leitner 5-box model, and review state machine. |
-| **[docs/FEATURES_AND_ROADMAP.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/FEATURES_AND_ROADMAP.md)** | **Features & Roadmap** | Specs for offline TTS, custom decks, widgets, JSON backup, and phased roadmap. |
-| **[docs/DEVELOPMENT_GUIDE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DEVELOPMENT_GUIDE.md)** | **Developer Onboarding** | Folder structure, Expo setup, testing local notifications, and troubleshooting. |
+| **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/ARCHITECTURE.md)** | **System Architecture** | Structural layers, data flow sequence diagrams, and offline design decisions. |
+| **[docs/README.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/README.md)** | **How It Works** | End-to-end user lifecycle, ambient lock screen delivery, and documentation hub. |
+| **[docs/DATA_SCHEMA.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DATA_SCHEMA.md)** | **Data & Storage** | Dictionary JSON seed, SQLite relational schema, FTS5 virtual tables, and TypeScript types. |
+| **[docs/NOTIFICATION_ENGINE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/NOTIFICATION_ENGINE.md)** | **Notification Engine** | Rolling window scheduling algorithm, OS limits (iOS 64 limit), lock-screen action buttons, and deep links. |
+| **[docs/SPACED_REPETITION.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/SPACED_REPETITION.md)** | **Spaced Repetition** | SuperMemo-2 (SM-2) math formulas, Leitner 5-box model, and review state machine. |
+| **[docs/FEATURES_AND_ROADMAP.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/FEATURES_AND_ROADMAP.md)** | **Features & Roadmap** | Specs for offline TTS, custom decks, widgets, JSON backup, and phased roadmap. |
+| **[docs/DEVELOPMENT_GUIDE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DEVELOPMENT_GUIDE.md)** | **Developer Onboarding** | Folder structure, Expo setup, testing local notifications, and troubleshooting. |
 
 ---
 
@@ -85,8 +85,8 @@ Comprehensive technical specifications and implementation guides are available i
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/Otavio-Emanoel/LexiPulse.git
-cd LexiPulse
+git clone https://github.com/Otavio-Emanoel/Vocabula.git
+cd Vocabula
 
 # Install dependencies
 npm install
@@ -98,7 +98,7 @@ npx expo run:ios
 npx expo run:android
 ```
 
-For detailed onboarding instructions, consult the **[Development Guide](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DEVELOPMENT_GUIDE.md)**.
+For detailed onboarding instructions, consult the **[Development Guide](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DEVELOPMENT_GUIDE.md)**.
 
 ---
 

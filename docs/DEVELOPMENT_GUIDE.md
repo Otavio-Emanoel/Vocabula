@@ -1,15 +1,15 @@
-# LexiPulse Developer & Onboarding Guide
+# Vocabula Developer & Onboarding Guide
 
-This guide details the local development workflow, directory layout, environment configuration, and testing procedures for developing LexiPulse.
+This guide details the local development workflow, directory layout, environment configuration, and testing procedures for developing Vocabula.
 
 ---
 
 ## 1. Repository Directory Structure Blueprint
 
-LexiPulse utilizes **Expo Router** for file-based routing and organizes business logic into modular service layers:
+Vocabula utilizes **Expo Router** for file-based routing and organizes business logic into modular service layers:
 
 ```
-LexiPulse/
+Vocabula/
 ├── app/                              # Expo Router file-system routes
 │   ├── _layout.tsx                   # Global app layout, notification listeners & theme provider
 │   ├── index.tsx                     # Main dashboard & search interface
@@ -105,10 +105,10 @@ Configure notification permissions, custom URL schemes, and notification plugins
 ```json
 {
   "expo": {
-    "name": "LexiPulse",
-    "slug": "lexipulse",
+    "name": "Vocabula",
+    "slug": "vocabula",
     "version": "1.0.0",
-    "scheme": "lexipulse",
+    "scheme": "vocabula",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "plugins": [
@@ -124,7 +124,7 @@ Configure notification permissions, custom URL schemes, and notification plugins
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.lexipulse.app",
+      "bundleIdentifier": "com.vocabula.app",
       "infoPlist": {
         "UIBackgroundModes": ["remote-notification"]
       }
@@ -134,7 +134,7 @@ Configure notification permissions, custom URL schemes, and notification plugins
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0F172A"
       },
-      "package": "com.lexipulse.app",
+      "package": "com.vocabula.app",
       "permissions": [
         "POST_NOTIFICATIONS",
         "RECEIVE_BOOT_COMPLETED",
@@ -184,7 +184,7 @@ Configure notification permissions, custom URL schemes, and notification plugins
 
 ### Issue: SQLite database changes not appearing during development
 * **Root Cause:** When running on a simulator, `expo-sqlite` keeps the local `.db` file in the app sandbox container.
-* **Resolution:** Increment your `app.schema_version` inside MMKV, or call `SQLite.deleteDatabaseAsync('lexipulse.db')` in development to force re-hydration from `words.json`.
+* **Resolution:** Increment your `app.schema_version` inside MMKV, or call `SQLite.deleteDatabaseAsync('vocabula.db')` in development to force re-hydration from `words.json`.
 
 ### Issue: Notifications stop firing after a few days
 * **Root Cause:** The OS reached the end of the scheduled calendar triggers and the app was not opened to refresh the rolling buffer.

@@ -1,5 +1,5 @@
 /**
- * LexiPulse Design Tokens & Visual Identity System
+ * Vocabula Design Tokens & Visual Identity System
  * "Obsidian & Electric Iris with Amber Spark"
  */
 

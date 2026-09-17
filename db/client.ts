@@ -4,7 +4,7 @@ let dbInstance: SQLite.SQLiteDatabase | null = null;
 
 export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
   if (!dbInstance) {
-    dbInstance = await SQLite.openDatabaseAsync('lexipulse.db');
+    dbInstance = await SQLite.openDatabaseAsync('vocabula.db');
     // Enable foreign keys
     await dbInstance.execAsync('PRAGMA foreign_keys = ON;');
   }

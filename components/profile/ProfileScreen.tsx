@@ -138,7 +138,7 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
 
   const handleTestNotification = async () => {
     await NotificationService.sendTestNotification();
-    onShowToast?.(`🔔 Scheduled: LexiPulse at ${notificationTime} (${notificationFreq}x daily)`);
+    onShowToast?.(`🔔 Scheduled: Vocabula at ${notificationTime} (${notificationFreq}x daily)`);
   };
 
   const handleOpenDeck = async (deck: UserDeck) => {

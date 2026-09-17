@@ -1,4 +1,4 @@
-# Agent Guidelines for LexiPulse
+# Agent Guidelines for Vocabula
 
 ## Mandatory Documentation Verification
 

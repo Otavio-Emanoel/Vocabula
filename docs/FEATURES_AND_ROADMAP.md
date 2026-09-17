@@ -1,13 +1,13 @@
-# LexiPulse Features Specification & Implementation Roadmap
+# Vocabula Features Specification & Implementation Roadmap
 
-This document outlines the functional specifications for LexiPulse's core and high-value offline features, followed by a phased engineering roadmap.
+This document outlines the functional specifications for Vocabula's core and high-value offline features, followed by a phased engineering roadmap.
 
 ---
 
 ## 1. High-Value Offline Features
 
 ### 1.1 Device-Native Audio Pronunciation (TTS)
-Instead of downloading and bundling hundreds of megabytes of MP3 audio files, LexiPulse interfaces directly with native operating system speech synthesis engines via `expo-speech`.
+Instead of downloading and bundling hundreds of megabytes of MP3 audio files, Vocabula interfaces directly with native operating system speech synthesis engines via `expo-speech`.
 
 * **Subsystems Utilized:** iOS `AVSpeechSynthesizer` and Android `android.speech.tts.TextToSpeech`.
 * **Zero Network & Storage Overhead:** Words and contextual sentences are vocalized synthetically at runtime without consuming network bandwidth or device disk space.
@@ -32,7 +32,7 @@ export function speakWord(word: string, language: string = 'en-US', rate: number
 ---
 
 ### 1.2 Custom User Decks, Bookmarks & Notes
-LexiPulse allows users to curate their own learning experience while preserving 100% offline isolation:
+Vocabula allows users to curate their own learning experience while preserving 100% offline isolation:
 
 * **Starred Words / Favorites:** Single-tap bookmarking to quickly flag words for immediate focus.
 * **Custom Thematic Decks:** Users can create decks such as *"GRE High Frequency"*, *"Legal Terminology"*, or *"Creative Writing"*.
@@ -42,7 +42,7 @@ LexiPulse allows users to curate their own learning experience while preserving 
 ---
 
 ### 1.3 Lock Screen & Home Screen Widgets
-Through `react-native-home-widget`, LexiPulse pushes ambient vocabulary directly to the user's primary interface:
+Through `react-native-home-widget`, Vocabula pushes ambient vocabulary directly to the user's primary interface:
 
 * **Supported Widget Formats:**
   * **iOS Lock Screen (Rectangular):** Headword + one-line definition.
@@ -52,14 +52,14 @@ Through `react-native-home-widget`, LexiPulse pushes ambient vocabulary directly
 
 ```mermaid
 graph LR
-    A[LexiPulse App / MMKV] -->|HomeWidget.saveWidgetData| B[Shared App Group Storage]
+    A[Vocabula App / MMKV] -->|HomeWidget.saveWidgetData| B[Shared App Group Storage]
     B -->|WidgetKit / AppWidgetProvider| C[Home & Lock Screen Widgets]
 ```
 
 ---
 
 ### 1.4 Immersive TikTok-Style Vertical Parallax Feed
-LexiPulse introduces an ultra-clean, gesture-driven reading experience inspired by modern short-form feeds:
+Vocabula introduces an ultra-clean, gesture-driven reading experience inspired by modern short-form feeds:
 * **Vertical Full-Screen Paging:** Snapping `FlatList` with `snapToInterval` and `decelerationRate="fast"` for instant, smooth vertical transitions between words.
 * **Parallax Depth & Editorial Typography:** Giant faint background letter watermark and ambient luminous spheres that shift with device layout.
 * **Clutter-Free Surface:** Eliminates traditional flashcard clutter (hard/forgot/good/mastered buttons) from the primary reading stream to cultivate meditative, distraction-free reading.
@@ -90,9 +90,9 @@ All screen transitions (`Feed`, `Search`, `Profile`) use `react-native-reanimate
 ---
 
 ### 1.8 Zero-Cloud JSON Backup & Restore
-To guarantee user data sovereignty, LexiPulse supports full backup and migration without requiring cloud databases or user accounts:
+To guarantee user data sovereignty, Vocabula supports full backup and migration without requiring cloud databases or user accounts:
 
-* **Export:** Serializes user progress, custom decks, review logs, and starred words into a structured, validated `.json` file. LexiPulse invokes `expo-sharing` to offer the standard OS share sheet (AirDrop, save to Files, send via email).
+* **Export:** Serializes user progress, custom decks, review logs, and starred words into a structured, validated `.json` file. Vocabula invokes `expo-sharing` to offer the standard OS share sheet (AirDrop, save to Files, send via email).
 * **Import:** Reads user-selected files via `expo-document-picker`, validates the JSON schema against a version validator, and provides a choice between:
   * **Merge:** Retains existing progress and integrates imported decks.
   * **Clean Restore:** Overwrites local state with the backup.
@@ -100,7 +100,7 @@ To guarantee user data sovereignty, LexiPulse supports full backup and migration
 #### Backup JSON Schema
 ```json
 {
-  "lexipulseVersion": "1.0.0",
+  "vocabulaVersion": "1.0.0",
   "exportedAt": 1726598400000,
   "stats": {
     "currentStreak": 14,
@@ -134,7 +134,7 @@ To guarantee user data sovereignty, LexiPulse supports full backup and migration
 
 ```mermaid
 gantt
-    title LexiPulse Phased Implementation Roadmap
+    title Vocabula Phased Implementation Roadmap
     dateFormat  YYYY-MM-DD
     section Phase 1: Foundation
     Seed Data Structuring & SQLite Schema    :done, 2026-09-01, 7d

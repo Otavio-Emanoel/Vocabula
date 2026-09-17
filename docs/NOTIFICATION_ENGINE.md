@@ -1,6 +1,6 @@
-# LexiPulse Notification Engine & Deep Linking
+# Vocabula Notification Engine & Deep Linking
 
-This document details the design and implementation of LexiPulse's **100% offline, zero-server notification engine**, including local OS scheduling, the rolling-window buffer algorithm, interactive lock-screen buttons, and cold-start deep linking.
+This document details the design and implementation of Vocabula's **100% offline, zero-server notification engine**, including local OS scheduling, the rolling-window buffer algorithm, interactive lock-screen buttons, and cold-start deep linking.
 
 ---
 
@@ -11,9 +11,9 @@ In conventional mobile architectures, notification systems require:
 2. Remote application servers running Redis queues, cron workers, or cloud lambdas.
 3. Network calls transmitting user IDs, device identifiers, and telemetry.
 
-LexiPulse **eliminates all server infrastructure**. It schedules notifications directly within the native operating system's calendar and interval alarm queues via `expo-notifications`.
+Vocabula **eliminates all server infrastructure**. It schedules notifications directly within the native operating system's calendar and interval alarm queues via `expo-notifications`.
 
-| Attribute | Cloud Push (APNs / FCM) | LexiPulse (Local Scheduling) |
+| Attribute | Cloud Push (APNs / FCM) | Vocabula (Local Scheduling) |
 | :--- | :--- | :--- |
 | **Server Cost** | Recurring cloud bills & infrastructure | **$0.00 (Zero hosting or relay costs)** |
 | **Network Reliance** | Fails in airplane mode / offline | **100% functional without internet** |
@@ -33,7 +33,7 @@ Mobile operating systems enforce strict safety guards around local notifications
 
 ## 3. The Rolling Pre-Scheduling Window Algorithm
 
-To overcome operating system limits while ensuring continuous daily delivery even if the user does not open the app for days or weeks, LexiPulse implements a **Rolling Window Pre-Scheduler**.
+To overcome operating system limits while ensuring continuous daily delivery even if the user does not open the app for days or weeks, Vocabula implements a **Rolling Window Pre-Scheduler**.
 
 ```mermaid
 graph TD
@@ -116,7 +116,7 @@ export async function rescheduleRollingBuffer(dailyTarget: number = 1, triggerTi
 
 ## 4. Interactive Lock-Screen Notification Categories
 
-LexiPulse defines native notification categories that give users quick actions directly from their lock screen without needing to launch the app:
+Vocabula defines native notification categories that give users quick actions directly from their lock screen without needing to launch the app:
 
 ```mermaid
 classDiagram
@@ -180,10 +180,10 @@ export async function registerNotificationCategories() {
 
 ## 5. Deep Linking & Cold-Start Navigation
 
-When a user taps the notification or an action button, LexiPulse ensures deterministic routing via **Expo Router**.
+When a user taps the notification or an action button, Vocabula ensures deterministic routing via **Expo Router**.
 
 ### 5.1 Handling the Two App Lifecycle States
-1. **Cold Start (App was completely killed):** The system launches the app into memory. LexiPulse calls `Notifications.getLastNotificationResponseAsync()` on startup to detect if a notification tap initiated the boot.
+1. **Cold Start (App was completely killed):** The system launches the app into memory. Vocabula calls `Notifications.getLastNotificationResponseAsync()` on startup to detect if a notification tap initiated the boot.
 2. **Warm / Foreground (App was backgrounded or active):** The event is caught live by `Notifications.addNotificationResponseReceivedListener`.
 
 ### 5.2 Routing Implementation Pattern

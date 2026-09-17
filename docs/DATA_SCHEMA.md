@@ -1,6 +1,6 @@
-# LexiPulse Data Schema & Persistence Specification
+# Vocabula Data Schema & Persistence Specification
 
-This document details the data structures, database schema, search indexes, key-value registry, and TypeScript interfaces that power LexiPulse's 100% offline architecture.
+This document details the data structures, database schema, search indexes, key-value registry, and TypeScript interfaces that power Vocabula's 100% offline architecture.
 
 ---
 
@@ -56,7 +56,7 @@ The vocabulary database is initially packaged as a compressed, bundled JSON file
 
 ## 2. Relational Database Schema (`expo-sqlite`)
 
-LexiPulse uses **SQLite** via `expo-sqlite` as its primary operational store. Relational tables store the immutable dictionary along with mutable user progress, bookmarks, and review history.
+Vocabula uses **SQLite** via `expo-sqlite` as its primary operational store. Relational tables store the immutable dictionary along with mutable user progress, bookmarks, and review history.
 
 ```mermaid
 erDiagram
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS deck_words (
 
 ## 3. High-Performance Full-Text Search Queries
 
-With the `words_fts` virtual table populated, LexiPulse performs instant offline searches without scanning or lagging:
+With the `words_fts` virtual table populated, Vocabula performs instant offline searches without scanning or lagging:
 
 ```sql
 -- Prefix matching for instant search-as-you-type:
@@ -214,7 +214,7 @@ LIMIT 25;
 
 ## 4. Key-Value Storage Registry (`@react-native-async-storage/async-storage`)
 
-For lightweight preferences and offline flags across both Expo Go and standalone builds, LexiPulse uses `@react-native-async-storage/async-storage`.
+For lightweight preferences and offline flags across both Expo Go and standalone builds, Vocabula uses `@react-native-async-storage/async-storage`.
 
 | Key | Type | Default Value | Purpose |
 | :--- | :--- | :--- | :--- |

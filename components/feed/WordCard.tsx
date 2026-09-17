@@ -97,7 +97,7 @@ export function WordCard({
         <View className="flex-row items-center space-x-2">
           <View className="w-2 h-2 rounded-full bg-indigo-400 mr-2" />
           <Text className="text-xs uppercase tracking-widest text-slate-400 font-semibold">
-            LexiPulse Codex
+            Vocabula Codex
           </Text>
         </View>
       </View>

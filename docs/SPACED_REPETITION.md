@@ -1,6 +1,6 @@
-# LexiPulse Spaced Repetition (SRS) Engine
+# Vocabula Spaced Repetition (SRS) Engine
 
-This document outlines the theoretical foundation, mathematical algorithms, state transitions, and implementation code for LexiPulse's on-device Spaced Repetition System (SRS).
+This document outlines the theoretical foundation, mathematical algorithms, state transitions, and implementation code for Vocabula's on-device Spaced Repetition System (SRS).
 
 ---
 
@@ -18,13 +18,13 @@ graph LR
     end
 ```
 
-Because LexiPulse is 100% offline, all intervals, ease factors, and scheduling dates are computed in microseconds directly on-device using local SQLite records.
+Because Vocabula is 100% offline, all intervals, ease factors, and scheduling dates are computed in microseconds directly on-device using local SQLite records.
 
 ---
 
 ## 2. The SuperMemo-2 (SM-2) Algorithm
 
-LexiPulse utilizes an adapted version of Dr. Piotr Woźniak's **SuperMemo-2 (SM-2)** algorithm, widely regarded as the gold standard for adaptive flashcard scheduling.
+Vocabula utilizes an adapted version of Dr. Piotr Woźniak's **SuperMemo-2 (SM-2)** algorithm, widely regarded as the gold standard for adaptive flashcard scheduling.
 
 ### 2.1 Variables & Parameters
 
@@ -95,7 +95,7 @@ stateDiagram-v2
 
 ## 4. Production TypeScript Implementation
 
-Below is the standalone mathematical engine utilized by LexiPulse's review service:
+Below is the standalone mathematical engine utilized by Vocabula's review service:
 
 ```typescript
 // services/srs/sm2.ts
@@ -168,7 +168,7 @@ export function calculateSM2(input: SM2Input, reviewTimestamp: number = Date.now
 
 ## 5. Leitner 5-Box Alternative Model
 
-For users who prefer a simpler, visual box-progression mental model rather than decimal intervals, LexiPulse supports a **Leitner System** mode:
+For users who prefer a simpler, visual box-progression mental model rather than decimal intervals, Vocabula supports a **Leitner System** mode:
 
 ```mermaid
 graph LR
@@ -196,6 +196,6 @@ graph LR
 
 A common pitfall of flashcard applications is the "backlog wall": if a user skips 7 days, they are greeted with 200 overdue reviews, causing discouragement and abandonment.
 
-### LexiPulse Grace Strategy
+### Vocabula Grace Strategy
 1. **No Compounding Penalties:** Lapsed review calculations treat overdue time gently. The new interval is computed from the date of the actual review, not the missed target date.
 2. **Daily Quota Cap:** The daily review queue caps active SRS reviews at a configurable maximum (e.g., 15 words/day). Excess due words roll forward seamlessly into subsequent days.

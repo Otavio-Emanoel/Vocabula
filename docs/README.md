@@ -1,18 +1,18 @@
-# LexiPulse Documentation Hub
+# Vocabula Documentation Hub
 
-Welcome to the internal engineering and product documentation for **LexiPulse** — a 100% offline, zero-server vocabulary companion for iOS and Android built on Expo and React Native.
+Welcome to the internal engineering and product documentation for **Vocabula** — a 100% offline, zero-server vocabulary companion for iOS and Android built on Expo and React Native.
 
 ---
 
-## 📖 How LexiPulse Works
+## 📖 How Vocabula Works
 
-Traditional language apps demand persistent internet connectivity, cloud accounts, and invasive notifications orchestrated by remote marketing servers. LexiPulse inverts this model: **it treats your mobile device as an autonomous, self-contained learning sanctuary**.
+Traditional language apps demand persistent internet connectivity, cloud accounts, and invasive notifications orchestrated by remote marketing servers. Vocabula inverts this model: **it treats your mobile device as an autonomous, self-contained learning sanctuary**.
 
 Here is the lifecycle of how the app functions from end to end:
 
 ```mermaid
 journey
-    title The LexiPulse User Journey
+    title The Vocabula User Journey
     section First Launch
       Install app: 5: User
       Hydrate local SQLite database: 5: App
@@ -32,11 +32,11 @@ journey
 ```
 
 ### 1. Zero-Friction Cold Start
-* When the user installs and opens LexiPulse for the first time, there is **no sign-in or account creation wall**.
+* When the user installs and opens Vocabula for the first time, there is **no sign-in or account creation wall**.
 * The app checks an MMKV flag (`is_initialized`). If absent, it unpacks a curated `words.json` seed asset directly into a high-performance local SQLite database (`expo-sqlite`), establishing full-text search indexes (FTS5) in milliseconds.
 
 ### 2. Autonomous Local Scheduling
-* LexiPulse requests notification permissions using `expo-notifications`.
+* Vocabula requests notification permissions using `expo-notifications`.
 * Instead of pinging a remote server to send push alerts, the **Notification Scheduler Engine** selects an unread or review-due word from the local database and registers a **local scheduled notification** with iOS `UNUserNotificationCenter` or Android `AlarmManager`.
 * It populates a **rolling 14-day queue** so notifications continue to arrive predictably at the user's preferred time (e.g., 8:30 AM), even when the app remains closed for days.
 
@@ -66,12 +66,12 @@ Explore the specialized guides below to understand every subsystem in detail:
 
 | Document | Topic | Description |
 | :--- | :--- | :--- |
-| **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/ARCHITECTURE.md)** | **Core Architecture** | System diagrams, structural layers, data flow sequences, and privacy guarantees. |
-| **[DATA_SCHEMA.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DATA_SCHEMA.md)** | **Data & Storage** | Dictionary JSON schema, SQLite relational design, FTS5 search tables, and TypeScript definitions. |
-| **[NOTIFICATION_ENGINE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/NOTIFICATION_ENGINE.md)** | **Local Notifications** | Zero-server scheduling mechanics, rolling buffer algorithm, lock-screen buttons, and deep link routing. |
-| **[SPACED_REPETITION.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/SPACED_REPETITION.md)** | **SRS Engine** | The SuperMemo-2 algorithm, formulas, Leitner alternative, and scheduling math. |
-| **[FEATURES_AND_ROADMAP.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/FEATURES_AND_ROADMAP.md)** | **Features & Roadmap** | Specs for offline TTS, custom decks, widgets, JSON backup, and project phases. |
-| **[DEVELOPMENT_GUIDE.md](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DEVELOPMENT_GUIDE.md)** | **Developer Onboarding** | Folder structure, Expo commands, testing local notifications on emulators, and tips. |
+| **[ARCHITECTURE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/ARCHITECTURE.md)** | **Core Architecture** | System diagrams, structural layers, data flow sequences, and privacy guarantees. |
+| **[DATA_SCHEMA.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DATA_SCHEMA.md)** | **Data & Storage** | Dictionary JSON schema, SQLite relational design, FTS5 search tables, and TypeScript definitions. |
+| **[NOTIFICATION_ENGINE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/NOTIFICATION_ENGINE.md)** | **Local Notifications** | Zero-server scheduling mechanics, rolling buffer algorithm, lock-screen buttons, and deep link routing. |
+| **[SPACED_REPETITION.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/SPACED_REPETITION.md)** | **SRS Engine** | The SuperMemo-2 algorithm, formulas, Leitner alternative, and scheduling math. |
+| **[FEATURES_AND_ROADMAP.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/FEATURES_AND_ROADMAP.md)** | **Features & Roadmap** | Specs for offline TTS, custom decks, widgets, JSON backup, and project phases. |
+| **[DEVELOPMENT_GUIDE.md](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DEVELOPMENT_GUIDE.md)** | **Developer Onboarding** | Folder structure, Expo commands, testing local notifications on emulators, and tips. |
 
 ---
 

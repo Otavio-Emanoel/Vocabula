@@ -35,12 +35,12 @@ type TabType = 'feed' | 'search' | 'profile';
 export default function App() {
   return (
     <SafeAreaProvider>
-      <LexiPulseApp />
+      <VocabulaApp />
     </SafeAreaProvider>
   );
 }
 
-function LexiPulseApp() {
+function VocabulaApp() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('feed');
   const [words, setWords] = useState<WordDefinition[]>([]);
@@ -104,7 +104,7 @@ function LexiPulseApp() {
           <Ionicons name="sparkles" size={28} color="#818CF8" />
         </View>
         <Text className="text-white text-2xl font-serif font-bold tracking-tight mb-2">
-          LexiPulse
+          Vocabula
         </Text>
         <Text className="text-slate-400 text-xs tracking-widest uppercase mb-4">
           Offline Vocabulary Codex

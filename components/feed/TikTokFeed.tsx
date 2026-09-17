@@ -92,7 +92,7 @@ export function TikTokFeed({
     return (
       <View className="flex-1 items-center justify-center bg-[#090D16]">
         <ActivityIndicator size="large" color="#818CF8" />
-        <Text className="text-slate-400 text-sm mt-3">Loading LexiPulse Codex...</Text>
+        <Text className="text-slate-400 text-sm mt-3">Loading Vocabula Codex...</Text>
       </View>
     );
   }

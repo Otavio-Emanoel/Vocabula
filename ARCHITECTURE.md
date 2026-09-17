@@ -1,4 +1,4 @@
-# LexiPulse Architecture Specification
+# Vocabula Architecture Specification
 
 > **Version:** 1.0.0  
 > **Status:** Active / Blueprint  
@@ -9,7 +9,7 @@
 
 ## 1. Architectural Overview & Philosophy
 
-**LexiPulse** is engineered as a **100% offline, zero-server vocabulary companion**. Unlike traditional language and flashcard applications that rely on remote REST/GraphQL APIs, web push gateways (APNs/FCM servers), or cloud-synced databases, LexiPulse executes **all operations strictly on the client device**.
+**Vocabula** is engineered as a **100% offline, zero-server vocabulary companion**. Unlike traditional language and flashcard applications that rely on remote REST/GraphQL APIs, web push gateways (APNs/FCM servers), or cloud-synced databases, Vocabula executes **all operations strictly on the client device**.
 
 ### Core Tenets
 1. **Zero External Dependencies at Runtime:** No backend servers, third-party user telemetry, authentication endpoints, or external dictionary APIs.
@@ -96,7 +96,7 @@ Built with **React Native**, **Reanimated**, and **NativeWind** (Tailwind CSS):
 
 ### 3.3 Persistence Layer Partitioning
 
-LexiPulse bifurcates persistence based on access characteristics and relational requirements:
+Vocabula bifurcates persistence based on access characteristics and relational requirements:
 
 ```mermaid
 classDiagram
@@ -134,7 +134,7 @@ classDiagram
 sequenceDiagram
     autonumber
     actor User
-    participant App as LexiPulse App
+    participant App as Vocabula App
     participant MMKV as MMKV Store
     participant SQLite as SQLite Database
     participant Bundle as words.json (Asset)
@@ -161,7 +161,7 @@ sequenceDiagram
     participant Engine as Scheduler Engine
     participant OS as Device OS (iOS / Android)
     actor User
-    participant App as LexiPulse App
+    participant App as Vocabula App
     participant Router as Expo Router
 
     Note over Engine,OS: App runs periodic schedule (e.g., when opened or completed review)
@@ -202,7 +202,7 @@ sequenceDiagram
 ## 5. Offline-First Architectural Guarantees
 
 ### 5.1 Zero Cloud Dependency
-LexiPulse does not initiate any HTTP, WebSocket, or GraphQL network requests. This ensures:
+Vocabula does not initiate any HTTP, WebSocket, or GraphQL network requests. This ensures:
 * **Total Resiliency:** Works seamlessly in airplane mode, remote locations, subway systems, and low-connectivity environments.
 * **No Server Costs:** Zero operational server costs, no database hosting bills, and no push notification relay fees.
 * **No Authentication Friction:** No user registration, passwords, email confirmations, or OAuth popups.
@@ -213,7 +213,7 @@ LexiPulse does not initiate any HTTP, WebSocket, or GraphQL network requests. Th
 
 ### 5.3 Deterministic Rolling Notification Window
 Mobile operating systems enforce strict limits on scheduled local notifications (e.g., iOS limits an app to 64 active scheduled notifications). 
-* LexiPulse maintains a **Rolling Window Strategy**: On every app launch or review interaction, the Scheduler queries the next 14 to 30 days of words, clears exhausted notifications, and repopulates the local OS queue.
+* Vocabula maintains a **Rolling Window Strategy**: On every app launch or review interaction, the Scheduler queries the next 14 to 30 days of words, clears exhausted notifications, and repopulates the local OS queue.
 * If the user does not open the app for a week, notifications continue to fire uninterrupted from the local OS queue.
 
 ---
@@ -230,9 +230,9 @@ Mobile operating systems enforce strict limits on scheduled local notifications 
 
 For detailed specifications of individual subsystems, refer to the documentation modules in `/docs`:
 
-* [How LexiPulse Works (`docs/README.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/README.md)
-* [Data Schema & Persistence (`docs/DATA_SCHEMA.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DATA_SCHEMA.md)
-* [Notification Engine & Deep Linking (`docs/NOTIFICATION_ENGINE.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/NOTIFICATION_ENGINE.md)
-* [Spaced Repetition Mechanics (`docs/SPACED_REPETITION.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/SPACED_REPETITION.md)
-* [Feature Specifications & Roadmap (`docs/FEATURES_AND_ROADMAP.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/FEATURES_AND_ROADMAP.md)
-* [Development & Setup Guide (`docs/DEVELOPMENT_GUIDE.md`)](file:///home/otavioemanoel/Documentos/Projetos/LexiPulse/docs/DEVELOPMENT_GUIDE.md)
+* [How Vocabula Works (`docs/README.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/README.md)
+* [Data Schema & Persistence (`docs/DATA_SCHEMA.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DATA_SCHEMA.md)
+* [Notification Engine & Deep Linking (`docs/NOTIFICATION_ENGINE.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/NOTIFICATION_ENGINE.md)
+* [Spaced Repetition Mechanics (`docs/SPACED_REPETITION.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/SPACED_REPETITION.md)
+* [Feature Specifications & Roadmap (`docs/FEATURES_AND_ROADMAP.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/FEATURES_AND_ROADMAP.md)
+* [Development & Setup Guide (`docs/DEVELOPMENT_GUIDE.md`)](file:///home/otavioemanoel/Documentos/Projetos/Vocabula/docs/DEVELOPMENT_GUIDE.md)

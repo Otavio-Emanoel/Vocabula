@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "LexiPulse",
-    "slug": "lexipulse",
+    "name": "Vocabula",
+    "slug": "vocabula",
     "version": "1.0.0",
-    "scheme": "lexipulse",
+    "scheme": "vocabula",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.lexipulse.app"
+      "bundleIdentifier": "com.vocabula.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +23,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.lexipulse.app",
+      "package": "com.vocabula.app",
       "predictiveBackGestureEnabled": false
     },
     "web": {
