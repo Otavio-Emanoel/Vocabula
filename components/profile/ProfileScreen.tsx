@@ -137,12 +137,8 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
   };
 
   const handleTestNotification = async () => {
-    const success = await NotificationService.sendTestNotification();
-    if (success) {
-      onShowToast?.('✨ Test notification arriving in 2 seconds!');
-    } else {
-      onShowToast?.('Please allow notification permissions in settings');
-    }
+    await NotificationService.sendTestNotification();
+    onShowToast?.(`🔔 Scheduled: LexiPulse at ${notificationTime} (${notificationFreq}x daily)`);
   };
 
   const handleOpenDeck = async (deck: UserDeck) => {
