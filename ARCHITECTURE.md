@@ -74,12 +74,15 @@ graph TD
 ## 3. Structural Layer Breakdown
 
 ### 3.1 Presentation Layer (UI)
-Built with **React Native** and structured via **Expo Router** (file-based navigation):
-* `app/index.tsx`: Main dashboard featuring Word of the Day, search bar, retention statistics, and daily review quota.
-* `app/word/[id].tsx`: Comprehensive view displaying phonetics, grammatical part of speech, contextual explanations, interactive audio button, and example sentences.
-* `app/review/index.tsx`: Focused flashcard interface for active SuperMemo-2 spaced repetition reviews.
-* `app/decks/index.tsx`: Custom user decks, starred words, and categorization.
-* `app/settings/index.tsx`: Notification timing schedules, audio pitch/rate controls, and data backup/restore.
+Built with **React Native**, **Reanimated**, and **NativeWind** (Tailwind CSS):
+* **Immersive Vertical Feed (`TikTokFeed` & `WordCard`):** Full-screen, gesture-driven vertical swipe experience with parallax depth, typography focus, floating action rail (pronunciation audio, folder picker, star bookmark), and clutter-free editorial layout.
+* **Instant Dictionary Search (`SearchScreen`):** Full-text search (SQLite FTS5) with category and tier filter pills, real-time result count, pronunciation triggers, and expandable definition nuances.
+* **Profile & Library (`ProfileScreen`):** User journey hub featuring:
+  - 4-metric overview: Words Seen, Bookmarked Words, Custom Folders Created, and Codex Coverage %.
+  - Folder Manager: View custom folders, inspect words per folder, and delete folders.
+  - Notification Delivery Controls: Delivery time selector (morning, midday, evening, night, or custom), daily frequency selector, and instant device test notification.
+* **Folder Management Modal (`FolderModal`):** Bottom-sheet modal to organize any word into custom folders or create new folders on-the-fly.
+* **Page Transitions:** Fluid entering/exiting animations (`FadeIn`, `FadeOut`, `SlideInDown`) powered by `react-native-reanimated`.
 
 ### 3.2 Core Logic Engines
 

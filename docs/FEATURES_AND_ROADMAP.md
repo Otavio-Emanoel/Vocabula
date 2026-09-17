@@ -58,7 +58,38 @@ graph LR
 
 ---
 
-### 1.4 Zero-Cloud JSON Backup & Restore
+### 1.4 Immersive TikTok-Style Vertical Parallax Feed
+LexiPulse introduces an ultra-clean, gesture-driven reading experience inspired by modern short-form feeds:
+* **Vertical Full-Screen Paging:** Snapping `FlatList` with `snapToInterval` and `decelerationRate="fast"` for instant, smooth vertical transitions between words.
+* **Parallax Depth & Editorial Typography:** Giant faint background letter watermark and ambient luminous spheres that shift with device layout.
+* **Clutter-Free Surface:** Eliminates traditional flashcard clutter (hard/forgot/good/mastered buttons) from the primary reading stream to cultivate meditative, distraction-free reading.
+* **Right Floating Action Rail:** Quick-access actions for native TTS pronunciation (`expo-speech`), folder assignment modal, and star bookmarking.
+* **Automatic Seen Tracking:** Viewability observer automatically logs read words into SQLite (`user_word_progress.last_reviewed_at`) to track vocabulary exploration.
+
+---
+
+### 1.5 Dynamic Folder & Deck Management
+Users can create and organize words into thematic collections:
+* **Inline Folder Creator:** Create new folders directly from the reading card or within the Profile tab without interrupting flow.
+* **Instant Toggle Persistence:** SQLite `deck_words` association updates immediately when toggling folder checkmarks.
+* **Starter Curated Collections:** Pre-seeded folders including *"Favorites"*, *"Poetic & Literary"*, and *"Philosophy & Mind"*.
+
+---
+
+### 1.6 Profile, Vocabulary Metrics & Notification Hub
+The dedicated Profile screen serves as the learning dashboard:
+* **Live Exploration Metrics:** Real-time counters for Words Seen, Bookmarked Words, Custom Folders Created, and Dictionary Completion %.
+* **Folder & Saved Word Inspection:** Expand any folder to inspect its words and play audio pronunciations.
+* **Notification Scheduling Controls:** Toggle delivery, select preferred time (morning `08:00`, midday `12:30`, evening `19:00`, night `21:30`, or custom `HH:MM`), choose daily frequency (1x, 2x, 3x), and trigger instant device test notifications.
+
+---
+
+### 1.7 Fluid Page Transitions
+All screen transitions (`Feed`, `Search`, `Profile`) use `react-native-reanimated` entry and exit animations (`FadeIn`, `FadeOut`, `SlideInDown`) for an elegant, responsive mobile experience.
+
+---
+
+### 1.8 Zero-Cloud JSON Backup & Restore
 To guarantee user data sovereignty, LexiPulse supports full backup and migration without requiring cloud databases or user accounts:
 
 * **Export:** Serializes user progress, custom decks, review logs, and starred words into a structured, validated `.json` file. LexiPulse invokes `expo-sharing` to offer the standard OS share sheet (AirDrop, save to Files, send via email).
