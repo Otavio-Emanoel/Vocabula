@@ -248,3 +248,199 @@ export async function recordReviewProgress(
     );
   });
 }
+
+// -------------------------------------------------------------
+// Folder / Deck Management & Stats Queries
+// -------------------------------------------------------------
+
+export interface UserDeck {
+  id: string;
+  name: string;
+  description: string | null;
+  createdAt: number;
+  wordCount: number;
+}
+
+export async function getAllWords(): Promise<WordDefinition[]> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<WordRow>('SELECT * FROM words ORDER BY word ASC;');
+  return rows.map(parseWordRow);
+}
+
+export async function getUserDecks(): Promise<UserDeck[]> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<{
+    id: string;
+    name: string;
+    description: string | null;
+    created_at: number;
+    word_count: number;
+  }>(
+    `SELECT d.id, d.name, d.description, d.created_at, COUNT(dw.word_id) AS word_count
+     FROM user_decks d
+     LEFT JOIN deck_words dw ON d.id = dw.deck_id
+     GROUP BY d.id
+     ORDER BY d.created_at DESC;`
+  );
+
+  return rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    description: r.description,
+    createdAt: r.created_at,
+    wordCount: r.word_count,
+  }));
+}
+
+export async function createUserDeck(name: string, description?: string): Promise<UserDeck> {
+  const db = await getDatabase();
+  const id = `deck_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const now = Date.now();
+
+  await db.runAsync(
+    `INSERT INTO user_decks (id, name, description, created_at)
+     VALUES (?, ?, ?, ?);`,
+    id,
+    name.trim(),
+    description?.trim() || null,
+    now
+  );
+
+  return {
+    id,
+    name: name.trim(),
+    description: description?.trim() || null,
+    createdAt: now,
+    wordCount: 0,
+  };
+}
+
+export async function deleteUserDeck(deckId: string): Promise<void> {
+  const db = await getDatabase();
+  await db.withTransactionAsync(async () => {
+    await db.runAsync('DELETE FROM deck_words WHERE deck_id = ?;', deckId);
+    await db.runAsync('DELETE FROM user_decks WHERE id = ?;', deckId);
+  });
+}
+
+export async function addWordToDeck(deckId: string, wordId: string): Promise<void> {
+  const db = await getDatabase();
+  await db.runAsync(
+    `INSERT OR IGNORE INTO deck_words (deck_id, word_id, added_at)
+     VALUES (?, ?, ?);`,
+    deckId,
+    wordId,
+    Date.now()
+  );
+}
+
+export async function removeWordFromDeck(deckId: string, wordId: string): Promise<void> {
+  const db = await getDatabase();
+  await db.runAsync(
+    'DELETE FROM deck_words WHERE deck_id = ? AND word_id = ?;',
+    deckId,
+    wordId
+  );
+}
+
+export async function getWordDeckIds(wordId: string): Promise<string[]> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<{ deck_id: string }>(
+    'SELECT deck_id FROM deck_words WHERE word_id = ?;',
+    wordId
+  );
+  return rows.map((r) => r.deck_id);
+}
+
+export async function getWordsInDeck(deckId: string): Promise<WordDefinition[]> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<WordRow>(
+    `SELECT w.*
+     FROM words w
+     JOIN deck_words dw ON w.id = dw.word_id
+     WHERE dw.deck_id = ?
+     ORDER BY dw.added_at DESC;`,
+    deckId
+  );
+  return rows.map(parseWordRow);
+}
+
+export async function markWordSeen(wordId: string): Promise<void> {
+  const db = await getDatabase();
+  const now = Date.now();
+  await db.runAsync(
+    `INSERT INTO user_word_progress (word_id, status, ease_factor, interval_days, repetition_number, next_review_at, last_reviewed_at)
+     VALUES (?, 'learning', 2.5, 1, 1, ?, ?)
+     ON CONFLICT(word_id) DO UPDATE SET
+       last_reviewed_at = COALESCE(last_reviewed_at, ?);`,
+    wordId,
+    now + 86400000,
+    now,
+    now
+  );
+}
+
+export async function getSeenWordsCount(): Promise<number> {
+  const db = await getDatabase();
+  const row = await db.getFirstAsync<{ count: number }>(
+    'SELECT COUNT(*) as count FROM user_word_progress WHERE last_reviewed_at IS NOT NULL;'
+  );
+  return row?.count ?? 0;
+}
+
+export async function getAllSavedWords(): Promise<WordDefinition[]> {
+  const db = await getDatabase();
+  // Words that are either starred OR belong to at least one user deck
+  const rows = await db.getAllAsync<WordRow>(
+    `SELECT DISTINCT w.*
+     FROM words w
+     LEFT JOIN user_word_progress p ON w.id = p.word_id
+     LEFT JOIN deck_words dw ON w.id = dw.word_id
+     WHERE p.is_starred = 1 OR dw.word_id IS NOT NULL
+     ORDER BY w.word ASC;`
+  );
+  return rows.map(parseWordRow);
+}
+
+export async function getSavedWordsCount(): Promise<number> {
+  const db = await getDatabase();
+  const row = await db.getFirstAsync<{ count: number }>(
+    `SELECT COUNT(DISTINCT w.id) as count
+     FROM words w
+     LEFT JOIN user_word_progress p ON w.id = p.word_id
+     LEFT JOIN deck_words dw ON w.id = dw.word_id
+     WHERE p.is_starred = 1 OR dw.word_id IS NOT NULL;`
+  );
+  return row?.count ?? 0;
+}
+
+export async function getAppStats(): Promise<{
+  seenCount: number;
+  savedCount: number;
+  decksCount: number;
+  totalWords: number;
+}> {
+  const db = await getDatabase();
+  const [seenRow, savedRow, decksRow, totalRow] = await Promise.all([
+    db.getFirstAsync<{ count: number }>(
+      'SELECT COUNT(*) as count FROM user_word_progress WHERE last_reviewed_at IS NOT NULL;'
+    ),
+    db.getFirstAsync<{ count: number }>(
+      `SELECT COUNT(DISTINCT w.id) as count
+       FROM words w
+       LEFT JOIN user_word_progress p ON w.id = p.word_id
+       LEFT JOIN deck_words dw ON w.id = dw.word_id
+       WHERE p.is_starred = 1 OR dw.word_id IS NOT NULL;`
+    ),
+    db.getFirstAsync<{ count: number }>('SELECT COUNT(*) as count FROM user_decks;'),
+    db.getFirstAsync<{ count: number }>('SELECT COUNT(*) as count FROM words;'),
+  ]);
+
+  return {
+    seenCount: seenRow?.count ?? 0,
+    savedCount: savedRow?.count ?? 0,
+    decksCount: decksRow?.count ?? 0,
+    totalWords: totalRow?.count ?? 0,
+  };
+}
+

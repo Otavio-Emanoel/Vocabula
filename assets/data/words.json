@@ -10,7 +10,7 @@
       {
         "sentence": "Finding my mentor during a random flight delay was pure serendipity.",
         "context": "Professional Career",
-        "translation": "Encontrar meu mentor durante um atraso aleatório de voo foi pura serendipidade."
+        "translation": "Encontrar meu mentor durante um atraso de voo foi pura serendipidade."
       },
       {
         "sentence": "The discovery of penicillin remains science's most famous act of serendipity.",
@@ -22,7 +22,7 @@
       "pt": "Serendipidade; dom de encontrar coisas boas por mero acaso.",
       "es": "Serendipia; hallazgo afortunado e inesperado."
     },
-    "etymology": "From the Persian fairy tale 'The Three Princes of Serendip' (historical name for Sri Lanka).",
+    "etymology": "From the Persian fairy tale 'The Three Princes of Serendip' (Sri Lanka).",
     "difficultyLevel": 3,
     "tags": ["literary", "positive", "creativity"]
   },
@@ -31,20 +31,20 @@
     "word": "Petrichor",
     "phonetic": "/ˈpɛt.rɪ.kɔːr/",
     "partOfSpeech": "noun",
-    "shortDefinition": "A pleasant, distinctive earthy scent that accompanies the first rain after a long period of dry weather.",
-    "detailedExplanation": "First characterized by Australian researchers Isabel Joy Bear and Richard Thomas in 1964, petrichor arises from plant oils absorbed by clay soils, released into the atmosphere by falling raindrops.",
+    "shortDefinition": "A pleasant, distinctive earthy scent that accompanies the first rain after dry weather.",
+    "detailedExplanation": "First characterized in 1964, petrichor arises from plant oils absorbed by clay soils, released into the air by raindrops hitting the ground.",
     "examples": [
       {
-        "sentence": "As the first storm rolled over the parched hills, the sweet petrichor filled the evening air.",
+        "sentence": "As the summer storm began, the sweet petrichor filled the evening air.",
         "context": "Nature & Weather",
-        "translation": "Quando a primeira tempestade passou pelas colinas secas, o doce petricor preencheu o ar da tarde."
+        "translation": "Quando a tempestade de verão começou, o doce petricor preencheu o ar da tarde."
       }
     ],
     "translations": {
-      "pt": "Petricor; o aroma característico da chuva caindo sobre terra seca.",
+      "pt": "Petricor; o aroma característico da chuva caindo sobre a terra seca.",
       "es": "Petricor; olor a tierra mojada tras la primera lluvia."
     },
-    "etymology": "Greek 'petra' (stone) + 'ichor' (the ethereal fluid flowing in the veins of the gods).",
+    "etymology": "Greek 'petra' (stone) + 'ichor' (the ethereal blood of the gods).",
     "difficultyLevel": 3,
     "tags": ["nature", "sensory", "science"]
   },
@@ -54,12 +54,12 @@
     "phonetic": "/ɪˈfɛm.ər.əl/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Lasting for a very short, fleeting period of time.",
-    "detailedExplanation": "Describes concepts, beauty, or states that exist only briefly, emphasizing transience and encouraging mindful appreciation of fleeting moments.",
+    "detailedExplanation": "Describes concepts, beauty, or states that exist only briefly, emphasizing transience and encouraging mindful appreciation.",
     "examples": [
       {
         "sentence": "The cherry blossoms possess an ephemeral beauty that disappears in just a fortnight.",
         "context": "Art & Aesthetics",
-        "translation": "As flores de cerejeira possuem uma beleza efêmera que desaparece em apenas duas semanas."
+        "translation": "As flores de cerejeira possuem uma beleza efêmera que desaparece em poucas semanas."
       }
     ],
     "translations": {
@@ -76,7 +76,7 @@
     "phonetic": "/ˈsɒn.dər/",
     "partOfSpeech": "noun",
     "shortDefinition": "The profound realization that every passerby has a life as vivid and complex as your own.",
-    "detailedExplanation": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', sonder captures the sudden awakening that strangers possess their own ambitions, heartbreaks, routines, and inner worlds.",
+    "detailedExplanation": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', capturing the sudden awakening that strangers possess their own ambitions and inner worlds.",
     "examples": [
       {
         "sentence": "Gazing at the crowded subway platform, she felt an overwhelming sense of sonder.",
@@ -88,7 +88,7 @@
       "pt": "Sonder; a percepção de que cada estranho vive uma vida tão vívida e complexa quanto a sua.",
       "es": "Sonder; la comprensión de que cada extraño tiene una vida tan compleja como la tuya."
     },
-    "etymology": "Coined in 2012 by John Koenig, adapted from German 'sonder-' (special) and French 'sonder' (to probe/fathom).",
+    "etymology": "Coined in 2012 by John Koenig, adapted from German 'sonder-' (special) and French 'sonder' (to probe).",
     "difficultyLevel": 2,
     "tags": ["empathy", "modern", "existential"]
   },
@@ -98,12 +98,12 @@
     "phonetic": "/ˌɛk.wəˈnɪm.ə.ti/",
     "partOfSpeech": "noun",
     "shortDefinition": "Mental calmness, composure, and evenness of temper, especially in difficult situations.",
-    "detailedExplanation": "A cornerstone of Stoic philosophy and mindfulness, equanimity signifies psychological stability unaffected by external turmoil, panic, or unmeasured excitement.",
+    "detailedExplanation": "A cornerstone of Stoic philosophy and mindfulness, equanimity signifies psychological stability unaffected by external turmoil or panic.",
     "examples": [
       {
         "sentence": "The seasoned captain confronted the engine failure with remarkable equanimity.",
         "context": "Leadership & Crisis",
-        "translation": "O capitão experiente enfrentou a falha do motor com notável serenidade e equanimidade."
+        "translation": "O capitão experiente enfrentou a falha com notável serenidade e equanimidade."
       }
     ],
     "translations": {
@@ -120,12 +120,12 @@
     "phonetic": "/ɪnˈkoʊ.ɪt/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Just begun and so not fully formed or developed; rudimentary.",
-    "detailedExplanation": "Used in intellectual, artistic, and legal discourses to describe concepts, plans, or emotions that have taken initial spark but lack structure, coherence, or realization.",
+    "detailedExplanation": "Used in intellectual, artistic, and legal discourses to describe concepts, plans, or emotions that have taken initial spark but lack structure.",
     "examples": [
       {
         "sentence": "He possessed an inchoate awareness that the corporate strategy would inevitably fail.",
         "context": "Intellectual Discourse",
-        "translation": "Ele possuía uma vaga percepção incoativa de que a estratégia corporativa inevitavelmente fracassaria."
+        "translation": "Ele possuía uma vaga percepção incoativa de que a estratégia corporativa fracassaria."
       }
     ],
     "translations": {
@@ -142,7 +142,7 @@
     "phonetic": "/məˈlɪf.lu.əs/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Pleasantly smooth and musical to hear; flowing like honey.",
-    "detailedExplanation": "Specifically applied to sounds, singing, or speaking voices that evoke sweetness, fluid melody, and soothing acoustic harmony.",
+    "detailedExplanation": "Applied to sounds, voices, or prose that evoke sweetness, fluid melody, and soothing acoustic harmony.",
     "examples": [
       {
         "sentence": "The narrator's mellifluous voice lulled listeners into peaceful contemplation.",
@@ -164,16 +164,16 @@
     "phonetic": "/kwɪkˈsɒt.ɪk/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Exceedingly idealistic; unrealistic, impractical, and romanticized.",
-    "detailedExplanation": "Derived from Cervantes' Don Quixote, this term characterizes grand, noble pursuits driven by lofty ideals that disregard practical feasibility.",
+    "detailedExplanation": "Derived from Don Quixote, characterizing noble pursuits driven by lofty ideals that disregard practical feasibility.",
     "examples": [
       {
         "sentence": "His quixotic ambition to eliminate paper bureaucracy overnight won admiration, but little progress.",
         "context": "Politics & Endeavor",
-        "translation": "Sua ambição quixotesca de eliminar a burocracia de papel da noite para o dia ganhou admiração, mas pouco progresso."
+        "translation": "Sua ambição quixotesca de eliminar a burocracia ganhou admiração, mas pouco progresso."
       }
     ],
     "translations": {
-      "pt": "Quixotesco; idealista ao extremo, imprudente ou impulsionado por ideais irreais.",
+      "pt": "Quixotesco; idealista ao extremo, impulsionado por ideais irreais.",
       "es": "Quijotesco; idealista y desinteresado hasta lo imprudente."
     },
     "etymology": "From the character Don Quixote in the 1605 novel by Miguel de Cervantes.",
@@ -186,17 +186,17 @@
     "phonetic": "/juːˈbɪk.wɪ.təs/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Present, appearing, or found everywhere simultaneously.",
-    "detailedExplanation": "Denotes an omnipresence or pervasive quality, frequently applied to modern technology, mobile phones, cultural memes, or universal phenomena.",
+    "detailedExplanation": "Denotes omnipresence or pervasive quality, frequently applied to modern technology, mobile phones, or universal phenomena.",
     "examples": [
       {
         "sentence": "Smartphones have transitioned from executive luxury to ubiquitous everyday necessity.",
         "context": "Modern Technology",
-        "translation": "Os smartphones passaram de luxo executivo para uma necessidade diária onipresente."
+        "translation": "Os smartphones passaram de luxo para uma necessidade diária onipresente."
       }
     ],
     "translations": {
       "pt": "Ubíquo; onipresente, que está presente em todos os lugares.",
-      "es": "Ubicuo; omnipresente, que está en todas partes al mismo tiempo."
+      "es": "Ubicuo; omnipresente, que está en todas partes."
     },
     "etymology": "Latin 'ubique' (everywhere), from 'ubi' (where).",
     "difficultyLevel": 2,
@@ -208,7 +208,7 @@
     "phonetic": "/ˌpɜːr.spɪˈkeɪ.ʃəs/",
     "partOfSpeech": "adjective",
     "shortDefinition": "Having a ready insight into and keen understanding of things; mentally acute.",
-    "detailedExplanation": "Refers to acute mental vision and discerning discernment, the ability to perceive subtle truths, motives, or patterns that elude ordinary observation.",
+    "detailedExplanation": "Refers to acute mental vision and discerning discernment, the ability to perceive subtle truths or motives that elude others.",
     "examples": [
       {
         "sentence": "A perspicacious investor anticipated the market contraction months ahead of the consensus.",
@@ -218,9 +218,9 @@
     ],
     "translations": {
       "pt": "Perspicaz; dotado de inteligência aguçada, arguto, clarividente.",
-      "es": "Perspicaz; capaz de captar con rapidez cosas sutiles o difíciles de ver."
+      "es": "Perspicaz; capaz de captar con rapidez cosas sutiles."
     },
-    "etymology": "Latin 'perspicax' (sharp-sighted), from 'perspicere' (to look closely, see through).",
+    "etymology": "Latin 'perspicax' (sharp-sighted), from 'perspicere' (to look closely).",
     "difficultyLevel": 4,
     "tags": ["intellect", "gre", "business"]
   },
@@ -229,8 +229,8 @@
     "word": "Halcyon",
     "phonetic": "/ˈhæl.si.ən/",
     "partOfSpeech": "adjective",
-    "shortDefinition": "Denoting a period of time in the past that was idyllically happy, peaceful, and prosperous.",
-    "detailedExplanation": "Evokes nostalgic, golden memories of undisturbed tranquility and contentment, originating in Greek mythology regarding the mythical kingfisher bird calming the winter seas.",
+    "shortDefinition": "Denoting a period of time in the past that was idyllically happy and peaceful.",
+    "detailedExplanation": "Evokes golden memories of undisturbed tranquility and contentment, originating in Greek mythology regarding the kingfisher bird calming winter seas.",
     "examples": [
       {
         "sentence": "He reminisced fondly about the halcyon summers of his childhood in the coastal village.",
@@ -240,7 +240,7 @@
     ],
     "translations": {
       "pt": "Halcíone / Idílico; calmo, sereno, que evoca uma era dourada de felicidade.",
-      "es": "Halagüeño / Plácido; que evoca una época pasada de paz y felicidad."
+      "es": "Plácido; que evoca una época pasada de paz y felicidad."
     },
     "etymology": "Greek 'halkyon' (kingfisher), connected to mythical days of winter calm.",
     "difficultyLevel": 3,
@@ -252,12 +252,12 @@
     "phonetic": "/ˌvɛr.ɪ.sɪˈmɪl.ɪ.tjuːd/",
     "partOfSpeech": "noun",
     "shortDefinition": "The appearance or semblance of being true, real, or authentic.",
-    "detailedExplanation": "A foundational concept in literature, cinema, and art, denoting the degree to which a work feels authentic, plausible, and internally truthful to the audience.",
+    "detailedExplanation": "The degree to which an artistic, cinematic, or literary work feels authentic, plausible, and internally truthful.",
     "examples": [
       {
         "sentence": "The historical novel achieved rich verisimilitude through meticulous archival research.",
         "context": "Literature & Cinema",
-        "translation": "O romance histórico alcançou rica verossimilhança por meio de meticulosa pesquisa em arquivos."
+        "translation": "O romance histórico alcançou rica verossimilhança por meio de pesquisa meticulosa."
       }
     ],
     "translations": {
@@ -267,5 +267,599 @@
     "etymology": "Latin 'verisimilitudo', from 'verus' (true) + 'similis' (like, similar).",
     "difficultyLevel": 4,
     "tags": ["art", "literature", "academic"]
+  },
+  {
+    "id": "saudade",
+    "word": "Saudade",
+    "phonetic": "/saʊˈdɑː.də/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A deep emotional state of melancholic longing for something or someone that is absent.",
+    "detailedExplanation": "One of the most untranslatable words in world literature, saudade blends profound love, sweet memory, and the bittersweet acceptance of absence.",
+    "examples": [
+      {
+        "sentence": "Listening to the old fado record stirred an irresistible saudade for Lisbon.",
+        "context": "Emotion & Heritage",
+        "translation": "Ouvir o velho disco de fado despertou uma saudade irresistível de Lisboa."
+      }
+    ],
+    "translations": {
+      "pt": "Saudade; sentimento nostálgico e melancólico causado pela ausência.",
+      "es": "Saudade; melancolía por la distancia o la pérdida."
+    },
+    "etymology": "Portuguese and Galician, from Latin 'solitudo' (solitude).",
+    "difficultyLevel": 2,
+    "tags": ["emotion", "portuguese", "untranslatable"]
+  },
+  {
+    "id": "komorebi",
+    "word": "Komorebi",
+    "phonetic": "/koʊ.moʊˈreɪ.bi/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The beautiful interplay of sunlight filtering through the leaves of trees.",
+    "detailedExplanation": "A poetic Japanese concept that captures the transient, dancing shadows and golden beams cast on forest paths.",
+    "examples": [
+      {
+        "sentence": "We paused our hike to watch the gentle komorebi illuminate the mossy forest floor.",
+        "context": "Nature & Mindfulness",
+        "translation": "Pausamos nossa caminhada para observar os raios de sol filtrando através das copas das árvores."
+      }
+    ],
+    "translations": {
+      "pt": "Komorebi; a luz do sol que filtra através das folhas das árvores.",
+      "es": "Komorebi; la luz solar filtrada a través de las hojas."
+    },
+    "etymology": "Japanese 木漏れ日: 'ko' (tree) + 'more' (leak/filter) + 'bi' (sun).",
+    "difficultyLevel": 2,
+    "tags": ["japanese", "nature", "mindfulness"]
+  },
+  {
+    "id": "meraki",
+    "word": "Meraki",
+    "phonetic": "/meɪˈrɑː.ki/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "Doing something with soul, creativity, or love; putting a piece of yourself into your work.",
+    "detailedExplanation": "A Greek concept describing total devotion and craftsmanship, where the creator leaves an invisible imprint of their soul in whatever they produce.",
+    "examples": [
+      {
+        "sentence": "Every piece of pottery she sculpted was crafted with unmistakable meraki.",
+        "context": "Art & Craftsmanship",
+        "translation": "Cada peça de cerâmica que ela esculpia era feita com um meraki inconfundível."
+      }
+    ],
+    "translations": {
+      "pt": "Meraki; fazer algo com alma, paixão e dedicação total.",
+      "es": "Meraki; poner el alma y la creatividad en lo que haces."
+    },
+    "etymology": "Modern Greek μεράκι, from Turkish 'merak' (labor of love, passion).",
+    "difficultyLevel": 2,
+    "tags": ["greek", "passion", "creativity"]
+  },
+  {
+    "id": "apricity",
+    "word": "Apricity",
+    "phonetic": "/əˈprɪs.ɪ.ti/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The gentle, comforting warmth of the sun in the depth of winter.",
+    "detailedExplanation": "A rare and beloved archaic word describing that singular pleasure of standing outdoors on a freezing day and feeling the solar warmth soak into your skin.",
+    "examples": [
+      {
+        "sentence": "Sitting by the frosted park bench, she closed her eyes to savor the afternoon apricity.",
+        "context": "Sensory & Season",
+        "translation": "Sentada no banco do parque coberto de geada, ela fechou os olhos para saborear o calor do sol de inverno."
+      }
+    ],
+    "translations": {
+      "pt": "Apricidade; o calor agradável do sol em pleno inverno.",
+      "es": "Apricidad; el calor del sol en el invierno."
+    },
+    "etymology": "Latin 'apricitas', from 'apricus' (warmed by the sun, exposed to sunlight).",
+    "difficultyLevel": 3,
+    "tags": ["sensory", "nature", "rare"]
+  },
+  {
+    "id": "susurrus",
+    "word": "Susurrus",
+    "phonetic": "/suːˈsʌr.əs/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A soft murmuring, rustling, or whispering sound.",
+    "detailedExplanation": "An onomatopoeic word that audibly evokes dry autumn leaves swirling in the wind, waves lapping pebbles, or hushed voices in a vaulted cathedral.",
+    "examples": [
+      {
+        "sentence": "The quiet library was animated only by the susurrus of turning pages.",
+        "context": "Acoustics & Literature",
+        "translation": "A biblioteca silenciosa era animada apenas pelo sussurro das páginas virando."
+      }
+    ],
+    "translations": {
+      "pt": "Sussurro; murmúrio suave, ruído brando e contínuo.",
+      "es": "Susurro; ruido suave y continuo."
+    },
+    "etymology": "Latin 'susurrus' (a murmur, a whisper).",
+    "difficultyLevel": 4,
+    "tags": ["sensory", "sound", "literary"]
+  },
+  {
+    "id": "limerence",
+    "word": "Limerence",
+    "phonetic": "/ˈlɪm.ər.əns/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "An involuntary state of intense romantic obsession and yearning for another person.",
+    "detailedExplanation": "Coined by psychologist Dorothy Tennov in 1979 to differentiate consuming, anxiety-fueled infatuation from mature, reciprocal attachment.",
+    "examples": [
+      {
+        "sentence": "He mistook his acute limerence for enduring love until the novelty wore off.",
+        "context": "Psychology & Relationships",
+        "translation": "Ele confundiu sua limerência aguda com amor duradouro até que a novidade passou."
+      }
+    ],
+    "translations": {
+      "pt": "Limerência; obsessão romântica intensa e involuntária.",
+      "es": "Limerencia; estado mental involuntario de atracción romántica obsesiva."
+    },
+    "etymology": "Coined by Dr. Dorothy Tennov in her 1979 book 'Love and Limerence'.",
+    "difficultyLevel": 3,
+    "tags": ["psychology", "emotion", "modern"]
+  },
+  {
+    "id": "solitude",
+    "word": "Solitude",
+    "phonetic": "/ˈsɒl.ɪ.tjuːd/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The peaceful, enriching state of being alone without feeling lonely.",
+    "detailedExplanation": "Unlike loneliness, which represents an aching isolation, solitude is a voluntary, nourishing space for reflection, creative rejuvenation, and self-discovery.",
+    "examples": [
+      {
+        "sentence": "In the cabin high in the mountains, he discovered that solitude was his greatest muse.",
+        "context": "Mindfulness & Creation",
+        "translation": "Na cabana no alto das montanhas, ele descobriu que a solitude era sua maior musa."
+      }
+    ],
+    "translations": {
+      "pt": "Solitude; a condição tranquila e enriquecedora de estar consigo mesmo.",
+      "es": "Solitud / Soledad elegida; estado de estar solo con plenitude."
+    },
+    "etymology": "Latin 'solitudo', from 'solus' (alone).",
+    "difficultyLevel": 2,
+    "tags": ["philosophy", "peace", "reflection"]
+  },
+  {
+    "id": "epiphany",
+    "word": "Epiphany",
+    "phonetic": "/ɪˈpɪf.ən.i/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A sudden, profound realization or intuitive leap in understanding.",
+    "detailedExplanation": "Originally a religious manifestation of divinity, modern usage refers to that transformative 'Aha!' moment when complex pieces click into lucid clarity.",
+    "examples": [
+      {
+        "sentence": "While taking a simple shower, she experienced an epiphany that solved the mathematical proof.",
+        "context": "Intellect & Discovery",
+        "translation": "Durante um simples banho, ela teve uma epifania que resolveu a prova matemática."
+      }
+    ],
+    "translations": {
+      "pt": "Epifania; momento de súbita revelação ou clarão intuitivo.",
+      "es": "Epifanía; revelación o descubrimiento repentino."
+    },
+    "etymology": "Greek 'epiphaneia' (appearance, manifestation), from 'phainein' (to show).",
+    "difficultyLevel": 2,
+    "tags": ["discovery", "intellect", "creativity"]
+  },
+  {
+    "id": "ineffable",
+    "word": "Ineffable",
+    "phonetic": "/ɪnˈɛf.ə.bəl/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Too great, beautiful, or sacred to be expressed or described in words.",
+    "detailedExplanation": "Reserved for experiences of sublime awe, celestial splendor, or deep spiritual emotion that fundamentally transcend human vocabulary.",
+    "examples": [
+      {
+        "sentence": "Standing beneath the Aurora Borealis, an ineffable wonder silenced the travelers.",
+        "context": "Sublime Nature",
+        "translation": "Sob a aurora boreal, um maravilhamento inefável silenciou os viajantes."
+      }
+    ],
+    "translations": {
+      "pt": "Inefável; indescritível, que não se pode expressar em palavras.",
+      "es": "Inefable; que no se puede explicar con palabras."
+    },
+    "etymology": "Latin 'ineffabilis', from 'in-' (not) + 'effabilis' (speakable).",
+    "difficultyLevel": 3,
+    "tags": ["poetry", "sublime", "gre"]
+  },
+  {
+    "id": "ataraxia",
+    "word": "Ataraxia",
+    "phonetic": "/ˌæt.əˈræk.si.ə/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A state of serene calmness, emotional freedom, and untroubled peace of mind.",
+    "detailedExplanation": "A central virtue in Epicurean and Skeptic philosophy describing psychological tranquility untarnished by fear, superstition, or worldly anxiety.",
+    "examples": [
+      {
+        "sentence": "Through daily meditation and detached contemplation, the monk attained true ataraxia.",
+        "context": "Philosophy & Peace",
+        "translation": "Por meio da meditação diária, o monge alcançou a verdadeira ataraxia."
+      }
+    ],
+    "translations": {
+      "pt": "Ataraxia; estado de tranquilidade inabalável e ausência de inquietações.",
+      "es": "Ataraxia; imperturbabilidad del ánimo."
+    },
+    "etymology": "Greek ἀταραξία, from 'a-' (without) + 'tarache' (trouble, turmoil).",
+    "difficultyLevel": 4,
+    "tags": ["philosophy", "stoicism", "mindfulness"]
+  },
+  {
+    "id": "defenestration",
+    "word": "Defenestration",
+    "phonetic": "/diːˌfɛn.ɪˈstreɪ.ʃən/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The act of throwing someone or something out of a window; dismissal from office.",
+    "detailedExplanation": "Famous in history for the 1618 Defenestrations of Prague that sparked the Thirty Years' War; often used metaphorically for abrupt political removal.",
+    "examples": [
+      {
+        "sentence": "The corrupt minister faced sudden defenestration after the investigative report dropped.",
+        "context": "History & Politics",
+        "translation": "O ministro corrupto enfrentou uma súbita defenestração após o relatório investigativo."
+      }
+    ],
+    "translations": {
+      "pt": "Defenestração; ato de atirar alguém ou algo pela janela; destituição abrupta.",
+      "es": "Defenestración; acción de arrojar a alguien por una ventana; destitución."
+    },
+    "etymology": "Modern Latin 'defenestratio', from 'de-' (down/out) + 'fenestra' (window).",
+    "difficultyLevel": 3,
+    "tags": ["history", "curiosity", "politics"]
+  },
+  {
+    "id": "lagom",
+    "word": "Lagom",
+    "phonetic": "/ˈlɑː.ɡɔːm/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "The balanced state of having not too little, not too much; just the right amount.",
+    "detailedExplanation": "A Swedish cultural philosophy advocating moderate, sustainable living and mindful equilibrium in work, possessions, and relationships.",
+    "examples": [
+      {
+        "sentence": "His approach to work-life balance was guided by the quiet wisdom of lagom.",
+        "context": "Lifestyle & Harmony",
+        "translation": "Sua abordagem ao equilíbrio de vida era guiada pela sabedoria serena do lagom."
+      }
+    ],
+    "translations": {
+      "pt": "Lagom; na medida certa, nem muito nem pouco, equilíbrio sereno.",
+      "es": "Lagom; ni mucho ni poco, la medida justa."
+    },
+    "etymology": "Swedish 'lagom', historically related to 'laget om' (around the team/table).",
+    "difficultyLevel": 2,
+    "tags": ["swedish", "lifestyle", "balance"]
+  },
+  {
+    "id": "hygge",
+    "word": "Hygge",
+    "phonetic": "/ˈhjuː.ɡə/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A quality of coziness, comfortable conviviality, and warm contentment.",
+    "detailedExplanation": "A foundational Danish cultural concept centered on creating warm atmospheres, savoring simple pleasures with loved ones, and feeling snug.",
+    "examples": [
+      {
+        "sentence": "Candlelight, wool socks, and hot cider created the quintessential evening of hygge.",
+        "context": "Lifestyle & Comfort",
+        "translation": "Luz de velas, meias de lã e chá quente criaram a quintessência de uma noite hygge."
+      }
+    ],
+    "translations": {
+      "pt": "Hygge; atmosfera acolhedora de conforto, aconchego e bem-estar.",
+      "es": "Hygge; sensación de calidez, comodidad y bienestar."
+    },
+    "etymology": "Danish, borrowed from Old Norse 'hyggja' (to comfort, to think).",
+    "difficultyLevel": 2,
+    "tags": ["danish", "comfort", "lifestyle"]
+  },
+  {
+    "id": "anachronism",
+    "word": "Anachronism",
+    "phonetic": "/əˈnæk.rə.nɪz.əm/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "Something that is conspicuously out of its proper historical time or era.",
+    "detailedExplanation": "Occurs when an object, idea, or custom is placed in a period where it could not have existed, such as a wristwatch in a film set in ancient Rome.",
+    "examples": [
+      {
+        "sentence": "The presence of electric lanterns in the Victorian drama was a glaring anachronism.",
+        "context": "Cinema & History",
+        "translation": "A presença de lanternas elétricas no drama vitoriano foi um anacronismo gritante."
+      }
+    ],
+    "translations": {
+      "pt": "Anacronismo; erro cronológico, algo fora de seu tempo histórico.",
+      "es": "Anacronismo; error que consiste en situar algo fuera de su época."
+    },
+    "etymology": "Greek 'anachronismos', from 'ana-' (against) + 'chronos' (time).",
+    "difficultyLevel": 3,
+    "tags": ["history", "cinema", "academic"]
+  },
+  {
+    "id": "ebullient",
+    "word": "Ebullient",
+    "phonetic": "/ɪˈbʊl.i.ənt/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Cheerful, full of energy, and exuberantly enthusiastic.",
+    "detailedExplanation": "Describes people or dispositions bubbling over with vivacious joy, optimism, and irrepressible cheerfulness.",
+    "examples": [
+      {
+        "sentence": "Her ebullient laughter resonated across the conference hall, lifting everyone's spirits.",
+        "context": "Personality & Energy",
+        "translation": "Sua risada exuberante e ebuliçosa ecoou pelo salão, animando a todos."
+      }
+    ],
+    "translations": {
+      "pt": "Ebuliçoso; transbordante de entusiasmo, radiante, vivaz.",
+      "es": "Efervescente; lleno de entusiasmo y vitalidad."
+    },
+    "etymology": "Latin 'ebullientem', from 'ebullire' (to boil up, bubble out).",
+    "difficultyLevel": 3,
+    "tags": ["emotion", "personality", "positive"]
+  },
+  {
+    "id": "panacea",
+    "word": "Panacea",
+    "phonetic": "/ˌpæn.əˈsiː.ə/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A universal solution or remedy for all difficulties or diseases.",
+    "detailedExplanation": "Often used critically to warn that complex societal, technical, or medical challenges rarely yield to a single magic-bullet cure.",
+    "examples": [
+      {
+        "sentence": "Remote work offers major benefits, but it is not a panacea for poor company culture.",
+        "context": "Business & Strategy",
+        "translation": "O trabalho remoto traz benefícios, mas não é a panaceia para uma cultura deficiente."
+      }
+    ],
+    "translations": {
+      "pt": "Panaceia; remédio universal, solução para todos os males.",
+      "es": "Panacea; solución o remedio para todos los problemas."
+    },
+    "etymology": "Greek 'panakeia', from 'pan' (all) + 'akos' (cure).",
+    "difficultyLevel": 3,
+    "tags": ["medicine", "philosophy", "gre"]
+  },
+  {
+    "id": "vicarious",
+    "word": "Vicarious",
+    "phonetic": "/vɪˈkɛər.i.əs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Experienced in the imagination through the feelings or actions of another person.",
+    "detailedExplanation": "Captures the human capacity for deep empathy and narrative immersion, feeling the thrills, triumphs, or griefs of others as if they were our own.",
+    "examples": [
+      {
+        "sentence": "He took vicarious pride in his daughter's graduation from medical school.",
+        "context": "Empathy & Family",
+        "translation": "Ele sentiu um orgulho vicário na formatura de sua filha em medicina."
+      }
+    ],
+    "translations": {
+      "pt": "Vicário; experimentado por meio dos sentimentos ou ações de outrem.",
+      "es": "Vicario; vivido a través de las experiencias de otra persona."
+    },
+    "etymology": "Latin 'vicarius' (substitute, deputy), from 'vicis' (turn, change).",
+    "difficultyLevel": 3,
+    "tags": ["psychology", "literature", "empathy"]
+  },
+  {
+    "id": "nefarious",
+    "word": "Nefarious",
+    "phonetic": "/nɪˈfɛər.i.əs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Wicked, villainous, or criminal in nature.",
+    "detailedExplanation": "Carries a stronger moral weight than simple malice, denoting premeditated, dark, and flagrantly unethical actions.",
+    "examples": [
+      {
+        "sentence": "The hackers executed a nefarious scheme to intercept private hospital records.",
+        "context": "Ethics & Law",
+        "translation": "Os criminosos executaram um plano nefasto para interceptar prontuários médicos."
+      }
+    ],
+    "translations": {
+      "pt": "Nefasto; perverso, ímpio, malévolo.",
+      "es": "Nefasto; perverso, vil o malvado."
+    },
+    "etymology": "Latin 'nefarius', from 'nefas' (crime, wrong, contrary to divine law).",
+    "difficultyLevel": 3,
+    "tags": ["ethics", "character", "gre"]
+  },
+  {
+    "id": "luminescent",
+    "word": "Luminescent",
+    "phonetic": "/ˌluː.mɪˈnɛs.ənt/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Emitting light not caused by incandescent heat; softly glowing.",
+    "detailedExplanation": "Characterizes bioluminescent jellyfish, glowworms, radioactive minerals, or neon horizons that radiate cool, ethereal luminescence.",
+    "examples": [
+      {
+        "sentence": "The kayak glided through luminescent waters that sparkled with every paddle stroke.",
+        "context": "Nature & Science",
+        "translation": "O caiaque deslizou por águas luminescentes que cintilavam a cada remada."
+      }
+    ],
+    "translations": {
+      "pt": "Luminescente; que emite luz suave sem calor, brilhante.",
+      "es": "Luminiscente; que emite luz suave sin calor."
+    },
+    "etymology": "Latin 'lumen' (light) + '-escent' (becoming).",
+    "difficultyLevel": 2,
+    "tags": ["science", "sensory", "nature"]
+  },
+  {
+    "id": "chrysalis",
+    "word": "Chrysalis",
+    "phonetic": "/ˈkrɪs.ə.lɪs/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A transitional state of sheltered growth and radical metamorphosis.",
+    "detailedExplanation": "The pupa of a butterfly; widely used metaphorically for a period of incubation and intense personal evolution before emerging anew.",
+    "examples": [
+      {
+        "sentence": "Her sabbatical year in the quiet coastal town served as a creative chrysalis.",
+        "context": "Growth & Metamorphosis",
+        "translation": "Seu ano sabático na cidade costeira serviu como uma crisálida criativa."
+      }
+    ],
+    "translations": {
+      "pt": "Crisálida; estado de transformação e metamorfose.",
+      "es": "Crisálida; estado previo a una transformación radical."
+    },
+    "etymology": "Greek 'chrysallis', from 'chrysos' (gold), due to golden sheen of certain pupae.",
+    "difficultyLevel": 3,
+    "tags": ["nature", "growth", "metaphor"]
+  },
+  {
+    "id": "resplendent",
+    "word": "Resplendent",
+    "phonetic": "/rɪˈsplɛn.dənt/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Attractive and impressive through being richly colorful or shining.",
+    "detailedExplanation": "Conveys magnificent, dazzling brilliance, often applied to imperial robes, sunset vistas, or ornate architectural facades.",
+    "examples": [
+      {
+        "sentence": "The peacock displayed a resplendent fan of iridescent blues and emeralds.",
+        "context": "Aesthetics & Nature",
+        "translation": "O pavão exibiu um leque resplandecente de azuis e esmeraldas iridescentes."
+      }
+    ],
+    "translations": {
+      "pt": "Resplandecente; brilhante com esplendor, magnífico.",
+      "es": "Resplandeciente; que brilla con esplendor."
+    },
+    "etymology": "Latin 'resplendere', from 're-' (intensive) + 'splendere' (to shine).",
+    "difficultyLevel": 3,
+    "tags": ["aesthetics", "visual", "literary"]
+  },
+  {
+    "id": "eloquence",
+    "word": "Eloquence",
+    "phonetic": "/ˈɛl.ə.kwəns/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "Fluent, persuasive, and graceful speaking or writing.",
+    "detailedExplanation": "The mastery of language that touches the heart and persuades the intellect with harmonic cadence and evocative clarity.",
+    "examples": [
+      {
+        "sentence": "The orator spoke with such eloquence that even his staunchest adversaries stood to applaud.",
+        "context": "Rhetoric & Discourse",
+        "translation": "O orador falou com tamanha eloquência que até seus adversários aplaudiram de pé."
+      }
+    ],
+    "translations": {
+      "pt": "Eloquência; capacidade de persuadir e comover através da fala refinada.",
+      "es": "Elocuencia; facultad de hablar o escribir de modo eficaz para deleitar."
+    },
+    "etymology": "Latin 'eloquentia', from 'eloqui' (to speak out).",
+    "difficultyLevel": 2,
+    "tags": ["rhetoric", "literature", "intellect"]
+  },
+  {
+    "id": "zephyr",
+    "word": "Zephyr",
+    "phonetic": "/ˈzɛf.ər/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A soft, gentle, and refreshing breeze.",
+    "detailedExplanation": "In Greek mythology, Zephyrus was the god of the West Wind, heralding the gentle spring season. Today it symbolizes soft, cooling air currents.",
+    "examples": [
+      {
+        "sentence": "A fragrant summer zephyr rustled the curtains of the open balcony.",
+        "context": "Weather & Nature",
+        "translation": "Um zéfiro suave de verão balançou as cortinas da varanda aberta."
+      }
+    ],
+    "translations": {
+      "pt": "Zéfiro; brisa suave, vento brando e agradável.",
+      "es": "Céfiro; viento suave y apacible."
+    },
+    "etymology": "Greek 'zephyros' (the west wind).",
+    "difficultyLevel": 3,
+    "tags": ["nature", "poetry", "mythology"]
+  },
+  {
+    "id": "tenacious",
+    "word": "Tenacious",
+    "phonetic": "/təˈneɪ.ʃəs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Tending to keep a firm hold of something; persistent and determined.",
+    "detailedExplanation": "Describes an unyielding spirit or grip that refuses to surrender in the face of setbacks, adversity, or fatigue.",
+    "examples": [
+      {
+        "sentence": "Her tenacious pursuit of the truth eventually uncovered the corporate fraud.",
+        "context": "Character & Resolve",
+        "translation": "Sua busca tenaz pela verdade finalmente desvendou a fraude corporativa."
+      }
+    ],
+    "translations": {
+      "pt": "Tenaz; perseverante, firme, determinado, inabalável.",
+      "es": "Tenaz; firme, porfiado y constante en un propósito."
+    },
+    "etymology": "Latin 'tenax', from 'tenere' (to hold).",
+    "difficultyLevel": 2,
+    "tags": ["character", "courage", "gre"]
+  },
+  {
+    "id": "magnanimous",
+    "word": "Magnanimous",
+    "phonetic": "/mæɡˈnæn.ɪ.məs/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Very generous, forgiving, and noble, especially toward a defeated rival.",
+    "detailedExplanation": "Originating in Aristotle's 'great-souled man', denoting high-minded nobility that rises above pettiness, grudge-holding, or vindictiveness.",
+    "examples": [
+      {
+        "sentence": "In his victory speech, the champion was magnanimous in praising his competitor.",
+        "context": "Leadership & Nobility",
+        "translation": "Em seu discurso de vitória, o campeão foi magnânimo ao elogiar seu competidor."
+      }
+    ],
+    "translations": {
+      "pt": "Magnânimo; nobre de alma, generoso, indulgente.",
+      "es": "Magnánimo; generoso y noble con los vencidos."
+    },
+    "etymology": "Latin 'magnanimus', from 'magnus' (great) + 'animus' (soul, spirit).",
+    "difficultyLevel": 3,
+    "tags": ["virtue", "nobility", "gre"]
+  },
+  {
+    "id": "wanderlust",
+    "word": "Wanderlust",
+    "phonetic": "/ˈwɒn.də.lʌst/",
+    "partOfSpeech": "noun",
+    "shortDefinition": "A strong, innate desire or impulse to travel and explore the world.",
+    "detailedExplanation": "A German loanword describing the restless, romantic pull of unknown lands, diverse cultures, and open horizons.",
+    "examples": [
+      {
+        "sentence": "Overcome by wanderlust, she packed a single backpack and bought a one-way ticket to Kyoto.",
+        "context": "Travel & Adventure",
+        "translation": "Tomada pelo wanderlust, ela fez as malas e comprou uma passagem só de ida para Quioto."
+      }
+    ],
+    "translations": {
+      "pt": "Wanderlust; desejo profundo e inquieto de viajar e explorar o mundo.",
+      "es": "Wanderlust; pasión irrefrenable por viajar."
+    },
+    "etymology": "German 'wandern' (to hike/wander) + 'Lust' (desire).",
+    "difficultyLevel": 2,
+    "tags": ["travel", "adventure", "german"]
+  },
+  {
+    "id": "sempiternal",
+    "word": "Sempiternal",
+    "phonetic": "/ˌsɛm.pɪˈtɜːr.nəl/",
+    "partOfSpeech": "adjective",
+    "shortDefinition": "Eternal and unchanging; having had a beginning, but lasting forever into the future.",
+    "detailedExplanation": "In medieval scholastic philosophy, distinguished from 'eternal' (no beginning and no end) to denote celestial creations that endure indefinitely.",
+    "examples": [
+      {
+        "sentence": "The ancient mountains stood as sempiternal guardians over the fertile river valley.",
+        "context": "Philosophy & Cosmos",
+        "translation": "As montanhas ancestrais erguiam-se como guardiãs sempiternas sobre o vale fértil."
+      }
+    ],
+    "translations": {
+      "pt": "Sempiterno; eterno, perpétuo, que não terá fim.",
+      "es": "Sempiterno; que durará para siempre."
+    },
+    "etymology": "Late Latin 'sempiternalis', from 'semper' (always) + 'aeternus' (eternal).",
+    "difficultyLevel": 4,
+    "tags": ["time", "philosophy", "literary"]
   }
 ]
