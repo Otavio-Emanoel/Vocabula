@@ -8,6 +8,7 @@ export const StorageKeys = {
   DAILY_TARGET: 'settings.daily_target',
   TTS_RATE: 'settings.tts_rate',
   TTS_PITCH: 'settings.tts_pitch',
+  NOTIFICATION_FREQUENCY: 'settings.notification_frequency',
   WIDGET_WORD_CACHE: 'widget.word_cache',
   CURRENT_STREAK: 'stats.current_streak',
   LAST_ACTIVE_DATE: 'stats.last_active_date',
@@ -23,6 +24,15 @@ export const AppStorage = {
     await AsyncStorage.setItem(StorageKeys.IS_INITIALIZED, value ? 'true' : 'false');
   },
 
+  async isNotificationsEnabled(): Promise<boolean> {
+    const val = await AsyncStorage.getItem(StorageKeys.NOTIFICATIONS_ENABLED);
+    return val !== 'false'; // Defaults to enabled (true)
+  },
+
+  async setNotificationsEnabled(enabled: boolean): Promise<void> {
+    await AsyncStorage.setItem(StorageKeys.NOTIFICATIONS_ENABLED, enabled ? 'true' : 'false');
+  },
+
   async getNotificationTime(): Promise<string> {
     const val = await AsyncStorage.getItem(StorageKeys.NOTIFICATION_TIME);
     return val ?? '08:30';
@@ -30,6 +40,15 @@ export const AppStorage = {
 
   async setNotificationTime(time: string): Promise<void> {
     await AsyncStorage.setItem(StorageKeys.NOTIFICATION_TIME, time);
+  },
+
+  async getNotificationFrequency(): Promise<number> {
+    const val = await AsyncStorage.getItem(StorageKeys.NOTIFICATION_FREQUENCY);
+    return val ? parseInt(val, 10) : 1;
+  },
+
+  async setNotificationFrequency(frequency: number): Promise<void> {
+    await AsyncStorage.setItem(StorageKeys.NOTIFICATION_FREQUENCY, frequency.toString());
   },
 
   async getDailyTarget(): Promise<number> {
@@ -58,3 +77,4 @@ export const AppStorage = {
     await AsyncStorage.setItem(StorageKeys.LAST_ACTIVE_DATE, date);
   },
 };
+
