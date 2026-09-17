@@ -21,6 +21,8 @@ interface TikTokFeedProps {
   starredWordIds: Set<string>;
   onToggleStarSuccess?: (wordId: string, isStarred: boolean) => void;
   onShowToast?: (msg: string) => void;
+  onRefreshFeed?: () => Promise<void>;
+  isRefreshing?: boolean;
 }
 
 export function TikTokFeed({
@@ -28,6 +30,8 @@ export function TikTokFeed({
   starredWordIds,
   onToggleStarSuccess,
   onShowToast,
+  onRefreshFeed,
+  isRefreshing,
 }: TikTokFeedProps) {
   const { height } = useWindowDimensions();
   // Accounting for the bottom navigation bar (~70px)
@@ -117,6 +121,8 @@ export function TikTokFeed({
         decelerationRate="fast"
         disableIntervalMomentum={true}
         showsVerticalScrollIndicator={false}
+        refreshing={isRefreshing}
+        onRefresh={onRefreshFeed}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={(_, index) => ({

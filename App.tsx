@@ -20,6 +20,7 @@ import Animated, {
 import {
   initializeDatabase,
   getAllWords,
+  getRandomWords,
   getAllSavedWords,
 } from './db';
 import { WordDefinition } from './types/dictionary';
@@ -43,7 +44,9 @@ export default function App() {
 function VocabulaApp() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TabType>('feed');
-  const [words, setWords] = useState<WordDefinition[]>([]);
+  const [feedWords, setFeedWords] = useState<WordDefinition[]>([]);
+  const [dictionaryWords, setDictionaryWords] = useState<WordDefinition[]>([]);
+  const [isRefreshingFeed, setIsRefreshingFeed] = useState(false);
   const [starredWordIds, setStarredWordIds] = useState<Set<string>>(new Set());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -56,12 +59,14 @@ function VocabulaApp() {
   const loadApp = async () => {
     try {
       await initializeDatabase();
-      const [allWords, savedWords] = await Promise.all([
+      const [allWords, randomWords, savedWords] = await Promise.all([
         getAllWords(),
+        getRandomWords(),
         getAllSavedWords(),
       ]);
 
-      setWords(allWords);
+      setDictionaryWords(allWords);
+      setFeedWords(randomWords);
       const starred = new Set(savedWords.map((w) => w.id));
       setStarredWordIds(starred);
 
@@ -71,6 +76,19 @@ function VocabulaApp() {
       console.error('App initialization error:', err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleRefreshFeed = async () => {
+    setIsRefreshingFeed(true);
+    try {
+      const freshWords = await getRandomWords();
+      setFeedWords(freshWords);
+      showToast('🔀 Shuffled Vocabula feed');
+    } catch (err) {
+      console.error('Failed to randomize feed:', err);
+    } finally {
+      setIsRefreshingFeed(false);
     }
   };
 
@@ -128,10 +146,12 @@ function VocabulaApp() {
             className="flex-1"
           >
             <TikTokFeed
-              words={words}
+              words={feedWords}
               starredWordIds={starredWordIds}
               onToggleStarSuccess={handleToggleStarSuccess}
               onShowToast={showToast}
+              onRefreshFeed={handleRefreshFeed}
+              isRefreshing={isRefreshingFeed}
             />
           </Animated.View>
         )}
@@ -144,7 +164,7 @@ function VocabulaApp() {
             className="flex-1"
           >
             <SearchScreen
-              initialWords={words}
+              initialWords={dictionaryWords}
               starredWordIds={starredWordIds}
               onToggleStarSuccess={handleToggleStarSuccess}
               onShowToast={showToast}

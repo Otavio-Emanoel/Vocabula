@@ -267,6 +267,17 @@ export async function getAllWords(): Promise<WordDefinition[]> {
   return rows.map(parseWordRow);
 }
 
+export async function getRandomWords(limit?: number): Promise<WordDefinition[]> {
+  const db = await getDatabase();
+  const query = limit != null
+    ? 'SELECT * FROM words ORDER BY RANDOM() LIMIT ?;'
+    : 'SELECT * FROM words ORDER BY RANDOM();';
+  const rows = limit != null
+    ? await db.getAllAsync<WordRow>(query, limit)
+    : await db.getAllAsync<WordRow>(query);
+  return rows.map(parseWordRow);
+}
+
 export async function getUserDecks(): Promise<UserDeck[]> {
   const db = await getDatabase();
   const rows = await db.getAllAsync<{
