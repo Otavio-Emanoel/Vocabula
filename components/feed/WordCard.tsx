@@ -71,7 +71,7 @@ export function WordCard({
   const firstLetter = (word.word[0] || '').toUpperCase();
 
   return (
-    <View style={[{ height }]} className="w-full justify-between relative px-5 pt-12 pb-24 bg-[#090D16]">
+    <View style={[{ height }]} className="w-full justify-between relative px-5 pt-12 pb-3 bg-[#090D16]">
       {/* Background Watermark Letter for Parallax Depth */}
       <View
         pointerEvents="none"
@@ -100,25 +100,12 @@ export function WordCard({
             LexiPulse Codex
           </Text>
         </View>
-
-        <View className="flex-row items-center bg-slate-900/90 border border-slate-800 rounded-full px-3 py-1">
-          <Text className="text-indigo-400 text-xs font-semibold mr-1.5">Tier {word.difficultyLevel}</Text>
-          <View className="flex-row space-x-0.5">
-            {[1, 2, 3, 4].map((tier) => (
-              <View
-                key={tier}
-                className={`w-1.5 h-1.5 rounded-full ml-0.5 ${
-                  tier <= word.difficultyLevel ? 'bg-indigo-400' : 'bg-slate-750'
-                }`}
-              />
-            ))}
-          </View>
-        </View>
       </View>
 
       {/* Middle Card: Scrollable or adaptive content */}
       <ScrollView
         showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
         className="flex-1 my-4 z-10"
         contentContainerStyle={{ paddingVertical: 10 }}
       >
@@ -216,65 +203,89 @@ export function WordCard({
         )}
       </ScrollView>
 
-      {/* Floating Action Rail (TikTok Style, Right Margin) */}
-      <View className="absolute right-4 bottom-32 flex-col items-center space-y-4 z-20">
-        {/* Pronunciation Audio Button */}
+      {/* Action Bar (Under Card Content - Zero Overlap, Fully Responsive) */}
+      <View className="flex-row items-center justify-between gap-3 pt-2 pb-1 z-10">
+        {/* Audio Pronunciation Button */}
         <TouchableOpacity
           onPress={handlePronounce}
-          activeOpacity={0.8}
-          className={`w-12 h-12 rounded-full items-center justify-center border shadow-lg ${
+          activeOpacity={0.75}
+          className={`flex-1 flex-row items-center justify-center py-2.5 px-3 rounded-2xl border ${
             isSpeaking
-              ? 'bg-indigo-600 border-indigo-400 scale-105'
+              ? 'bg-indigo-600/30 border-indigo-400'
               : 'bg-slate-900/90 border-slate-800'
           }`}
         >
           <Ionicons
             name={isSpeaking ? 'volume-high' : 'volume-medium-outline'}
-            size={22}
-            color={isSpeaking ? '#FFFFFF' : '#818CF8'}
+            size={18}
+            color={isSpeaking ? '#818CF8' : '#A5B4FC'}
           />
+          <Text
+            numberOfLines={1}
+            className={`text-xs font-semibold ml-1.5 ${
+              isSpeaking ? 'text-indigo-300 font-bold' : 'text-slate-300'
+            }`}
+          >
+            {isSpeaking ? 'Playing...' : 'Audio'}
+          </Text>
         </TouchableOpacity>
 
         {/* Save to Folder Button */}
         <TouchableOpacity
           onPress={onOpenFolderModal}
-          activeOpacity={0.8}
-          className={`w-12 h-12 rounded-full items-center justify-center border shadow-lg mt-3 ${
+          activeOpacity={0.75}
+          className={`flex-1 flex-row items-center justify-center py-2.5 px-3 rounded-2xl border ${
             isInAnyFolder
-              ? 'bg-indigo-600 border-indigo-400'
+              ? 'bg-indigo-600/30 border-indigo-400'
               : 'bg-slate-900/90 border-slate-800'
           }`}
         >
           <Ionicons
             name={isInAnyFolder ? 'folder' : 'folder-outline'}
-            size={22}
-            color={isInAnyFolder ? '#FFFFFF' : '#94A3B8'}
+            size={18}
+            color={isInAnyFolder ? '#818CF8' : '#94A3B8'}
           />
+          <Text
+            numberOfLines={1}
+            className={`text-xs font-semibold ml-1.5 ${
+              isInAnyFolder ? 'text-indigo-200' : 'text-slate-300'
+            }`}
+          >
+            Folder
+          </Text>
         </TouchableOpacity>
 
         {/* Star / Bookmark Button */}
         <TouchableOpacity
           onPress={onToggleStar}
-          activeOpacity={0.8}
-          className={`w-12 h-12 rounded-full items-center justify-center border shadow-lg mt-3 ${
+          activeOpacity={0.75}
+          className={`flex-1 flex-row items-center justify-center py-2.5 px-3 rounded-2xl border ${
             isStarred
-              ? 'bg-amber-500/20 border-amber-500/50'
+              ? 'bg-amber-500/20 border-amber-500/60'
               : 'bg-slate-900/90 border-slate-800'
           }`}
         >
           <Ionicons
             name={isStarred ? 'star' : 'star-outline'}
-            size={22}
+            size={18}
             color={isStarred ? Colors.brand.spark : '#94A3B8'}
           />
+          <Text
+            numberOfLines={1}
+            className={`text-xs font-semibold ml-1.5 ${
+              isStarred ? 'text-amber-400 font-bold' : 'text-slate-300'
+            }`}
+          >
+            {isStarred ? 'Saved' : 'Save'}
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Bottom Swipe-Up Affordance */}
-      <View className="items-center justify-center pt-2 z-10">
-        <View className="flex-row items-center space-x-1 opacity-60">
-          <Ionicons name="chevron-up" size={16} color="#94A3B8" />
-          <Text className="text-slate-400 text-xs font-medium ml-1">
+      <View className="items-center justify-center pt-1 z-10">
+        <View className="flex-row items-center opacity-50">
+          <Ionicons name="chevron-up" size={14} color="#94A3B8" />
+          <Text className="text-slate-400 text-[11px] font-medium ml-1">
             Swipe up for next word
           </Text>
         </View>

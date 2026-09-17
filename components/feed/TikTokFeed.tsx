@@ -98,7 +98,7 @@ export function TikTokFeed({
   }
 
   return (
-    <View className="flex-1 bg-[#090D16]">
+    <View className="flex-1 bg-[#090D16]" style={{ marginBottom: 70 }}>
       <FlatList
         data={words}
         keyExtractor={(item) => item.id}
@@ -112,10 +112,10 @@ export function TikTokFeed({
             onOpenFolderModal={() => handleOpenFolderModal(item)}
           />
         )}
-        pagingEnabled
         snapToInterval={cardHeight}
         snapToAlignment="start"
         decelerationRate="fast"
+        disableIntervalMomentum={true}
         showsVerticalScrollIndicator={false}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
