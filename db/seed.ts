@@ -1,6 +1,6 @@
 import { getDatabase } from './client';
 import { SCHEMA_STATEMENTS } from './schema';
-import { AppStorage } from '../services/storage/mmkv';
+import { AppStorage } from '../services/storage';
 import wordsSeed from '../assets/data/words.json';
 import { WordDefinition } from '../types/dictionary';
 
@@ -20,7 +20,7 @@ export async function initializeDatabase(): Promise<void> {
   const isSeeded = (countRow?.count ?? 0) > 0;
 
   if (isSeeded) {
-    AppStorage.setInitialized(true);
+    await AppStorage.setInitialized(true);
     return;
   }
 
@@ -78,5 +78,5 @@ export async function initializeDatabase(): Promise<void> {
     }
   });
 
-  AppStorage.setInitialized(true);
+  await AppStorage.setInitialized(true);
 }

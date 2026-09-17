@@ -49,7 +49,7 @@ LexiPulse/
 │   ├── speech/
 │   │   └── tts.ts                    # expo-speech wrapper & voice config
 │   └── storage/
-│       ├── mmkv.ts                   # Fast synchronous key-value store
+│       ├── appStorage.ts             # Offline preferences & state
 │       └── backup.ts                 # JSON export/import and schema validator
 ├── hooks/                            # Custom React hooks
 │   ├── useSearch.ts                  # FTS5 debounced search-as-you-type
@@ -87,7 +87,7 @@ When scaffolding or installing dependencies, install Expo-compatible native modu
 npx expo install expo-router react-native-safe-area-context react-native-screens expo-status-bar
 
 # Persistence & Storage
-npx expo install expo-sqlite react-native-mmkv
+npx expo install expo-sqlite @react-native-async-storage/async-storage
 
 # Device Native Subsystems
 npx expo install expo-notifications expo-speech expo-sharing expo-document-picker

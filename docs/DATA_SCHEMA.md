@@ -212,9 +212,9 @@ LIMIT 25;
 
 ---
 
-## 4. Key-Value Storage Registry (`react-native-mmkv`)
+## 4. Key-Value Storage Registry (`@react-native-async-storage/async-storage`)
 
-For synchronous, zero-bridge key-value access, LexiPulse uses `react-native-mmkv`.
+For lightweight preferences and offline flags across both Expo Go and standalone builds, LexiPulse uses `@react-native-async-storage/async-storage`.
 
 | Key | Type | Default Value | Purpose |
 | :--- | :--- | :--- | :--- |

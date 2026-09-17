@@ -46,7 +46,7 @@ graph TD
 
     subgraph Storage_Layer ["💾 Local Persistence Layer"]
         SQLITE[(expo-sqlite: Dictionary & Logs)]
-        MMKV[(react-native-mmkv: Fast Preferences & State)]
+        KV[(async-storage: Offline Preferences & State)]
         BUNDLE[Bundled Seed: words.json]
     end
 
@@ -118,7 +118,7 @@ classDiagram
 ```
 
 * **Relational Storage (`expo-sqlite`):** Handles the dictionary, full-text search indexes, spaced repetition history, and relational data. SQLite supports ACID transactions and complex filtering (e.g., retrieving words due for review filtered by difficulty).
-* **Key-Value Storage (`react-native-mmkv`):** Handles synchronous, high-frequency reads and writes for application settings, dark/light theme state, widget payloads, and streak counters. MMKV executes operations via direct C++ JSI bindings, eliminating bridge overhead.
+* **Key-Value Storage (`@react-native-async-storage/async-storage`):** Handles asynchronous reads and writes for application settings, notification schedules, and streak counters across both Expo Go and standalone native builds.
 * **Static Asset (`words.json`):** Bundled into the app binary during compilation. Serves as the immutable seed source during initial cold boot hydration.
 
 ---
