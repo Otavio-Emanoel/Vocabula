@@ -11,7 +11,11 @@ import {
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  LinearTransition,
+} from 'react-native-reanimated';
 import {
   getAppStats,
   getUserDecks,
@@ -193,7 +197,7 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
           <View className="flex-row items-center space-x-3">
             <View className="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 items-center justify-center mr-3 shadow-lg">
               <Text className="text-indigo-400 font-serif font-black text-2xl">
-                LP
+                VB
               </Text>
             </View>
             <View>
@@ -215,10 +219,13 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
           </View>
         </View>
 
-        {/* 4-Stat Metric Grid */}
+        {/* 4-Stat Metric Grid with Staggered Fluid Springs */}
         <View className="flex-row flex-wrap justify-between gap-y-3 mb-6">
           {/* Words Seen */}
-          <View className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+          <Animated.View
+            entering={FadeInDown.delay(50).duration(350).springify().damping(15)}
+            className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4"
+          >
             <View className="flex-row items-center justify-between mb-2">
               <Ionicons name="eye-outline" size={20} color="#818CF8" />
               <Text className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
@@ -231,10 +238,13 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
             <Text className="text-slate-400 text-xs mt-0.5">
               of {stats.totalWords} words explored
             </Text>
-          </View>
+          </Animated.View>
 
           {/* Saved Words */}
-          <View className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+          <Animated.View
+            entering={FadeInDown.delay(110).duration(350).springify().damping(15)}
+            className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4"
+          >
             <View className="flex-row items-center justify-between mb-2">
               <Ionicons name="bookmark-outline" size={20} color="#FBBF24" />
               <Text className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
@@ -247,10 +257,13 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
             <Text className="text-slate-400 text-xs mt-0.5">
               bookmarked words
             </Text>
-          </View>
+          </Animated.View>
 
           {/* Custom Folders */}
-          <View className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+          <Animated.View
+            entering={FadeInDown.delay(170).duration(350).springify().damping(15)}
+            className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4"
+          >
             <View className="flex-row items-center justify-between mb-2">
               <Ionicons name="folder-outline" size={20} color="#34D399" />
               <Text className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
@@ -263,10 +276,13 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
             <Text className="text-slate-400 text-xs mt-0.5">
               custom collections
             </Text>
-          </View>
+          </Animated.View>
 
           {/* Completion Progress */}
-          <View className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4">
+          <Animated.View
+            entering={FadeInDown.delay(230).duration(350).springify().damping(15)}
+            className="w-[48%] bg-slate-900/80 border border-slate-800 rounded-2xl p-4"
+          >
             <View className="flex-row items-center justify-between mb-2">
               <Ionicons name="pie-chart-outline" size={20} color="#A78BFA" />
               <Text className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
@@ -282,7 +298,7 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
             <Text className="text-slate-400 text-xs mt-0.5">
               of full dictionary
             </Text>
-          </View>
+          </Animated.View>
         </View>
 
         {/* Notification Delivery Settings Section */}
@@ -442,8 +458,9 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
           {decks.map((deck) => {
             const isOpened = selectedDeck?.id === deck.id;
             return (
-              <View
+              <Animated.View
                 key={deck.id}
+                layout={LinearTransition.springify().damping(16).stiffness(160)}
                 className="bg-slate-900/80 border border-slate-800 rounded-2xl mb-2.5 overflow-hidden"
               >
                 <TouchableOpacity
@@ -477,7 +494,10 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
 
                 {/* Expanded Words in Folder */}
                 {isOpened && (
-                  <View className="px-4 pb-4 pt-1 border-t border-slate-800/60 bg-slate-950/40">
+                  <Animated.View
+                    entering={FadeInDown.duration(200)}
+                    className="px-4 pb-4 pt-1 border-t border-slate-800/60 bg-slate-950/40"
+                  >
                     <View className="flex-row items-center justify-between mb-2">
                       <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
                         Words in this folder
@@ -523,9 +543,9 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
                         </View>
                       ))
                     )}
-                  </View>
+                  </Animated.View>
                 )}
-              </View>
+              </Animated.View>
             );
           })}
         </View>
@@ -556,8 +576,9 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
             </View>
           ) : (
             savedWords.map((sw) => (
-              <View
+              <Animated.View
                 key={sw.id}
+                layout={LinearTransition.springify().damping(16)}
                 className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 mb-2 flex-row items-center justify-between"
               >
                 <View className="flex-1 mr-2">
@@ -589,7 +610,7 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
                     <Ionicons name="star" size={16} color={Colors.brand.spark} />
                   </TouchableOpacity>
                 </View>
-              </View>
+              </Animated.View>
             ))
           )}
         </View>

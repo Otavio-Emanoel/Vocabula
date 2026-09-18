@@ -1,12 +1,16 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View,
-  FlatList,
   useWindowDimensions,
   ViewToken,
   ActivityIndicator,
   Text,
+  Platform,
 } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+} from 'react-native-reanimated';
 import { WordDefinition } from '../../types/dictionary';
 import { WordCard } from './WordCard';
 import { FolderModal } from '../modals/FolderModal';
@@ -36,6 +40,13 @@ export function TikTokFeed({
   const { height } = useWindowDimensions();
   // Accounting for the bottom navigation bar (~70px)
   const cardHeight = height - 70;
+
+  const scrollY = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
 
   const [selectedWordForFolder, setSelectedWordForFolder] = useState<WordDefinition | null>(null);
   const [folderModalVisible, setFolderModalVisible] = useState(false);
@@ -103,12 +114,14 @@ export function TikTokFeed({
 
   return (
     <View className="flex-1 bg-[#090D16]" style={{ marginBottom: 70 }}>
-      <FlatList
+      <Animated.FlatList
         data={words}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <WordCard
             word={item}
+            index={index}
+            scrollY={scrollY}
             height={cardHeight}
             isStarred={starredWordIds.has(item.id)}
             isInAnyFolder={!!folderMap[item.id]}
@@ -116,6 +129,8 @@ export function TikTokFeed({
             onOpenFolderModal={() => handleOpenFolderModal(item)}
           />
         )}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
         snapToInterval={cardHeight}
         snapToAlignment="start"
         decelerationRate="fast"
@@ -133,6 +148,7 @@ export function TikTokFeed({
         initialNumToRender={2}
         maxToRenderPerBatch={3}
         windowSize={5}
+        removeClippedSubviews={Platform.OS === 'android'}
       />
 
       <FolderModal

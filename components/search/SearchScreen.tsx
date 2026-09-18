@@ -9,7 +9,11 @@ import {
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
-import Animated, { FadeIn, FadeInDown, SlideInDown } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeInDown,
+  LinearTransition,
+} from 'react-native-reanimated';
 import { WordDefinition } from '../../types/dictionary';
 import { searchWords, toggleStarWord } from '../../db/queries';
 import { FolderModal } from '../modals/FolderModal';
@@ -176,6 +180,7 @@ export function SearchScreen({
 
           return (
             <Animated.View
+              layout={LinearTransition.springify().damping(16).stiffness(160)}
               entering={FadeInDown.delay(Math.min(index * 35, 300)).duration(200)}
               className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-4 mb-3"
             >
@@ -241,9 +246,12 @@ export function SearchScreen({
                   </View>
                 </View>
 
-                {/* Expanded Details */}
+                {/* Expanded Details with Smooth Fade */}
                 {isExpanded && (
-                  <View className="mt-3 pt-3 border-t border-slate-800/80">
+                  <Animated.View
+                    entering={FadeInDown.duration(200)}
+                    className="mt-3 pt-3 border-t border-slate-800/80"
+                  >
                     {item.translations?.pt && (
                       <View className="mb-2">
                         <Text className="text-indigo-400 text-xs font-semibold uppercase tracking-wider">
@@ -282,7 +290,7 @@ export function SearchScreen({
                         Origin: {item.etymology}
                       </Text>
                     )}
-                  </View>
+                  </Animated.View>
                 )}
               </TouchableOpacity>
             </Animated.View>

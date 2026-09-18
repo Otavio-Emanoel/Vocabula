@@ -4,17 +4,22 @@ import { StatusBar } from 'expo-status-bar';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   ActivityIndicator,
   StyleSheet,
   Platform,
+  LayoutChangeEvent,
 } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   FadeIn,
   FadeOut,
   SlideInUp,
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 import {
@@ -33,6 +38,19 @@ import { ProfileScreen } from './components/profile/ProfileScreen';
 
 type TabType = 'feed' | 'search' | 'profile';
 
+interface TabItemConfig {
+  id: TabType;
+  label: string;
+  iconActive: keyof typeof Ionicons.glyphMap;
+  iconInactive: keyof typeof Ionicons.glyphMap;
+}
+
+const TABS: TabItemConfig[] = [
+  { id: 'feed', label: 'Feed', iconActive: 'book', iconInactive: 'book-outline' },
+  { id: 'search', label: 'Search', iconActive: 'search', iconInactive: 'search-outline' },
+  { id: 'profile', label: 'Profile', iconActive: 'person', iconInactive: 'person-outline' },
+];
+
 export default function App() {
   return (
     <SafeAreaProvider>
@@ -50,11 +68,24 @@ function VocabulaApp() {
   const [starredWordIds, setStarredWordIds] = useState<Set<string>>(new Set());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Layout width for bottom bar sliding indicator
+  const [barWidth, setBarWidth] = useState(0);
+  const tabIndicatorPos = useSharedValue(0);
+
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     loadApp();
   }, []);
+
+  const handleTabPress = (tab: TabType, index: number) => {
+    setActiveTab(tab);
+    tabIndicatorPos.value = withSpring(index, {
+      damping: 22,
+      stiffness: 240,
+      mass: 0.8,
+    });
+  };
 
   const loadApp = async () => {
     try {
@@ -113,6 +144,19 @@ function VocabulaApp() {
       return next;
     });
   };
+
+  const indicatorAnimatedStyle = useAnimatedStyle(() => {
+    if (barWidth === 0) return {};
+    const tabWidth = barWidth / TABS.length;
+    return {
+      transform: [
+        {
+          translateX: tabIndicatorPos.value * tabWidth,
+        },
+      ],
+      width: tabWidth,
+    };
+  });
 
   if (isLoading) {
     return (
@@ -200,67 +244,53 @@ function VocabulaApp() {
         </Animated.View>
       )}
 
-      {/* Floating Bottom Navigation Bar */}
-      <View className="absolute bottom-0 left-0 right-0 h-[70px] bg-[#090D16]/95 border-t border-slate-800/80 px-8 flex-row items-center justify-around z-40">
-        {/* Feed Tab */}
-        <TouchableOpacity
-          onPress={() => setActiveTab('feed')}
-          activeOpacity={0.7}
-          className="items-center justify-center py-1"
-        >
-          <Ionicons
-            name={activeTab === 'feed' ? 'book' : 'book-outline'}
-            size={22}
-            color={activeTab === 'feed' ? Colors.brand.glow : '#64748B'}
-          />
-          <Text
-            className={`text-[10px] font-semibold mt-1 tracking-wider ${
-              activeTab === 'feed' ? 'text-indigo-400' : 'text-slate-500'
-            }`}
+      {/* Floating Fluid Bottom Navigation Bar */}
+      <View
+        onLayout={(e: LayoutChangeEvent) => setBarWidth(e.nativeEvent.layout.width)}
+        className="absolute bottom-0 left-0 right-0 h-[72px] bg-[#090D16]/95 border-t border-slate-800/80 flex-row items-center justify-around z-40 overflow-hidden"
+      >
+        {/* Animated Sliding Pill Indicator */}
+        {barWidth > 0 && (
+          <Animated.View
+            style={[
+              indicatorAnimatedStyle,
+              {
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            ]}
           >
-            Feed
-          </Text>
-        </TouchableOpacity>
+            <View className="h-12 w-[82%] rounded-2xl bg-indigo-600/15 border border-indigo-500/30" />
+          </Animated.View>
+        )}
 
-        {/* Search Tab */}
-        <TouchableOpacity
-          onPress={() => setActiveTab('search')}
-          activeOpacity={0.7}
-          className="items-center justify-center py-1"
-        >
-          <Ionicons
-            name={activeTab === 'search' ? 'search' : 'search-outline'}
-            size={22}
-            color={activeTab === 'search' ? Colors.brand.glow : '#64748B'}
-          />
-          <Text
-            className={`text-[10px] font-semibold mt-1 tracking-wider ${
-              activeTab === 'search' ? 'text-indigo-400' : 'text-slate-500'
-            }`}
-          >
-            Search
-          </Text>
-        </TouchableOpacity>
-
-        {/* Profile Tab */}
-        <TouchableOpacity
-          onPress={() => setActiveTab('profile')}
-          activeOpacity={0.7}
-          className="items-center justify-center py-1"
-        >
-          <Ionicons
-            name={activeTab === 'profile' ? 'person' : 'person-outline'}
-            size={22}
-            color={activeTab === 'profile' ? Colors.brand.glow : '#64748B'}
-          />
-          <Text
-            className={`text-[10px] font-semibold mt-1 tracking-wider ${
-              activeTab === 'profile' ? 'text-indigo-400' : 'text-slate-500'
-            }`}
-          >
-            Profile
-          </Text>
-        </TouchableOpacity>
+        {/* Tab Buttons with tactile physics */}
+        {TABS.map((tab, idx) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <Pressable
+              key={tab.id}
+              onPress={() => handleTabPress(tab.id, idx)}
+              className="flex-1 items-center justify-center py-2 h-full z-10"
+            >
+              <Ionicons
+                name={isActive ? tab.iconActive : tab.iconInactive}
+                size={22}
+                color={isActive ? Colors.brand.glow : '#64748B'}
+              />
+              <Text
+                className={`text-[11px] font-semibold mt-1 tracking-wider ${
+                  isActive ? 'text-indigo-300 font-bold' : 'text-slate-500'
+                }`}
+              >
+                {tab.label}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );
