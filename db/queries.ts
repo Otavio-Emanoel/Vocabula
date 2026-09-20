@@ -56,7 +56,7 @@ function parseProgressRow(row: ProgressRow): UserWordProgress {
   };
 }
 
-export async function searchWords(query: string, limit: number = 25): Promise<WordDefinition[]> {
+export async function searchWords(query: string, limit: number = 30): Promise<WordDefinition[]> {
   const db = await getDatabase();
   const trimmed = query.trim();
 
@@ -68,19 +68,46 @@ export async function searchWords(query: string, limit: number = 25): Promise<Wo
     return rows.map(parseWordRow);
   }
 
-  // FTS5 prefix search
-  const rows = await db.getAllAsync<WordRow>(
-    `SELECT w.*
-     FROM words w
-     JOIN words_fts fts ON w.id = fts.id
-     WHERE words_fts MATCH ? || '*'
-     ORDER BY rank
-     LIMIT ?;`,
-    trimmed,
-    limit
-  );
-
-  return rows.map(parseWordRow);
+  // Bilingual search: Match FTS5 (English headword, definition, nuance, tags)
+  // as well as translations_json (Portuguese translation)
+  try {
+    const rows = await db.getAllAsync<WordRow>(
+      `SELECT DISTINCT w.*
+       FROM words w
+       WHERE w.id IN (
+         SELECT id FROM words_fts WHERE words_fts MATCH ? || '*'
+       )
+       OR w.translations_json LIKE '%' || ? || '%'
+       OR w.word LIKE '%' || ? || '%'
+       ORDER BY
+         CASE WHEN LOWER(w.word) = LOWER(?) THEN 0
+              WHEN LOWER(w.word) LIKE LOWER(?) || '%' THEN 1
+              ELSE 2 END,
+         w.word ASC
+       LIMIT ?;`,
+      trimmed,
+      trimmed,
+      trimmed,
+      trimmed,
+      trimmed,
+      limit
+    );
+    return rows.map(parseWordRow);
+  } catch (err) {
+    // Fallback to LIKE if FTS query syntax error occurs
+    const rows = await db.getAllAsync<WordRow>(
+      `SELECT * FROM words
+       WHERE word LIKE '%' || ? || '%'
+          OR short_definition LIKE '%' || ? || '%'
+          OR translations_json LIKE '%' || ? || '%'
+       ORDER BY word ASC LIMIT ?;`,
+      trimmed,
+      trimmed,
+      trimmed,
+      limit
+    );
+    return rows.map(parseWordRow);
+  }
 }
 
 export async function getWordById(
@@ -454,4 +481,60 @@ export async function getAppStats(): Promise<{
     totalWords: totalRow?.count ?? 0,
   };
 }
+
+export interface PracticeFilter {
+  deckId?: string;
+  starredOnly?: boolean;
+  limit?: number;
+}
+
+export async function getWordsForPractice(filter?: PracticeFilter): Promise<WordDefinition[]> {
+  const db = await getDatabase();
+  const limit = filter?.limit ?? 15;
+
+  if (filter?.deckId) {
+    const rows = await db.getAllAsync<WordRow>(
+      `SELECT w.*
+       FROM words w
+       JOIN deck_words dw ON w.id = dw.word_id
+       WHERE dw.deck_id = ?
+       ORDER BY RANDOM()
+       LIMIT ?;`,
+      filter.deckId,
+      limit
+    );
+    return rows.map(parseWordRow);
+  }
+
+  if (filter?.starredOnly) {
+    const rows = await db.getAllAsync<WordRow>(
+      `SELECT w.*
+       FROM words w
+       JOIN user_word_progress p ON w.id = p.word_id
+       WHERE p.is_starred = 1
+       ORDER BY RANDOM()
+       LIMIT ?;`,
+      limit
+    );
+    return rows.map(parseWordRow);
+  }
+
+  // Default: mix of due/learning words and random words
+  const rows = await db.getAllAsync<WordRow>(
+    `SELECT w.*
+     FROM words w
+     LEFT JOIN user_word_progress p ON w.id = p.word_id
+     ORDER BY
+       CASE WHEN p.status = 'learning' THEN 0
+            WHEN p.next_review_at <= ? THEN 1
+            ELSE 2 END,
+       RANDOM()
+     LIMIT ?;`,
+    Date.now(),
+    limit
+  );
+
+  return rows.map(parseWordRow);
+}
+
 

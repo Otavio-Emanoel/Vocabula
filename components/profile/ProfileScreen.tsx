@@ -24,6 +24,7 @@ import {
   deleteUserDeck,
   toggleStarWord,
   UserDeck,
+  PracticeFilter,
 } from '../../db/queries';
 import { WordDefinition } from '../../types/dictionary';
 import { AppStorage } from '../../services/storage';
@@ -33,12 +34,13 @@ import { Colors } from '../../constants/theme';
 interface ProfileScreenProps {
   onShowToast?: (msg: string) => void;
   onRefreshData?: () => void;
+  onStartPractice?: (filter?: PracticeFilter, title?: string) => void;
 }
 
 const TIME_PRESETS = ['08:00', '12:30', '19:00', '21:30'];
 const FREQUENCY_OPTIONS = [1, 2, 3];
 
-export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps) {
+export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: ProfileScreenProps) {
   const [stats, setStats] = useState({
     seenCount: 0,
     savedCount: 0,
@@ -219,6 +221,59 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
           </View>
         </View>
 
+        {/* Quick Flashcard Practice Hero Banner */}
+        <Animated.View
+          entering={FadeInDown.delay(30).duration(300)}
+          className="bg-indigo-950/40 border border-indigo-500/30 rounded-3xl p-5 mb-6 shadow-xl"
+        >
+          <View className="flex-row items-center justify-between">
+            <View className="flex-1 mr-3">
+              <View className="flex-row items-center space-x-1.5 mb-1">
+                <Ionicons name="flash" size={16} color="#FBBF24" />
+                <Text className="text-amber-400 text-xs font-bold uppercase tracking-wider ml-1">
+                  Active Recall
+                </Text>
+              </View>
+              <Text className="text-white text-lg font-serif font-bold">
+                Spaced Repetition Study
+              </Text>
+              <Text className="text-slate-300 text-xs mt-1 leading-relaxed">
+                Train your memory with the SM-2 algorithm and interactive flashcards.
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => onStartPractice?.({ limit: 20 }, 'Full Vocabulary Deck')}
+              className="bg-indigo-600 px-4 py-3 rounded-2xl flex-row items-center shadow-lg active:bg-indigo-500"
+            >
+              <Ionicons name="play" size={16} color="#FFFFFF" />
+              <Text className="text-white font-bold text-xs ml-1.5">Study</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Quick Study Pill Row */}
+          <View className="flex-row items-center mt-3 pt-3 border-t border-indigo-500/20 gap-2">
+            <TouchableOpacity
+              onPress={() => onStartPractice?.({ starredOnly: true }, '⭐ Starred Words')}
+              className="flex-row items-center bg-slate-900/90 border border-amber-500/30 px-3 py-1.5 rounded-full"
+            >
+              <Ionicons name="star" size={13} color="#FBBF24" />
+              <Text className="text-amber-300 text-xs font-semibold ml-1">
+                Review Starred ({savedWords.length})
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => onStartPractice?.({ limit: 20 }, 'Random Mix')}
+              className="flex-row items-center bg-slate-900/90 border border-indigo-500/30 px-3 py-1.5 rounded-full"
+            >
+              <Ionicons name="shuffle" size={13} color="#818CF8" />
+              <Text className="text-indigo-300 text-xs font-semibold ml-1">
+                Random Mix (20)
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+
         {/* 4-Stat Metric Grid with Staggered Fluid Springs */}
         <View className="flex-row flex-wrap justify-between gap-y-3 mb-6">
           {/* Words Seen */}
@@ -295,7 +350,16 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
                 : 0}
               %
             </Text>
-            <Text className="text-slate-400 text-xs mt-0.5">
+            {/* Visual Progress Bar */}
+            <View className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+              <View
+                className="bg-indigo-500 h-full rounded-full"
+                style={{
+                  width: `${stats.totalWords > 0 ? Math.min(100, Math.round((stats.seenCount / stats.totalWords) * 100)) : 0}%`,
+                }}
+              />
+            </View>
+            <Text className="text-slate-400 text-xs mt-1">
               of full dictionary
             </Text>
           </Animated.View>
@@ -502,15 +566,26 @@ export function ProfileScreen({ onShowToast, onRefreshData }: ProfileScreenProps
                       <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
                         Words in this folder
                       </Text>
-                      {!deck.id.startsWith('deck_favorites') && (
-                        <TouchableOpacity
-                          onPress={() => handleDeleteDeck(deck.id, deck.name)}
-                          className="flex-row items-center"
-                        >
-                          <Ionicons name="trash-outline" size={14} color="#F87171" />
-                          <Text className="text-red-400 text-xs ml-1">Delete Folder</Text>
-                        </TouchableOpacity>
-                      )}
+                      <View className="flex-row items-center">
+                        {deckWords.length > 0 && (
+                          <TouchableOpacity
+                            onPress={() => onStartPractice?.({ deckId: deck.id }, deck.name)}
+                            className="flex-row items-center bg-indigo-600/30 border border-indigo-500/50 px-2.5 py-1 rounded-lg mr-2"
+                          >
+                            <Ionicons name="flash-outline" size={13} color="#A5B4FC" />
+                            <Text className="text-indigo-200 text-xs font-semibold ml-1">Study Deck</Text>
+                          </TouchableOpacity>
+                        )}
+                        {!deck.id.startsWith('deck_favorites') && (
+                          <TouchableOpacity
+                            onPress={() => handleDeleteDeck(deck.id, deck.name)}
+                            className="flex-row items-center"
+                          >
+                            <Ionicons name="trash-outline" size={14} color="#F87171" />
+                            <Text className="text-red-400 text-xs ml-1">Delete</Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
                     </View>
 
                     {deckWords.length === 0 ? (

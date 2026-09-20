@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Share,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
@@ -26,7 +27,7 @@ interface SearchScreenProps {
   onShowToast?: (msg: string) => void;
 }
 
-const CATEGORY_CHIPS = ['All', 'Noun', 'Verb', 'Adjective', 'Tier 1', 'Tier 2', 'Tier 3', 'Tier 4'];
+const CATEGORY_CHIPS = ['All', '⭐ Starred', 'Noun', 'Verb', 'Adjective', 'Tier 1', 'Tier 2', 'Tier 3', 'Tier 4'];
 
 export function SearchScreen({
   initialWords,
@@ -61,7 +62,9 @@ export function SearchScreen({
       // Apply Filter Pill
       let filtered = baseWords;
       if (filter !== 'All') {
-        if (filter.startsWith('Tier')) {
+        if (filter === '⭐ Starred') {
+          filtered = filtered.filter((w) => starredWordIds.has(w.id));
+        } else if (filter.startsWith('Tier')) {
           const tierNum = parseInt(filter.replace('Tier ', ''), 10);
           filtered = filtered.filter((w) => w.difficultyLevel === tierNum);
         } else {
@@ -91,6 +94,18 @@ export function SearchScreen({
       onShowToast?.(newState ? `⭐ "${word.word}" bookmarked` : `Removed "${word.word}"`);
     } catch (err) {
       console.error('Error toggling star:', err);
+    }
+  };
+
+  const handleShareWord = async (word: WordDefinition) => {
+    try {
+      const shareText = `✨ *${word.word}* [${word.phonetic || ''}] (${word.partOfSpeech})\n\n📖 ${word.shortDefinition}\n${word.translations?.pt ? `🇧🇷 ${word.translations.pt}\n` : ''}${word.examples?.[0]?.sentence ? `\n💡 "${word.examples[0].sentence}"` : ''}\n\n— Discovered via Vocabula`;
+      await Share.share({
+        message: shareText,
+        title: `Vocabula Word: ${word.word}`,
+      });
+    } catch (err) {
+      console.error('Error sharing word:', err);
     }
   };
 
@@ -229,6 +244,13 @@ export function SearchScreen({
                       className="w-8 h-8 rounded-full bg-slate-800 items-center justify-center mr-1"
                     >
                       <Ionicons name="folder-outline" size={16} color="#94A3B8" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => handleShareWord(item)}
+                      className="w-8 h-8 rounded-full bg-slate-800 items-center justify-center mr-1"
+                    >
+                      <Ionicons name="share-social-outline" size={15} color="#94A3B8" />
                     </TouchableOpacity>
 
                     <TouchableOpacity

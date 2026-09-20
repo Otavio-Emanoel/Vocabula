@@ -35,6 +35,8 @@ import { Colors } from './constants/theme';
 import { TikTokFeed } from './components/feed/TikTokFeed';
 import { SearchScreen } from './components/search/SearchScreen';
 import { ProfileScreen } from './components/profile/ProfileScreen';
+import { FlashcardReviewModal } from './components/modals/FlashcardReviewModal';
+import { PracticeFilter } from './db/queries';
 
 type TabType = 'feed' | 'search' | 'profile';
 
@@ -68,6 +70,11 @@ function VocabulaApp() {
   const [starredWordIds, setStarredWordIds] = useState<Set<string>>(new Set());
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Practice Flashcards Modal State
+  const [isPracticeModalVisible, setIsPracticeModalVisible] = useState(false);
+  const [practiceFilter, setPracticeFilter] = useState<PracticeFilter | undefined>(undefined);
+  const [practiceDeckTitle, setPracticeDeckTitle] = useState<string | undefined>(undefined);
+
   // Layout width for bottom bar sliding indicator
   const [barWidth, setBarWidth] = useState(0);
   const tabIndicatorPos = useSharedValue(0);
@@ -77,6 +84,12 @@ function VocabulaApp() {
   useEffect(() => {
     loadApp();
   }, []);
+
+  const handleStartPractice = (filter?: PracticeFilter, title?: string) => {
+    setPracticeFilter(filter);
+    setPracticeDeckTitle(title);
+    setIsPracticeModalVisible(true);
+  };
 
   const handleTabPress = (tab: TabType, index: number) => {
     setActiveTab(tab);
@@ -226,6 +239,7 @@ function VocabulaApp() {
             <ProfileScreen
               onShowToast={showToast}
               onRefreshData={loadApp}
+              onStartPractice={handleStartPractice}
             />
           </Animated.View>
         )}
@@ -292,6 +306,18 @@ function VocabulaApp() {
           );
         })}
       </View>
+
+      {/* Interactive Spaced Repetition (SM-2) Flashcard Study Modal */}
+      <FlashcardReviewModal
+        visible={isPracticeModalVisible}
+        onClose={() => setIsPracticeModalVisible(false)}
+        filter={practiceFilter}
+        sessionTitle={practiceDeckTitle}
+        onSessionComplete={() => {
+          loadApp();
+          showToast('🎉 Flashcard study session completed!');
+        }}
+      />
     </View>
   );
 }

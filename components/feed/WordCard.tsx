@@ -4,6 +4,8 @@ import {
   Text,
   ScrollView,
   Pressable,
+  Share,
+  TouchableOpacity,
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
@@ -107,6 +109,21 @@ export function WordCard({
     onToggleStar();
   };
 
+  const handleShareWord = async () => {
+    try {
+      const shareText = `✨ Vocabula Codex\n\n` +
+        `📖 ${word.word} ${word.phonetic} (${word.partOfSpeech})\n` +
+        `"${word.shortDefinition}"\n` +
+        (word.translations?.pt ? `Tradução: ${word.translations.pt}\n` : '') +
+        (word.examples?.[0] ? `Exemplo: "${word.examples[0].sentence}"\n` : '') +
+        `\nOffline Vocabulary Codex`;
+
+      await Share.share({ message: shareText });
+    } catch (err) {
+      console.error('Share error:', err);
+    }
+  };
+
   // Parallax Card Container style
   const cardAnimatedStyle = useAnimatedStyle(() => {
     if (!scrollY || index === undefined) {
@@ -193,15 +210,15 @@ export function WordCard({
   const getPartOfSpeechColor = (pos: string) => {
     switch (pos.toLowerCase()) {
       case 'noun':
-        return { bg: 'bg-indigo-500/20', text: 'text-indigo-400', border: 'border-indigo-500/30' };
+        return { bg: 'bg-emerald-950/60', text: 'text-emerald-300', border: 'border-emerald-500/40' };
       case 'verb':
-        return { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/30' };
+        return { bg: 'bg-indigo-950/60', text: 'text-indigo-300', border: 'border-indigo-500/40' };
       case 'adjective':
-        return { bg: 'bg-amber-500/20', text: 'text-amber-400', border: 'border-amber-500/30' };
+        return { bg: 'bg-amber-950/60', text: 'text-amber-300', border: 'border-amber-500/40' };
       case 'adverb':
-        return { bg: 'bg-rose-500/20', text: 'text-rose-400', border: 'border-rose-500/30' };
+        return { bg: 'bg-rose-950/60', text: 'text-rose-300', border: 'border-rose-500/40' };
       default:
-        return { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' };
+        return { bg: 'bg-purple-950/60', text: 'text-purple-300', border: 'border-purple-500/40' };
     }
   };
 
@@ -236,7 +253,7 @@ export function WordCard({
         className="absolute bottom-1/3 -right-20 w-80 h-80 rounded-full bg-violet-600/15 blur-3xl"
       />
 
-      {/* Top Header info */}
+      {/* Top Header info with Quick Share */}
       <View className="flex-row items-center justify-between z-10">
         <View className="flex-row items-center space-x-2">
           <View className="w-2 h-2 rounded-full bg-indigo-400 mr-2" />
@@ -244,6 +261,15 @@ export function WordCard({
             Vocabula Codex
           </Text>
         </View>
+
+        <TouchableOpacity
+          onPress={handleShareWord}
+          activeOpacity={0.7}
+          className="flex-row items-center bg-slate-900/90 border border-slate-800 rounded-full px-2.5 py-1"
+        >
+          <Ionicons name="share-outline" size={13} color="#A5B4FC" />
+          <Text className="text-[11px] font-medium text-slate-300 ml-1">Share</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Middle Card: Scrollable or adaptive content */}
