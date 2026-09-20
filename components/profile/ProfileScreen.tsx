@@ -30,6 +30,7 @@ import { WordDefinition } from '../../types/dictionary';
 import { AppStorage } from '../../services/storage';
 import { NotificationService } from '../../services/notifications/notificationService';
 import { SpeechService, SpeechSpeed, SPEECH_RATES } from '../../services/audio/speechService';
+import { BackupService } from '../../services/backup/backupService';
 import { Colors } from '../../constants/theme';
 
 interface ProfileScreenProps {
@@ -66,11 +67,25 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   const [notificationFreq, setNotificationFreq] = useState(1);
   const [streak, setStreak] = useState(1);
   const [speechSpeed, setSpeechSpeed] = useState<SpeechSpeed>('normal');
+  const [isExporting, setIsExporting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loadProfileData();
   }, []);
+
+  const handleExportBackup = async () => {
+    setIsExporting(true);
+    try {
+      await BackupService.shareBackup();
+      onShowToast?.('📦 Offline backup ready to share or save');
+    } catch (err) {
+      console.error('Failed to export backup:', err);
+      onShowToast?.('Could not complete backup export');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const loadProfileData = async () => {
     setIsLoading(true);
@@ -749,6 +764,44 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
               </Animated.View>
             ))
           )}
+        </View>
+
+        {/* Offline Backup & Data Export Section */}
+        <View className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 mb-10 shadow-xl">
+          <View className="flex-row items-center space-x-2 mb-2">
+            <View className="w-8 h-8 rounded-full bg-emerald-500/20 items-center justify-center mr-2">
+              <Ionicons name="cloud-download-outline" size={18} color="#34D399" />
+            </View>
+            <View className="flex-1">
+              <Text className="text-white text-base font-semibold">
+                Offline Backup & Export
+              </Text>
+              <Text className="text-slate-400 text-xs">
+                Export folders, bookmarks, and review history to JSON
+              </Text>
+            </View>
+          </View>
+
+          <Text className="text-slate-400 text-xs mt-1 mb-4 leading-relaxed">
+            Your vocabulary and progress are 100% private and stored on device. You can export a full JSON snapshot at any time to keep a personal backup.
+          </Text>
+
+          <TouchableOpacity
+            onPress={handleExportBackup}
+            disabled={isExporting}
+            className="flex-row items-center justify-center bg-emerald-600/20 border border-emerald-500/40 py-3 rounded-2xl active:bg-emerald-600/30"
+          >
+            {isExporting ? (
+              <ActivityIndicator size="small" color="#34D399" />
+            ) : (
+              <>
+                <Ionicons name="share-outline" size={18} color="#34D399" />
+                <Text className="text-emerald-300 text-xs font-bold ml-2">
+                  Export JSON Backup ({savedWords.length} saved, {decks.length} folders)
+                </Text>
+              </>
+            )}
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </Animated.View>
