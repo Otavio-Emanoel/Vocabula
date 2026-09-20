@@ -7,6 +7,7 @@ import {
   FlatList,
   ActivityIndicator,
   Share,
+  ScrollView,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
@@ -20,6 +21,7 @@ import { searchWords, toggleStarWord } from '../../db/queries';
 import { FolderModal } from '../modals/FolderModal';
 import { SpeechService } from '../../services/audio/speechService';
 import { DailyService } from '../../services/learning/dailyService';
+import { AppStorage } from '../../services/storage';
 import { Colors } from '../../constants/theme';
 
 interface SearchScreenProps {
@@ -51,6 +53,21 @@ export function SearchScreen({
   // Folder modal state
   const [folderWord, setFolderWord] = useState<WordDefinition | null>(null);
   const [isFolderModalVisible, setIsFolderModalVisible] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  useEffect(() => {
+    loadRecentSearches();
+  }, []);
+
+  const loadRecentSearches = async () => {
+    const list = await AppStorage.getRecentSearches();
+    setRecentSearches(list);
+  };
+
+  const handleClearRecentSearches = async () => {
+    await AppStorage.clearRecentSearches();
+    setRecentSearches([]);
+  };
 
   useEffect(() => {
     handleSearch(query, selectedFilter);
@@ -59,6 +76,9 @@ export function SearchScreen({
   const handleSearch = async (text: string, filter: string) => {
     setIsSearching(true);
     try {
+      if (text.trim().length >= 2) {
+        AppStorage.addRecentSearch(text.trim()).then(loadRecentSearches);
+      }
       let baseWords: WordDefinition[];
       if (!text.trim()) {
         baseWords = initialWords;
@@ -149,6 +169,30 @@ export function SearchScreen({
           </TouchableOpacity>
         )}
       </View>
+
+      {/* Recent Searches Quick Pills */}
+      {!query && recentSearches.length > 0 && (
+        <View className="flex-row items-center mb-3 px-1">
+          <View className="flex-row items-center mr-2">
+            <Ionicons name="time-outline" size={14} color="#64748B" />
+            <Text className="text-slate-500 text-[11px] font-semibold ml-1">Recent:</Text>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
+            {recentSearches.map((item) => (
+              <TouchableOpacity
+                key={item}
+                onPress={() => setQuery(item)}
+                className="bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg mr-1.5"
+              >
+                <Text className="text-slate-300 text-xs">{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <TouchableOpacity onPress={handleClearRecentSearches} className="p-1 ml-1">
+            <Ionicons name="trash-outline" size={14} color="#64748B" />
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Word of the Day Hero Banner */}
       {!query && selectedFilter === 'All' && wordOfTheDay && (

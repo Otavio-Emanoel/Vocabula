@@ -12,6 +12,7 @@ export const StorageKeys = {
   WIDGET_WORD_CACHE: 'widget.word_cache',
   CURRENT_STREAK: 'stats.current_streak',
   LAST_ACTIVE_DATE: 'stats.last_active_date',
+  RECENT_SEARCHES: 'search.recent_searches',
 } as const;
 
 export const AppStorage = {
@@ -84,6 +85,32 @@ export const AppStorage = {
 
   async setTTSRate(rate: number): Promise<void> {
     await AsyncStorage.setItem(StorageKeys.TTS_RATE, rate.toString());
+  },
+
+  async getRecentSearches(): Promise<string[]> {
+    try {
+      const val = await AsyncStorage.getItem(StorageKeys.RECENT_SEARCHES);
+      return val ? JSON.parse(val) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  async addRecentSearch(query: string): Promise<void> {
+    const trimmed = query.trim();
+    if (trimmed.length < 2) return;
+    try {
+      const existing = await this.getRecentSearches();
+      const filtered = existing.filter((item) => item.toLowerCase() !== trimmed.toLowerCase());
+      const updated = [trimmed, ...filtered].slice(0, 6);
+      await AsyncStorage.setItem(StorageKeys.RECENT_SEARCHES, JSON.stringify(updated));
+    } catch (err) {
+      console.error('Failed to save recent search:', err);
+    }
+  },
+
+  async clearRecentSearches(): Promise<void> {
+    await AsyncStorage.removeItem(StorageKeys.RECENT_SEARCHES);
   },
 };
 
