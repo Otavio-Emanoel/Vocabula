@@ -25,6 +25,7 @@ import Animated, {
 
 import { WordDefinition } from '../../types/dictionary';
 import { calculateSM2 } from '../../services/srs/sm2';
+import { SpeechService } from '../../services/audio/speechService';
 import {
   getWordsForPractice,
   getWordById,
@@ -99,12 +100,9 @@ export function FlashcardReviewModal({
   };
 
   const handlePronounce = (text: string) => {
-    Speech.stop();
     setIsSpeaking(true);
     audioScale.value = withSpring(1.15, { damping: 10 });
-    Speech.speak(text, {
-      language: 'en-US',
-      rate: 0.85,
+    SpeechService.speak(text, {
       onDone: () => {
         setIsSpeaking(false);
         audioScale.value = withSpring(1.0);

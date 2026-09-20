@@ -76,5 +76,14 @@ export const AppStorage = {
   async setLastActiveDate(date: string): Promise<void> {
     await AsyncStorage.setItem(StorageKeys.LAST_ACTIVE_DATE, date);
   },
+
+  async getTTSRate(): Promise<number> {
+    const val = await AsyncStorage.getItem(StorageKeys.TTS_RATE);
+    return val ? parseFloat(val) : 0.85;
+  },
+
+  async setTTSRate(rate: number): Promise<void> {
+    await AsyncStorage.setItem(StorageKeys.TTS_RATE, rate.toString());
+  },
 };
 

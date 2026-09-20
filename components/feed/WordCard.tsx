@@ -23,6 +23,7 @@ import Animated, {
   SharedValue,
 } from 'react-native-reanimated';
 import { WordDefinition } from '../../types/dictionary';
+import { SpeechService } from '../../services/audio/speechService';
 import { Colors } from '../../constants/theme';
 
 interface WordCardProps {
@@ -84,12 +85,8 @@ export function WordCard({
   }, [isSpeaking]);
 
   const handlePronounce = () => {
-    Speech.stop();
     setIsSpeaking(true);
-    Speech.speak(word.word, {
-      language: 'en-US',
-      rate: 0.82,
-      pitch: 1.0,
+    SpeechService.speak(word.word, {
       onDone: () => setIsSpeaking(false),
       onError: () => setIsSpeaking(false),
     });

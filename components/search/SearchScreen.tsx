@@ -18,6 +18,7 @@ import Animated, {
 import { WordDefinition } from '../../types/dictionary';
 import { searchWords, toggleStarWord } from '../../db/queries';
 import { FolderModal } from '../modals/FolderModal';
+import { SpeechService } from '../../services/audio/speechService';
 import { Colors } from '../../constants/theme';
 
 interface SearchScreenProps {
@@ -83,8 +84,7 @@ export function SearchScreen({
   };
 
   const handlePronounce = (word: string) => {
-    Speech.stop();
-    Speech.speak(word, { language: 'en-US', rate: 0.85 });
+    SpeechService.speak(word);
   };
 
   const handleToggleStar = async (word: WordDefinition) => {

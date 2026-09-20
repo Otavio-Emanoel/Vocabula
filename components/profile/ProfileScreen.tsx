@@ -29,6 +29,7 @@ import {
 import { WordDefinition } from '../../types/dictionary';
 import { AppStorage } from '../../services/storage';
 import { NotificationService } from '../../services/notifications/notificationService';
+import { SpeechService, SpeechSpeed, SPEECH_RATES } from '../../services/audio/speechService';
 import { Colors } from '../../constants/theme';
 
 interface ProfileScreenProps {
@@ -39,6 +40,11 @@ interface ProfileScreenProps {
 
 const TIME_PRESETS = ['08:00', '12:30', '19:00', '21:30'];
 const FREQUENCY_OPTIONS = [1, 2, 3];
+const SPEED_OPTIONS: { id: SpeechSpeed; label: string; rate: number }[] = [
+  { id: 'slow', label: '0.65x Slow', rate: SPEECH_RATES.slow },
+  { id: 'normal', label: '0.85x Normal', rate: SPEECH_RATES.normal },
+  { id: 'fast', label: '1.1x Fast', rate: SPEECH_RATES.fast },
+];
 
 export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: ProfileScreenProps) {
   const [stats, setStats] = useState({
@@ -59,6 +65,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   const [isEditingCustomTime, setIsEditingCustomTime] = useState(false);
   const [notificationFreq, setNotificationFreq] = useState(1);
   const [streak, setStreak] = useState(1);
+  const [speechSpeed, setSpeechSpeed] = useState<SpeechSpeed>('normal');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -76,6 +83,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         notifTime,
         notifFreq,
         currentStreak,
+        currentRate,
       ] = await Promise.all([
         getAppStats(),
         getUserDecks(),
@@ -84,6 +92,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         AppStorage.getNotificationTime(),
         AppStorage.getNotificationFrequency(),
         AppStorage.getStreak(),
+        SpeechService.getRate(),
       ]);
 
       setStats(appStats);
@@ -94,11 +103,22 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
       setCustomTimeInput(notifTime);
       setNotificationFreq(notifFreq);
       setStreak(Math.max(currentStreak, 1));
+
+      const speed: SpeechSpeed =
+        currentRate <= 0.7 ? 'slow' : currentRate >= 1.0 ? 'fast' : 'normal';
+      setSpeechSpeed(speed);
     } catch (err) {
       console.error('Failed to load profile data:', err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSelectSpeechSpeed = async (speed: SpeechSpeed) => {
+    setSpeechSpeed(speed);
+    await SpeechService.setSpeed(speed);
+    onShowToast?.(`Speech speed set to ${SPEECH_RATES[speed]}x`);
+    SpeechService.speak('Vocabula');
   };
 
   const handleToggleNotifications = async (val: boolean) => {
@@ -178,8 +198,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   };
 
   const handlePronounce = (word: string) => {
-    Speech.stop();
-    Speech.speak(word, { language: 'en-US', rate: 0.85 });
+    SpeechService.speak(word);
   };
 
   const handleToggleStarInProfile = async (word: WordDefinition) => {
@@ -503,6 +522,48 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
               </TouchableOpacity>
             </View>
           )}
+        </View>
+
+        {/* Audio Pronunciation Settings Section */}
+        <View className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 mb-6 shadow-xl">
+          <View className="flex-row items-center space-x-2 mb-3">
+            <View className="w-8 h-8 rounded-full bg-indigo-500/20 items-center justify-center mr-2">
+              <Ionicons name="volume-medium-outline" size={18} color="#818CF8" />
+            </View>
+            <View>
+              <Text className="text-white text-base font-semibold">
+                Pronunciation Speed
+              </Text>
+              <Text className="text-slate-400 text-xs">
+                Adjust speech rate for offline audio playback
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row space-x-2">
+            {SPEED_OPTIONS.map((item) => {
+              const isSelected = speechSpeed === item.id;
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => handleSelectSpeechSpeed(item.id)}
+                  className={`flex-1 py-2.5 rounded-xl items-center justify-center border mr-2 ${
+                    isSelected
+                      ? 'bg-indigo-600 border-indigo-400'
+                      : 'bg-slate-800 border-slate-700'
+                  }`}
+                >
+                  <Text
+                    className={`text-xs font-semibold ${
+                      isSelected ? 'text-white' : 'text-slate-300'
+                    }`}
+                  >
+                    {item.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
 
         {/* My Folders Section */}
