@@ -33,6 +33,7 @@ interface WordCardProps {
   scrollY?: SharedValue<number>;
   isStarred: boolean;
   isInAnyFolder: boolean;
+  masteryLevel?: 'new' | 'learning' | 'mastered';
   onToggleStar: () => void;
   onOpenFolderModal: () => void;
 }
@@ -44,6 +45,7 @@ export function WordCard({
   scrollY,
   isStarred,
   isInAnyFolder,
+  masteryLevel,
   onToggleStar,
   onOpenFolderModal,
 }: WordCardProps) {
@@ -300,6 +302,17 @@ export function WordCard({
                 {word.partOfSpeech}
               </Text>
             </View>
+
+            {masteryLevel === 'mastered' && (
+              <View className="rounded-full px-2.5 py-1 border bg-emerald-500/15 border-emerald-500/30 flex-row items-center">
+                <Text className="text-[11px] font-bold text-emerald-300">🏆 Mastered</Text>
+              </View>
+            )}
+            {masteryLevel === 'learning' && (
+              <View className="rounded-full px-2.5 py-1 border bg-amber-500/15 border-amber-500/30 flex-row items-center">
+                <Text className="text-[11px] font-bold text-amber-300">🌱 Learning</Text>
+              </View>
+            )}
           </View>
         </Animated.View>
 

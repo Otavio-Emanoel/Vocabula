@@ -537,4 +537,48 @@ export async function getWordsForPractice(filter?: PracticeFilter): Promise<Word
   return rows.map(parseWordRow);
 }
 
+export interface MasteryStats {
+  newCount: number;
+  learningCount: number;
+  masteredCount: number;
+}
 
+export async function getMasteryStats(): Promise<MasteryStats> {
+  const db = await getDatabase();
+  const row = await db.getFirstAsync<{
+    newCount: number;
+    learningCount: number;
+    masteredCount: number;
+  }>(`
+    SELECT
+      COUNT(CASE WHEN p.word_id IS NULL OR p.repetition_number = 0 THEN 1 END) as newCount,
+      COUNT(CASE WHEN p.repetition_number > 0 AND (p.repetition_number < 3 OR p.interval_days < 7) THEN 1 END) as learningCount,
+      COUNT(CASE WHEN p.repetition_number >= 3 AND p.interval_days >= 7 THEN 1 END) as masteredCount
+    FROM words w
+    LEFT JOIN user_word_progress p ON w.id = p.word_id;
+  `);
+
+  return {
+    newCount: row?.newCount ?? 0,
+    learningCount: row?.learningCount ?? 0,
+    masteredCount: row?.masteredCount ?? 0,
+  };
+}
+
+export async function getMasteryMap(): Promise<Map<string, 'new' | 'learning' | 'mastered'>> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<{ word_id: string; repetition_number: number; interval_days: number }>(
+    `SELECT word_id, repetition_number, interval_days FROM user_word_progress;`
+  );
+  const map = new Map<string, 'new' | 'learning' | 'mastered'>();
+  for (const r of rows) {
+    if (r.repetition_number >= 3 && r.interval_days >= 7) {
+      map.set(r.word_id, 'mastered');
+    } else if (r.repetition_number > 0) {
+      map.set(r.word_id, 'learning');
+    } else {
+      map.set(r.word_id, 'new');
+    }
+  }
+  return map;
+}

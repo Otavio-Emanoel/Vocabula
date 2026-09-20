@@ -25,6 +25,8 @@ import {
   toggleStarWord,
   UserDeck,
   PracticeFilter,
+  getMasteryStats,
+  MasteryStats,
 } from '../../db/queries';
 import { WordDefinition } from '../../types/dictionary';
 import { AppStorage } from '../../services/storage';
@@ -68,6 +70,11 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   const [streak, setStreak] = useState(1);
   const [speechSpeed, setSpeechSpeed] = useState<SpeechSpeed>('normal');
   const [isExporting, setIsExporting] = useState(false);
+  const [masteryStats, setMasteryStats] = useState<MasteryStats>({
+    newCount: 0,
+    learningCount: 0,
+    masteredCount: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -99,6 +106,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         notifFreq,
         currentStreak,
         currentRate,
+        mastery,
       ] = await Promise.all([
         getAppStats(),
         getUserDecks(),
@@ -108,6 +116,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         AppStorage.getNotificationFrequency(),
         AppStorage.getStreak(),
         SpeechService.getRate(),
+        getMasteryStats(),
       ]);
 
       setStats(appStats);
@@ -118,6 +127,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
       setCustomTimeInput(notifTime);
       setNotificationFreq(notifFreq);
       setStreak(Math.max(currentStreak, 1));
+      setMasteryStats(mastery);
 
       const speed: SpeechSpeed =
         currentRate <= 0.7 ? 'slow' : currentRate >= 1.0 ? 'fast' : 'normal';
@@ -398,6 +408,72 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
             </Text>
           </Animated.View>
         </View>
+
+        {/* Vocabulary Mastery Distribution Bar */}
+        <Animated.View
+          entering={FadeInDown.delay(120).duration(300)}
+          className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 mb-6 shadow-xl"
+        >
+          <View className="flex-row items-center justify-between mb-3">
+            <View className="flex-row items-center space-x-2">
+              <View className="w-8 h-8 rounded-full bg-emerald-500/20 items-center justify-center mr-2">
+                <Ionicons name="trophy-outline" size={18} color="#34D399" />
+              </View>
+              <View>
+                <Text className="text-white text-base font-semibold">
+                  Mastery Breakdown
+                </Text>
+                <Text className="text-slate-400 text-xs">
+                  Spaced repetition retention levels
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Segmented Progress Bar */}
+          <View className="w-full bg-slate-800 h-3 rounded-full overflow-hidden flex-row mb-3">
+            <View
+              className="bg-emerald-500 h-full"
+              style={{
+                width: `${stats.totalWords > 0 ? (masteryStats.masteredCount / stats.totalWords) * 100 : 0}%`,
+              }}
+            />
+            <View
+              className="bg-amber-500 h-full"
+              style={{
+                width: `${stats.totalWords > 0 ? (masteryStats.learningCount / stats.totalWords) * 100 : 0}%`,
+              }}
+            />
+            <View
+              className="bg-indigo-500/40 h-full"
+              style={{
+                width: `${stats.totalWords > 0 ? (masteryStats.newCount / stats.totalWords) * 100 : 0}%`,
+              }}
+            />
+          </View>
+
+          {/* Legend Items */}
+          <View className="flex-row items-center justify-between pt-1">
+            <View className="flex-row items-center">
+              <View className="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5" />
+              <Text className="text-emerald-300 text-xs font-semibold">
+                Mastered: {masteryStats.masteredCount}
+              </Text>
+            </View>
+            <View className="flex-row items-center">
+              <View className="w-2.5 h-2.5 rounded-full bg-amber-500 mr-1.5" />
+              <Text className="text-amber-300 text-xs font-semibold">
+                Learning: {masteryStats.learningCount}
+              </Text>
+            </View>
+            <View className="flex-row items-center">
+              <View className="w-2.5 h-2.5 rounded-full bg-indigo-500/60 mr-1.5" />
+              <Text className="text-indigo-300 text-xs font-semibold">
+                New: {masteryStats.newCount}
+              </Text>
+            </View>
+          </View>
+        </Animated.View>
 
         {/* Notification Delivery Settings Section */}
         <View className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 mb-6 shadow-xl">

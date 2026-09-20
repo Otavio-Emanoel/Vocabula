@@ -18,6 +18,7 @@ import {
   markWordSeen,
   toggleStarWord,
   getWordDeckIds,
+  getMasteryMap,
 } from '../../db/queries';
 
 interface TikTokFeedProps {
@@ -51,6 +52,11 @@ export function TikTokFeed({
   const [selectedWordForFolder, setSelectedWordForFolder] = useState<WordDefinition | null>(null);
   const [folderModalVisible, setFolderModalVisible] = useState(false);
   const [folderMap, setFolderMap] = useState<Record<string, boolean>>({});
+  const [masteryMap, setMasteryMap] = useState<Map<string, 'new' | 'learning' | 'mastered'>>(new Map());
+
+  useEffect(() => {
+    getMasteryMap().then(setMasteryMap).catch(() => {});
+  }, [words]);
 
   // Check folder assignments for active words
   const checkFolderStatus = useCallback(async (wordId: string) => {
@@ -125,6 +131,7 @@ export function TikTokFeed({
             height={cardHeight}
             isStarred={starredWordIds.has(item.id)}
             isInAnyFolder={!!folderMap[item.id]}
+            masteryLevel={masteryMap.get(item.id)}
             onToggleStar={() => handleToggleStar(item)}
             onOpenFolderModal={() => handleOpenFolderModal(item)}
           />

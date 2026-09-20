@@ -21,3 +21,9 @@ export interface ReviewLog {
   intervalAfter: number;
   reviewedAt: number;
 }
+
+export interface MasteryStats {
+  newCount: number;
+  learningCount: number;
+  masteredCount: number;
+}
