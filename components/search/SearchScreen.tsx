@@ -19,6 +19,7 @@ import { WordDefinition } from '../../types/dictionary';
 import { searchWords, toggleStarWord } from '../../db/queries';
 import { FolderModal } from '../modals/FolderModal';
 import { SpeechService } from '../../services/audio/speechService';
+import { DailyService } from '../../services/learning/dailyService';
 import { Colors } from '../../constants/theme';
 
 interface SearchScreenProps {
@@ -41,6 +42,11 @@ export function SearchScreen({
   const [results, setResults] = useState<WordDefinition[]>(initialWords);
   const [isSearching, setIsSearching] = useState(false);
   const [expandedWordId, setExpandedWordId] = useState<string | null>(null);
+
+  const wordOfTheDay = React.useMemo(
+    () => DailyService.getWordOfTheDay(initialWords),
+    [initialWords]
+  );
 
   // Folder modal state
   const [folderWord, setFolderWord] = useState<WordDefinition | null>(null);
@@ -143,6 +149,65 @@ export function SearchScreen({
           </TouchableOpacity>
         )}
       </View>
+
+      {/* Word of the Day Hero Banner */}
+      {!query && selectedFilter === 'All' && wordOfTheDay && (
+        <Animated.View
+          entering={FadeInDown.duration(280)}
+          className="bg-slate-900/90 border border-amber-500/30 rounded-2xl p-4 mb-4 shadow-lg"
+        >
+          <View className="flex-row items-center justify-between mb-2">
+            <View className="flex-row items-center space-x-1.5">
+              <Ionicons name="sparkles" size={14} color="#FBBF24" />
+              <Text className="text-amber-400 text-xs font-bold uppercase tracking-wider ml-1">
+                Word of the Day
+              </Text>
+            </View>
+            <View className="bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-full">
+              <Text className="text-amber-300 text-[10px] font-bold uppercase">
+                {wordOfTheDay.partOfSpeech}
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row items-center justify-between">
+            <View className="flex-1 mr-3">
+              <Text className="text-white text-xl font-serif font-bold">
+                {wordOfTheDay.word}
+              </Text>
+              <Text className="text-indigo-400 text-xs font-mono mb-1">
+                {wordOfTheDay.phonetic}
+              </Text>
+              <Text numberOfLines={2} className="text-slate-300 text-xs leading-relaxed">
+                {wordOfTheDay.shortDefinition}
+              </Text>
+            </View>
+
+            <View className="flex-row items-center">
+              <TouchableOpacity
+                onPress={() => handlePronounce(wordOfTheDay.word)}
+                className="w-9 h-9 rounded-full bg-slate-800 items-center justify-center mr-2 border border-slate-700"
+              >
+                <Ionicons name="volume-medium-outline" size={18} color="#818CF8" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleToggleStar(wordOfTheDay)}
+                className={`w-9 h-9 rounded-full items-center justify-center border ${
+                  starredWordIds.has(wordOfTheDay.id)
+                    ? 'bg-amber-500/20 border-amber-500/40'
+                    : 'bg-slate-800 border-slate-700'
+                }`}
+              >
+                <Ionicons
+                  name={starredWordIds.has(wordOfTheDay.id) ? 'star' : 'star-outline'}
+                  size={18}
+                  color={starredWordIds.has(wordOfTheDay.id) ? Colors.brand.spark : '#94A3B8'}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Animated.View>
+      )}
 
       {/* Filter Chips Horizontal Scroll */}
       <View className="mb-4">

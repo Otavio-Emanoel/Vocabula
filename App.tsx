@@ -37,6 +37,7 @@ import { SearchScreen } from './components/search/SearchScreen';
 import { ProfileScreen } from './components/profile/ProfileScreen';
 import { FlashcardReviewModal } from './components/modals/FlashcardReviewModal';
 import { PracticeFilter } from './db/queries';
+import { DailyService } from './services/learning/dailyService';
 
 type TabType = 'feed' | 'search' | 'profile';
 
@@ -113,6 +114,12 @@ function VocabulaApp() {
       setFeedWords(randomWords);
       const starred = new Set(savedWords.map((w) => w.id));
       setStarredWordIds(starred);
+
+      // Track and update daily streak
+      const { streak: activeStreak, isNewDay } = await DailyService.recordDailyActivity();
+      if (isNewDay && activeStreak > 1) {
+        showToast(`🔥 ${activeStreak}-day streak active! Welcome back to Vocabula!`);
+      }
 
       // Attempt background notification schedule
       NotificationService.scheduleRollingNotifications().catch(() => {});
