@@ -80,4 +80,123 @@ export class BackupService {
       reviewsCount: reviewsRow?.count ?? 0,
     };
   }
+
+  /**
+   * Imports and restores a backup JSON string offline.
+   * Supports 'merge' (safe union) or 'replace' (clean restore).
+   */
+  static async importBackup(
+    jsonString: string,
+    mode: 'merge' | 'replace' = 'merge'
+  ): Promise<{ restoredDecks: number; restoredProgress: number }> {
+    const data = JSON.parse(jsonString);
+
+    if (!data || typeof data !== 'object') {
+      throw new Error('Invalid backup file: not an object');
+    }
+    if (!data.vocabula_version && !data.vocabulaVersion) {
+      throw new Error('Unrecognized backup format: missing Vocabula version');
+    }
+
+    const decks: any[] = data.decks || data.customDecks || [];
+    const deckWords: any[] = data.deck_words || [];
+    const progress: any[] = data.progress || [];
+    const reviewLogs: any[] = data.review_logs || [];
+
+    const db = await getDatabase();
+
+    await db.withTransactionAsync(async () => {
+      if (mode === 'replace') {
+        await db.runAsync('DELETE FROM deck_words;');
+        await db.runAsync('DELETE FROM user_decks;');
+        await db.runAsync('DELETE FROM user_word_progress;');
+        await db.runAsync('DELETE FROM review_logs;');
+      }
+
+      // Restore Decks
+      for (const d of decks) {
+        if (d.id && d.name) {
+          await db.runAsync(
+            `INSERT INTO user_decks (id, name, description, created_at)
+             VALUES (?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET
+               name = excluded.name,
+               description = excluded.description;`,
+            d.id,
+            d.name,
+            d.description ?? '',
+            d.created_at ?? Date.now()
+          );
+        }
+      }
+
+      // Restore Deck Words
+      for (const dw of deckWords) {
+        if (dw.deck_id && dw.word_id) {
+          await db.runAsync(
+            `INSERT INTO deck_words (deck_id, word_id, added_at)
+             VALUES (?, ?, ?)
+             ON CONFLICT(deck_id, word_id) DO NOTHING;`,
+            dw.deck_id,
+            dw.word_id,
+            dw.added_at ?? Date.now()
+          );
+        }
+      }
+
+      // Restore User Progress
+      for (const p of progress) {
+        if (p.word_id || p.wordId) {
+          const wordId = p.word_id || p.wordId;
+          const status = p.status ?? 'new';
+          const easeFactor = p.ease_factor ?? p.easeFactor ?? 2.5;
+          const intervalDays = p.interval_days ?? p.intervalDays ?? 0;
+          const repetitionNumber = p.repetition_number ?? p.repetitionNumber ?? 0;
+          const nextReviewAt = p.next_review_at ?? p.nextReviewAt ?? Date.now();
+          const lastReviewedAt = p.last_reviewed_at ?? p.lastReviewedAt ?? null;
+          const isStarred = (p.is_starred ?? p.isStarred) ? 1 : 0;
+
+          await db.runAsync(
+            `INSERT INTO user_word_progress (
+               word_id, status, ease_factor, interval_days, repetition_number, next_review_at, last_reviewed_at, is_starred
+             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(word_id) DO UPDATE SET
+               status = CASE WHEN excluded.repetition_number >= user_word_progress.repetition_number THEN excluded.status ELSE user_word_progress.status END,
+               ease_factor = CASE WHEN excluded.repetition_number >= user_word_progress.repetition_number THEN excluded.ease_factor ELSE user_word_progress.ease_factor END,
+               interval_days = MAX(user_word_progress.interval_days, excluded.interval_days),
+               repetition_number = MAX(user_word_progress.repetition_number, excluded.repetition_number),
+               is_starred = MAX(user_word_progress.is_starred, excluded.is_starred);`,
+            wordId,
+            status,
+            easeFactor,
+            intervalDays,
+            repetitionNumber,
+            nextReviewAt,
+            lastReviewedAt,
+            isStarred
+          );
+        }
+      }
+
+      // Restore Review Logs (insert up to 200 logs)
+      for (const log of reviewLogs.slice(0, 200)) {
+        if (log.word_id || log.wordId) {
+          await db.runAsync(
+            `INSERT INTO review_logs (word_id, grade, interval_before, interval_after, reviewed_at)
+             VALUES (?, ?, ?, ?, ?);`,
+            log.word_id || log.wordId,
+            log.grade ?? 4,
+            log.interval_before ?? log.intervalBefore ?? 0,
+            log.interval_after ?? log.intervalAfter ?? 1,
+            log.reviewed_at ?? log.reviewedAt ?? Date.now()
+          );
+        }
+      }
+    });
+
+    return {
+      restoredDecks: decks.length,
+      restoredProgress: progress.length,
+    };
+  }
 }

@@ -33,6 +33,7 @@ import { AppStorage } from '../../services/storage';
 import { NotificationService } from '../../services/notifications/notificationService';
 import { SpeechService, SpeechSpeed, SpeechDialect, SPEECH_RATES, SPEECH_DIALECTS } from '../../services/audio/speechService';
 import { BackupService } from '../../services/backup/backupService';
+import { RestoreBackupModal } from '../modals/RestoreBackupModal';
 import { Colors } from '../../constants/theme';
 
 interface ProfileScreenProps {
@@ -76,6 +77,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   const [speechSpeed, setSpeechSpeed] = useState<SpeechSpeed>('normal');
   const [speechDialect, setSpeechDialect] = useState<SpeechDialect>('en-US');
   const [isExporting, setIsExporting] = useState(false);
+  const [isRestoreModalVisible, setIsRestoreModalVisible] = useState(false);
   const [masteryStats, setMasteryStats] = useState<MasteryStats>({
     newCount: 0,
     learningCount: 0,
@@ -923,8 +925,28 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
               </>
             )}
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setIsRestoreModalVisible(true)}
+            className="flex-row items-center justify-center bg-slate-800 border border-slate-700 py-3 rounded-2xl active:bg-slate-700 mt-2.5"
+          >
+            <Ionicons name="cloud-upload-outline" size={18} color="#94A3B8" />
+            <Text className="text-slate-300 text-xs font-bold ml-2">
+              Restore Backup from JSON
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <RestoreBackupModal
+        visible={isRestoreModalVisible}
+        onClose={() => setIsRestoreModalVisible(false)}
+        onRestoreSuccess={(summary) => {
+          loadProfileData();
+          onRefreshData?.();
+          onShowToast?.(`Restored ${summary.restoredDecks} folders, ${summary.restoredProgress} words`);
+        }}
+      />
     </Animated.View>
   );
 }
