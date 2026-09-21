@@ -416,11 +416,19 @@ export function FlashcardReviewModal({
                     {/* Example Sentence */}
                     {currentWord.examples && currentWord.examples[0] && (
                       <View className="bg-slate-950/50 border border-slate-800/60 rounded-2xl p-4 mb-4">
-                        <View className="flex-row items-center mb-1.5">
-                          <MaterialCommunityIcons name="format-quote-open" size={16} color="#818CF8" />
-                          <Text className="text-indigo-400 text-xs font-semibold uppercase tracking-wider ml-1">
-                            In Context
-                          </Text>
+                        <View className="flex-row items-center justify-between mb-1.5">
+                          <View className="flex-row items-center">
+                            <MaterialCommunityIcons name="format-quote-open" size={16} color="#818CF8" />
+                            <Text className="text-indigo-400 text-xs font-semibold uppercase tracking-wider ml-1">
+                              In Context
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => SpeechService.speak(currentWord.examples![0].sentence)}
+                            className="w-7 h-7 rounded-full bg-slate-800 items-center justify-center border border-slate-700"
+                          >
+                            <Ionicons name="volume-medium-outline" size={14} color="#818CF8" />
+                          </TouchableOpacity>
                         </View>
                         <Text className="text-slate-200 text-sm italic leading-relaxed">
                           "{currentWord.examples[0].sentence}"

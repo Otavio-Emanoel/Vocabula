@@ -367,18 +367,26 @@ export function WordCard({
             entering={FadeInDown.delay(230).duration(450).springify().damping(15)}
             className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-4 mb-4"
           >
-            <View className="flex-row items-center mb-2">
-              <MaterialCommunityIcons name="format-quote-open" size={16} color="#818CF8" />
-              <Text className="text-indigo-400 text-xs font-semibold uppercase tracking-wider ml-1">
-                In Context
-              </Text>
+            <View className="flex-row items-center justify-between mb-2">
+              <View className="flex-row items-center">
+                <MaterialCommunityIcons name="format-quote-open" size={16} color="#818CF8" />
+                <Text className="text-indigo-400 text-xs font-semibold uppercase tracking-wider ml-1">
+                  In Context
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => SpeechService.speak(word.examples![0].sentence)}
+                className="w-7 h-7 rounded-full bg-slate-800 items-center justify-center border border-slate-700"
+              >
+                <Ionicons name="volume-medium-outline" size={14} color="#818CF8" />
+              </TouchableOpacity>
             </View>
             <Text className="text-slate-200 text-sm italic leading-relaxed">
               "{word.examples[0].sentence}"
             </Text>
             {word.examples[0].translation && (
               <Text className="text-slate-400 text-xs mt-1.5 font-serif italic">
-                "{word.examples[0].translation}"
+                {word.examples[0].translation}
               </Text>
             )}
           </Animated.View>

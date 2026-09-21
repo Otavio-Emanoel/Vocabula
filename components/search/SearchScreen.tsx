@@ -407,10 +407,19 @@ export function SearchScreen({
 
                     {item.examples && item.examples.length > 0 && item.examples[0] && (
                       <View className="mb-2">
-                        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
-                          Example
-                        </Text>
-                        <Text className="text-slate-200 text-xs italic mt-0.5">
+                        <View className="flex-row items-center justify-between">
+                          <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            Example
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => SpeechService.speak(item.examples![0].sentence)}
+                            className="flex-row items-center bg-slate-800/80 px-2 py-0.5 rounded-full"
+                          >
+                            <Ionicons name="volume-medium-outline" size={12} color="#818CF8" />
+                            <Text className="text-indigo-300 text-[10px] ml-1">Listen</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <Text className="text-slate-200 text-xs italic mt-1">
                           "{item.examples[0].sentence}"
                         </Text>
                       </View>
