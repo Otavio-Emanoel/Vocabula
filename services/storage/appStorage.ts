@@ -13,6 +13,7 @@ export const StorageKeys = {
   CURRENT_STREAK: 'stats.current_streak',
   LAST_ACTIVE_DATE: 'stats.last_active_date',
   RECENT_SEARCHES: 'search.recent_searches',
+  TTS_LANG: 'settings.tts_lang',
 } as const;
 
 export const AppStorage = {
@@ -85,6 +86,15 @@ export const AppStorage = {
 
   async setTTSRate(rate: number): Promise<void> {
     await AsyncStorage.setItem(StorageKeys.TTS_RATE, rate.toString());
+  },
+
+  async getTTSLanguage(): Promise<string> {
+    const val = await AsyncStorage.getItem(StorageKeys.TTS_LANG);
+    return val ?? 'en-US';
+  },
+
+  async setTTSLanguage(lang: string): Promise<void> {
+    await AsyncStorage.setItem(StorageKeys.TTS_LANG, lang);
   },
 
   async getRecentSearches(): Promise<string[]> {

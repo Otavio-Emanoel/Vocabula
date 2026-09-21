@@ -31,7 +31,7 @@ import {
 import { WordDefinition } from '../../types/dictionary';
 import { AppStorage } from '../../services/storage';
 import { NotificationService } from '../../services/notifications/notificationService';
-import { SpeechService, SpeechSpeed, SPEECH_RATES } from '../../services/audio/speechService';
+import { SpeechService, SpeechSpeed, SpeechDialect, SPEECH_RATES, SPEECH_DIALECTS } from '../../services/audio/speechService';
 import { BackupService } from '../../services/backup/backupService';
 import { Colors } from '../../constants/theme';
 
@@ -47,6 +47,11 @@ const SPEED_OPTIONS: { id: SpeechSpeed; label: string; rate: number }[] = [
   { id: 'slow', label: '0.65x Slow', rate: SPEECH_RATES.slow },
   { id: 'normal', label: '0.85x Normal', rate: SPEECH_RATES.normal },
   { id: 'fast', label: '1.1x Fast', rate: SPEECH_RATES.fast },
+];
+const DIALECT_OPTIONS: { id: SpeechDialect; label: string }[] = [
+  { id: 'en-US', label: '🇺🇸 US' },
+  { id: 'en-GB', label: '🇬🇧 UK' },
+  { id: 'en-AU', label: '🇦🇺 AU' },
 ];
 
 export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: ProfileScreenProps) {
@@ -69,6 +74,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
   const [notificationFreq, setNotificationFreq] = useState(1);
   const [streak, setStreak] = useState(1);
   const [speechSpeed, setSpeechSpeed] = useState<SpeechSpeed>('normal');
+  const [speechDialect, setSpeechDialect] = useState<SpeechDialect>('en-US');
   const [isExporting, setIsExporting] = useState(false);
   const [masteryStats, setMasteryStats] = useState<MasteryStats>({
     newCount: 0,
@@ -107,6 +113,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         currentStreak,
         currentRate,
         mastery,
+        currentLang,
       ] = await Promise.all([
         getAppStats(),
         getUserDecks(),
@@ -117,6 +124,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
         AppStorage.getStreak(),
         SpeechService.getRate(),
         getMasteryStats(),
+        SpeechService.getLanguage(),
       ]);
 
       setStats(appStats);
@@ -128,6 +136,7 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
       setNotificationFreq(notifFreq);
       setStreak(Math.max(currentStreak, 1));
       setMasteryStats(mastery);
+      setSpeechDialect((currentLang as SpeechDialect) || 'en-US');
 
       const speed: SpeechSpeed =
         currentRate <= 0.7 ? 'slow' : currentRate >= 1.0 ? 'fast' : 'normal';
@@ -144,6 +153,13 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
     await SpeechService.setSpeed(speed);
     onShowToast?.(`Speech speed set to ${SPEECH_RATES[speed]}x`);
     SpeechService.speak('Vocabula');
+  };
+
+  const handleSelectDialect = async (dialect: SpeechDialect) => {
+    setSpeechDialect(dialect);
+    await SpeechService.setLanguage(dialect);
+    onShowToast?.(`Accent: ${SPEECH_DIALECTS[dialect]}`);
+    SpeechService.speak('Vocabula', { language: dialect });
   };
 
   const handleToggleNotifications = async (val: boolean) => {
@@ -639,6 +655,35 @@ export function ProfileScreen({ onShowToast, onRefreshData, onStartPractice }: P
                   key={item.id}
                   onPress={() => handleSelectSpeechSpeed(item.id)}
                   className={`flex-1 py-2.5 rounded-xl items-center justify-center border mr-2 ${
+                    isSelected
+                      ? 'bg-indigo-600 border-indigo-400'
+                      : 'bg-slate-800 border-slate-700'
+                  }`}
+                >
+                  <Text
+                    className={`text-xs font-semibold ${
+                      isSelected ? 'text-white' : 'text-slate-300'
+                    }`}
+                  >
+                    {item.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {/* Accent & Regional Dialect Selection */}
+          <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mt-4 mb-2">
+            Regional Accent
+          </Text>
+          <View className="flex-row space-x-2">
+            {DIALECT_OPTIONS.map((item) => {
+              const isSelected = speechDialect === item.id;
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => handleSelectDialect(item.id)}
+                  className={`flex-1 py-2 rounded-xl items-center justify-center border mr-2 ${
                     isSelected
                       ? 'bg-indigo-600 border-indigo-400'
                       : 'bg-slate-800 border-slate-700'
