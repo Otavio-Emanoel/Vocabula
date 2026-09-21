@@ -627,3 +627,63 @@ export async function getAllWordNotes(): Promise<Map<string, string>> {
   }
   return map;
 }
+
+export async function createCustomWord(
+  newWord: Omit<WordDefinition, 'id'>
+): Promise<WordDefinition> {
+  const db = await getDatabase();
+  const id = `custom_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+  const fullWord: WordDefinition = {
+    ...newWord,
+    id,
+  };
+
+  const examplesJson = JSON.stringify(fullWord.examples || []);
+  const translationsJson = JSON.stringify(fullWord.translations || {});
+  const tagsCsv = (fullWord.tags || ['custom']).join(',');
+
+  await db.withTransactionAsync(async () => {
+    // 1. Insert into words table
+    await db.runAsync(
+      `INSERT INTO words (
+        id, word, phonetic, part_of_speech, short_definition,
+        detailed_explanation, examples_json, translations_json,
+        etymology, difficulty_level, tags_csv
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+      fullWord.id,
+      fullWord.word.trim(),
+      fullWord.phonetic || '',
+      fullWord.partOfSpeech || 'noun',
+      fullWord.shortDefinition.trim(),
+      fullWord.detailedExplanation || fullWord.shortDefinition.trim(),
+      examplesJson,
+      translationsJson,
+      fullWord.etymology || '',
+      fullWord.difficultyLevel || 1,
+      tagsCsv
+    );
+
+    // 2. Insert into FTS5 virtual table
+    await db.runAsync(
+      `INSERT INTO words_fts (id, word, short_definition, detailed_explanation, tags_csv)
+       VALUES (?, ?, ?, ?, ?);`,
+      fullWord.id,
+      fullWord.word.trim(),
+      fullWord.shortDefinition.trim(),
+      fullWord.detailedExplanation || fullWord.shortDefinition.trim(),
+      tagsCsv
+    );
+
+    // 3. Insert initial user_word_progress
+    await db.runAsync(
+      `INSERT INTO user_word_progress (
+        word_id, status, ease_factor, interval_days, repetition_number, next_review_at, is_starred
+      ) VALUES (?, 'new', 2.5, 0, 0, ?, 0);`,
+      fullWord.id,
+      Date.now()
+    );
+  });
+
+  return fullWord;
+}
+

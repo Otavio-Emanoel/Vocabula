@@ -19,6 +19,7 @@ import Animated, {
 import { WordDefinition } from '../../types/dictionary';
 import { searchWords, toggleStarWord } from '../../db/queries';
 import { FolderModal } from '../modals/FolderModal';
+import { AddWordModal } from '../modals/AddWordModal';
 import { SpeechService } from '../../services/audio/speechService';
 import { DailyService } from '../../services/learning/dailyService';
 import { AppStorage } from '../../services/storage';
@@ -53,11 +54,17 @@ export function SearchScreen({
   // Folder modal state
   const [folderWord, setFolderWord] = useState<WordDefinition | null>(null);
   const [isFolderModalVisible, setIsFolderModalVisible] = useState(false);
+  const [isAddWordModalVisible, setIsAddWordModalVisible] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   useEffect(() => {
     loadRecentSearches();
   }, []);
+
+  const handleWordCreated = (newWord: WordDefinition) => {
+    setResults((prev) => [newWord, ...prev]);
+    onShowToast?.(`Added "${newWord.word}" to dictionary`);
+  };
 
   const loadRecentSearches = async () => {
     const list = await AppStorage.getRecentSearches();
@@ -140,14 +147,24 @@ export function SearchScreen({
       entering={FadeIn.duration(260)}
       className="flex-1 bg-[#090D16] px-5 pt-12 pb-20"
     >
-      {/* Title */}
-      <View className="mb-4">
-        <Text className="text-white text-3xl font-serif font-bold tracking-tight">
-          Dictionary
-        </Text>
-        <Text className="text-slate-400 text-xs mt-1">
-          Explore {initialWords.length} words offline with FTS5 search
-        </Text>
+      {/* Title & Add Word Header */}
+      <View className="flex-row items-center justify-between mb-4">
+        <View>
+          <Text className="text-white text-3xl font-serif font-bold tracking-tight">
+            Dictionary
+          </Text>
+          <Text className="text-slate-400 text-xs mt-1">
+            Explore {results.length} words offline with FTS5 search
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => setIsAddWordModalVisible(true)}
+          className="flex-row items-center bg-indigo-600/30 border border-indigo-500/50 px-3 py-2 rounded-2xl active:bg-indigo-600/50 shadow-sm"
+        >
+          <Ionicons name="add" size={16} color="#A5B4FC" />
+          <Text className="text-indigo-200 text-xs font-bold ml-1">Add Word</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Search Input */}
@@ -455,6 +472,12 @@ export function SearchScreen({
         visible={isFolderModalVisible}
         onClose={() => setIsFolderModalVisible(false)}
         word={folderWord}
+      />
+
+      <AddWordModal
+        visible={isAddWordModalVisible}
+        onClose={() => setIsAddWordModalVisible(false)}
+        onWordCreated={handleWordCreated}
       />
     </Animated.View>
   );
