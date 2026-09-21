@@ -14,11 +14,13 @@ import Animated, {
 import { WordDefinition } from '../../types/dictionary';
 import { WordCard } from './WordCard';
 import { FolderModal } from '../modals/FolderModal';
+import { WordNoteModal } from '../modals/WordNoteModal';
 import {
   markWordSeen,
   toggleStarWord,
   getWordDeckIds,
   getMasteryMap,
+  getAllWordNotes,
 } from '../../db/queries';
 
 interface TikTokFeedProps {
@@ -54,9 +56,28 @@ export function TikTokFeed({
   const [folderMap, setFolderMap] = useState<Record<string, boolean>>({});
   const [masteryMap, setMasteryMap] = useState<Map<string, 'new' | 'learning' | 'mastered'>>(new Map());
 
+  // Note Modal state
+  const [selectedWordForNote, setSelectedWordForNote] = useState<WordDefinition | null>(null);
+  const [noteModalVisible, setNoteModalVisible] = useState(false);
+  const [notesMap, setNotesMap] = useState<Map<string, string>>(new Map());
+
   useEffect(() => {
     getMasteryMap().then(setMasteryMap).catch(() => {});
+    getAllWordNotes().then(setNotesMap).catch(() => {});
   }, [words]);
+
+  const handleNoteSaved = (wordId: string, note: string | null) => {
+    setNotesMap((prev) => {
+      const next = new Map(prev);
+      if (note) {
+        next.set(wordId, note);
+      } else {
+        next.delete(wordId);
+      }
+      return next;
+    });
+    onShowToast?.(note ? '💡 Memory note saved' : 'Note cleared');
+  };
 
   // Check folder assignments for active words
   const checkFolderStatus = useCallback(async (wordId: string) => {
@@ -132,8 +153,13 @@ export function TikTokFeed({
             isStarred={starredWordIds.has(item.id)}
             isInAnyFolder={!!folderMap[item.id]}
             masteryLevel={masteryMap.get(item.id)}
+            note={notesMap.get(item.id)}
             onToggleStar={() => handleToggleStar(item)}
             onOpenFolderModal={() => handleOpenFolderModal(item)}
+            onOpenNoteModal={() => {
+              setSelectedWordForNote(item);
+              setNoteModalVisible(true);
+            }}
           />
         )}
         onScroll={onScroll}
@@ -163,6 +189,13 @@ export function TikTokFeed({
         onClose={() => setFolderModalVisible(false)}
         word={selectedWordForFolder}
         onFoldersUpdated={handleFoldersUpdated}
+      />
+
+      <WordNoteModal
+        visible={noteModalVisible}
+        onClose={() => setNoteModalVisible(false)}
+        word={selectedWordForNote}
+        onNoteSaved={handleNoteSaved}
       />
     </View>
   );

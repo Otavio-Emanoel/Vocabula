@@ -34,8 +34,10 @@ interface WordCardProps {
   isStarred: boolean;
   isInAnyFolder: boolean;
   masteryLevel?: 'new' | 'learning' | 'mastered';
+  note?: string | null;
   onToggleStar: () => void;
   onOpenFolderModal: () => void;
+  onOpenNoteModal?: () => void;
 }
 
 export function WordCard({
@@ -46,8 +48,10 @@ export function WordCard({
   isStarred,
   isInAnyFolder,
   masteryLevel,
+  note,
   onToggleStar,
   onOpenFolderModal,
+  onOpenNoteModal,
 }: WordCardProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -392,6 +396,31 @@ export function WordCard({
           </Animated.View>
         )}
 
+        {/* Personal Mnemonic / Note Card */}
+        {note && (
+          <Animated.View
+            entering={FadeInDown.delay(260).duration(450).springify().damping(15)}
+            className="bg-purple-950/30 border border-purple-800/50 rounded-2xl p-4 mb-4"
+          >
+            <View className="flex-row items-center justify-between mb-1.5">
+              <View className="flex-row items-center">
+                <Ionicons name="bulb" size={15} color="#C084FC" />
+                <Text className="text-purple-300 text-xs font-semibold uppercase tracking-wider ml-1.5">
+                  My Mnemonic
+                </Text>
+              </View>
+              {onOpenNoteModal && (
+                <TouchableOpacity onPress={onOpenNoteModal}>
+                  <Feather name="edit-2" size={13} color="#C084FC" />
+                </TouchableOpacity>
+              )}
+            </View>
+            <Text className="text-purple-100 text-sm italic leading-relaxed">
+              "{note}"
+            </Text>
+          </Animated.View>
+        )}
+
         {/* Etymology / Origin */}
         {word.etymology && (
           <Animated.View
@@ -500,6 +529,34 @@ export function WordCard({
             </Text>
           </Pressable>
         </Animated.View>
+
+        {/* Personal Note Button */}
+        {onOpenNoteModal && (
+          <Animated.View style={{ flex: 1 }}>
+            <Pressable
+              onPress={onOpenNoteModal}
+              className={`flex-row items-center justify-center py-2.5 px-2 rounded-2xl border ${
+                note
+                  ? 'bg-purple-600/30 border-purple-400'
+                  : 'bg-slate-900/90 border-slate-800'
+              }`}
+            >
+              <Ionicons
+                name={note ? 'bulb' : 'bulb-outline'}
+                size={18}
+                color={note ? '#C084FC' : '#94A3B8'}
+              />
+              <Text
+                numberOfLines={1}
+                className={`text-xs font-semibold ml-1 ${
+                  note ? 'text-purple-200' : 'text-slate-300'
+                }`}
+              >
+                Note
+              </Text>
+            </Pressable>
+          </Animated.View>
+        )}
       </Animated.View>
 
       {/* Bottom Swipe-Up Affordance */}

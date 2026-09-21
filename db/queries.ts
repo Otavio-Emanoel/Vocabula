@@ -582,3 +582,48 @@ export async function getMasteryMap(): Promise<Map<string, 'new' | 'learning' | 
   }
   return map;
 }
+
+export async function getWordNote(wordId: string): Promise<string | null> {
+  const db = await getDatabase();
+  const row = await db.getFirstAsync<{ note: string }>(
+    `SELECT note FROM user_word_notes WHERE word_id = ?;`,
+    wordId
+  );
+  return row?.note ?? null;
+}
+
+export async function saveWordNote(wordId: string, note: string): Promise<void> {
+  const db = await getDatabase();
+  const trimmed = note.trim();
+  if (!trimmed) {
+    await db.runAsync(`DELETE FROM user_word_notes WHERE word_id = ?;`, wordId);
+    return;
+  }
+  await db.runAsync(
+    `INSERT INTO user_word_notes (word_id, note, updated_at)
+     VALUES (?, ?, ?)
+     ON CONFLICT(word_id) DO UPDATE SET
+       note = excluded.note,
+       updated_at = excluded.updated_at;`,
+    wordId,
+    trimmed,
+    Date.now()
+  );
+}
+
+export async function deleteWordNote(wordId: string): Promise<void> {
+  const db = await getDatabase();
+  await db.runAsync(`DELETE FROM user_word_notes WHERE word_id = ?;`, wordId);
+}
+
+export async function getAllWordNotes(): Promise<Map<string, string>> {
+  const db = await getDatabase();
+  const rows = await db.getAllAsync<{ word_id: string; note: string }>(
+    `SELECT word_id, note FROM user_word_notes;`
+  );
+  const map = new Map<string, string>();
+  for (const r of rows) {
+    map.set(r.word_id, r.note);
+  }
+  return map;
+}

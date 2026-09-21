@@ -75,5 +75,14 @@ export const SCHEMA_STATEMENTS = [
     PRIMARY KEY (deck_id, word_id),
     FOREIGN KEY(deck_id) REFERENCES user_decks(id) ON DELETE CASCADE,
     FOREIGN KEY(word_id) REFERENCES words(id) ON DELETE CASCADE
+  );`,
+
+  // 7. User Word Notes (Mnemonics & Context Anchors)
+  `CREATE TABLE IF NOT EXISTS user_word_notes (
+    word_id TEXT PRIMARY KEY NOT NULL,
+    note TEXT NOT NULL,
+    updated_at INTEGER NOT NULL,
+    FOREIGN KEY(word_id) REFERENCES words(id) ON DELETE CASCADE
   );`
 ];
+
